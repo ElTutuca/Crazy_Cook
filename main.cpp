@@ -9,9 +9,9 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
     // Vector de vectores
     // niv es el nivel
-    std::vector<std::vector<int>> niv = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    std::vector<std::vector<int>> niv = {{1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1}};
     // rot es la rotacion de cada tile
-    std::vector<std::vector<int>> rot = {{0, 1, 2, 3}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    std::vector<std::vector<int>> rot = {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
 
     sf::Texture tex;
     tex.loadFromFile("resources/Imagenes/Mapa.png");

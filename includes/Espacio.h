@@ -1,13 +1,15 @@
 #ifndef ESPACIO_H
 #define ESPACIO_H
 
+#include "Definiciones.h"
 #include <SFML/Graphics.hpp>
 
 class Espacio {
 private:
     sf::Vector2i posicion;
+    TileType tipo;
 
-    int tipo;
+    sf::Vector2i sizeTile;
 
 public:
     Espacio(sf::Vector2i pos, int rot);
@@ -17,10 +19,17 @@ public:
     void setPosicion(sf::Vector2i pos);
     sf::Vector2i getPosicion();
 
+    sf::Vector2f getCoordenadas();
+
     void setRotacion(int rot);
     int getRotacion();
 
-    int getTipo();
+    void setSizeTile(sf::Vector2i size);
+    sf::Vector2i getSizeTile();
+
+    TileType getTipo();
+
+    bool IsColisionando(int x, int y, int ancho, int alto);
 
     void dibujar(sf::RenderWindow *w);
 
@@ -34,7 +43,7 @@ protected:
 
     bool dibujable;
 
-    void setTipo(int t);
+    void setTipo(TileType t);
 };
 
 #endif // ESPACIO_H
