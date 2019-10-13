@@ -7,6 +7,8 @@ class Espacio {
 private:
     sf::Vector2i posicion;
 
+    int tipo;
+
 public:
     Espacio(sf::Vector2i pos, int rot);
     Espacio();
@@ -18,6 +20,8 @@ public:
     void setRotacion(int rot);
     int getRotacion();
 
+    int getTipo();
+
     void dibujar(sf::RenderWindow *w);
 
     // Solo las clases hijas lo pueden ver
@@ -27,6 +31,10 @@ protected:
     sf::Sprite spt;
     int offsetX, offsetY;
     int rotacion;
+
+    bool dibujable;
+
+    void setTipo(int t);
 };
 
 #endif // ESPACIO_H

@@ -1,4 +1,5 @@
 #include "../includes/Espacio.h"
+#include "../includes/Definiciones.h"
 #include <iostream>
 
 Espacio::Espacio(sf::Vector2i pos, int rot) {
@@ -9,7 +10,7 @@ Espacio::Espacio(sf::Vector2i pos, int rot) {
         rotacion = 0;
     offsetX = 0;
     offsetY = 0;
-    spt.setScale(2, 2);
+    spt.setScale(SCALE_X, SCALE_Y);
 }
 Espacio::Espacio() {
 }
@@ -29,6 +30,15 @@ void Espacio::setRotacion(int rot) {
 int Espacio::getRotacion() {
     return rotacion;
 }
+
+void Espacio::setTipo(int t) {
+    tipo = t;
+}
+int Espacio::getTipo() {
+    return tipo;
+}
+
 void Espacio::dibujar(sf::RenderWindow *w) {
-    w->draw(spt);
+    if (dibujable)
+        w->draw(spt);
 }

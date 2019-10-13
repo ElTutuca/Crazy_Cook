@@ -14,7 +14,7 @@ int main() {
     std::vector<std::vector<int>> rot = {{0, 1, 2, 3}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
     sf::Texture tex;
-    tex.loadFromFile("resources/Imagenes/TestTex.png");
+    tex.loadFromFile("resources/Imagenes/Mapa.png");
     Mapa map(niv, rot, &tex);
 
     while (window.isOpen()) {
