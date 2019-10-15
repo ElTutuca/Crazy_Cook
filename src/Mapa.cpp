@@ -13,19 +13,24 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
     fondo.setScale(SCALE_X, SCALE_Y);
 
     // assign le da el tamaño al vector
-    espacios.assign(nivel.size(), std::vector<Espacio>(nivel[0].size(), Espacio()));
-    std::cout << nivel.size() << " - " << nivel[0].size() << std::endl;
+    espacios.assign(nivel.size(), std::vector<Espacio *>(nivel[0].size(), new Espacio()));
 
     // Le asigna un espacio a cada elemento
     sf::Vector2i texSize(32, 32);
     for (int x = 0; x < nivel.size(); x++) {
         for (int y = 0; y < nivel[x].size(); y++) {
             if (nivel[x][y] == TileType::Suelo) {
-                class Suelo s(sf::Vector2i(x, y), rotacion[x][y], texSize);
-                espacios[x][y] = (Espacio)s;
+                // ? Deberia ser un casteo dinamico??
+                class Suelo *s = new class Suelo(sf::Vector2i(x, y), rotacion[x][y], texSize);
+                espacios[x][y] = (Espacio *)s;
             } else if (nivel[x][y] == TileType::Mesada) {
-                class Mesada s(sf::Vector2i(x, y), rotacion[x][y], texSize);
-                espacios[x][y] = (Espacio)s;
+                // ? Deberia ser un casteo dinamico??
+                class Mesada *s = new class Mesada(sf::Vector2i(x, y), rotacion[x][y], texSize);
+                espacios[x][y] = (Espacio *)s;
+                // Asi se castea
+                // Espacio *e = (Espacio *)s;
+                // class Mesada *r = (class Mesada *)e;
+                // std::cout << r->test << std::endl;
             }
             //TODO: Resto de los objetos
         }
@@ -33,18 +38,23 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
 }
 
 Mapa::~Mapa() {
+    for (int x = 0; x < nivel.size(); x++) {
+        for (int y = 0; y < nivel[x].size(); y++) {
+            delete getEspacioAt(x, y);
+        }
+    }
 }
 
 void Mapa::dibujar(sf::RenderWindow *w) {
     w->draw(fondo);
     for (int x = 0; x < nivel.size(); x++) {
         for (int y = 0; y < nivel[x].size(); y++) {
-            getEspacioAt(x, y).dibujar(w);
+            getEspacioAt(x, y)->dibujar(w);
         }
     }
 }
 
-Espacio Mapa::getEspacioAt(int x, int y) {
+Espacio *Mapa::getEspacioAt(int x, int y) {
     return espacios[x][y];
 }
 

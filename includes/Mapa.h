@@ -10,16 +10,15 @@ private:
     std::vector<std::vector<int>> nivel;
     std::vector<std::vector<int>> rotacion;
 
-    std::vector<std::vector<Espacio>> espacios;
+    std::vector<std::vector<Espacio *>> espacios;
 
     sf::Sprite fondo;
 
 public:
-    // Por ahora mande la textura asi nomas, en el futuro no va a ser asi
     Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa);
     ~Mapa();
     void dibujar(sf::RenderWindow *w);
-    Espacio getEspacioAt(int x, int y);
+    Espacio *getEspacioAt(int x, int y);
     void setLayout(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot);
 };
 
