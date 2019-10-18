@@ -1,10 +1,6 @@
-//
-// Created by martin on 13/9/19.
-//
 
 #include "Chef.h"
-#define degToRad(angleInDegrees) ((angleInDegrees)*M_PI / 180.0)
-#define radToDeg(angleInRadians) ((angleInRadians)*180.0 / M_PI)
+
 
 Chef::Chef(Texture *tex, int x, int y) {
     spt.setTexture(*tex);
