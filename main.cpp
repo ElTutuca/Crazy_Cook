@@ -1,6 +1,7 @@
 #include "includes/Espacio.h"
 #include "includes/Mapa.h"
 #include "includes/Suelo.h"
+#include "includes/Chef.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
@@ -14,9 +15,11 @@ int main() {
     // rot es la rotacion de cada tile
     std::vector<std::vector<int>> rot = {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
 
-    sf::Texture tex;
+    sf::Texture tex,tChef;
+    tChef.loadFromFile("Chef.png");
     tex.loadFromFile("resources/Imagenes/Mapa.png");
     Mapa map(niv, rot, &tex);
+    Chef chef(&tChef, 640 / 2, 480 / 2);
 
 	//Button button(100,200,150,50,"No implementado",sf::Color::Red);
 	
@@ -28,10 +31,28 @@ int main() {
 			if (event.type == sf::Event::MouseButtonPressed)
 				//if (button.isPressed(&window))
 					//std::cout<<"Boton presionado"<<std::endl;
-        }
+
         window.clear(sf::Color::Green);
         map.dibujar(&window);
 		//button.render(&window);
+        if (Keyboard::isKeyPressed(Keyboard::Left)) {
+            chef.girar('i');
+        }
+        if (Keyboard::isKeyPressed(Keyboard::Right)) {
+            chef.girar('d');
+        }
+        if (Keyboard::isKeyPressed(Keyboard::Up)) {
+            chef.arriba();
+        }
+        if (Keyboard::isKeyPressed(Keyboard::Down)) {
+            chef.abajo();
+        }
+
+
+
+    }
+    window.clear(Color(255, 255, 255, 255));
+    chef.dibujar(&window);
         window.display();
     }
 
