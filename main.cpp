@@ -22,7 +22,7 @@ int main() {
     Chef chef(&tChef, 640 / 2, 480 / 2);
 
     // Button button(100, 200, 150, 50, "No implementado", sf::Color::Red);
-
+    window.setFramerateLimit(60);
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
