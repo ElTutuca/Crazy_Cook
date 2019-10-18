@@ -16,8 +16,8 @@ int main() {
     std::vector<std::vector<int>> rot = {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
 
     sf::Texture tex, tChef;
-    tChef.loadFromFile("resources/Imagenes/Chef.png");
-    tex.loadFromFile("resources/Imagenes/Mapa.png");
+    tChef.loadFromFile("Imagenes/Chef.png");
+    tex.loadFromFile("Imagenes/Mapa.png");
     Mapa map(niv, rot, &tex);
     Chef chef(&tChef, 640 / 2, 480 / 2);
 
