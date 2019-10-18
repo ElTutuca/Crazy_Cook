@@ -1,6 +1,8 @@
 #ifndef CHEF_H
 #define CHEF_H
 #include <SFML/Graphics.hpp>
+#include "../includes/Definiciones.h"
+#include "../includes/Espacio.h"
 
 using namespace sf;
 
@@ -15,6 +17,7 @@ private:
     int alto;
     float angle;
     Sprite spt;
+    Espacio colision;
 
 public:
     Chef(Texture *tex, int x, int y);
