@@ -17,5 +17,11 @@ enum TileType {
     Mesada,
     Hornalla
 };
+enum IngredienteType {
+    Lechuga,
+    Tomate,
+    PanArriba,
+    PanAbajo
+};
 
 #endif // DEFINICIONES_H
