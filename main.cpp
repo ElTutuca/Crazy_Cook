@@ -1,4 +1,5 @@
 #include "includes/Button.h"
+#include "includes/Chef.h"
 #include "includes/Espacio.h"
 #include "includes/Mapa.h"
 #include "includes/Suelo.h"
@@ -14,9 +15,11 @@ int main() {
     // rot es la rotacion de cada tile
     std::vector<std::vector<int>> rot = {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
 
-    sf::Texture tex;
+    sf::Texture tex, tChef;
+    tChef.loadFromFile("resources/Imagenes/Chef.png");
     tex.loadFromFile("resources/Imagenes/Mapa.png");
     Mapa map(niv, rot, &tex);
+    Chef chef(&tChef, 640 / 2, 480 / 2);
 
     // Button button(100, 200, 150, 50, "No implementado", sf::Color::Red);
 
@@ -32,6 +35,19 @@ int main() {
         window.clear(sf::Color::Green);
         map.dibujar(&window);
         // button.render(&window);
+        if (Keyboard::isKeyPressed(Keyboard::Left)) {
+            chef.girar('i');
+        }
+        if (Keyboard::isKeyPressed(Keyboard::Right)) {
+            chef.girar('d');
+        }
+        if (Keyboard::isKeyPressed(Keyboard::Up)) {
+            chef.arriba();
+        }
+        if (Keyboard::isKeyPressed(Keyboard::Down)) {
+            chef.abajo();
+        }
+        chef.dibujar(&window);
         window.display();
     }
 
