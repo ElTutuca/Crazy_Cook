@@ -1,6 +1,7 @@
 .vscode/
 .ccls-cache/
+.idea/
 build/
 cmake-build-debug/
-resources/Imagenes/Desarrollando
-Debug_Win32
+resources/Imagenes/Desarrollando/
+Debug_Win32/
