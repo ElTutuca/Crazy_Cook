@@ -7,6 +7,7 @@
 #include <vector>
 
 Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa) {
+    //se inicializa la posicion de los tiles
     setLayout(niv, rot);
 
     fondo.setTexture(*tMapa);
@@ -21,10 +22,12 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
         for (int y = 0; y < nivel[x].size(); y++) {
             if (nivel[x][y] == TileType::Suelo) {
                 // ? Deberia ser un casteo dinamico??
+                //se crea un espacio de tipo suelo
                 class Suelo *s = new class Suelo(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
             } else if (nivel[x][y] == TileType::Mesada) {
                 // ? Deberia ser un casteo dinamico??
+                //se crea un espacio de tipo mesada
                 class Mesada *s = new class Mesada(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
                 // Asi se castea

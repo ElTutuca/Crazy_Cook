@@ -10,7 +10,7 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
     // Vector de vectores
-    // niv es el nivel
+    // niv es el tipo de tiles ordenado en columnas
     std::vector<std::vector<int>> niv = {{1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1}};
     // rot es la rotacion de cada tile
     std::vector<std::vector<int>> rot = {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
@@ -18,6 +18,7 @@ int main() {
     sf::Texture tex, tChef;
     tChef.loadFromFile("Imagenes/Chef.png");
     tex.loadFromFile("Imagenes/Mapa.png");
+    //Se crea el mapa y se mandan tipo de tiles y su rotacion, con  la textura del mapa
     Mapa map(niv, rot, &tex);
     Chef chef(&tChef, 640 / 2 + 300, 480 / 2);
 
