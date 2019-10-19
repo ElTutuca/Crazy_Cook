@@ -57,16 +57,18 @@ bool Espacio::IsColisionando(int x, int y, int ancho, int alto) {
 
     // Eje x
     colisiono = colisiono && ((posX + anchoTileMitad) > (x - anchoMitad)) && ((posX - anchoTileMitad) < (x + anchoMitad));
+    // std::cout << "Eje X:" << colisiono << " - ";
 
     // Eje y
-    colisiono = colisiono && ((posY + altoTileMitad) > (y - anchoMitad)) && ((posY - altoTileMitad) < (x + anchoMitad));
+    colisiono = colisiono && ((posY + altoTileMitad) > (y - altoMitad)) && ((posY - altoTileMitad) < (y + altoMitad));
+    // std::cout << "Eje Y:" << colisiono << std::endl;
 
     return colisiono;
 }
 
 void Espacio::setSizeTile(sf::Vector2i texSize) {
-    sizeTile.x = texSize.x * spt.getScale().x;
-    sizeTile.y = texSize.y * spt.getScale().y;
+    sizeTile.x = texSize.x * SCALE_X;
+    sizeTile.y = texSize.y * SCALE_Y;
 }
 sf::Vector2i Espacio::getSizeTile() {
     return sizeTile;

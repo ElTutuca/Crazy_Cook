@@ -62,3 +62,10 @@ void Mapa::setLayout(std::vector<std::vector<int>> niv, std::vector<std::vector<
     nivel = niv;
     rotacion = rot;
 }
+
+int Mapa::getAncho() {
+    return nivel.size();
+}
+int Mapa::getAlto() {
+    return nivel[0].size();
+}

@@ -9,9 +9,7 @@ class Mapa {
 private:
     std::vector<std::vector<int>> nivel;
     std::vector<std::vector<int>> rotacion;
-
     std::vector<std::vector<Espacio *>> espacios;
-
     sf::Sprite fondo;
 
 public:
@@ -20,6 +18,9 @@ public:
     void dibujar(sf::RenderWindow *w);
     Espacio *getEspacioAt(int x, int y);
     void setLayout(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot);
+
+    int getAncho();
+    int getAlto();
 };
 
 #endif // MAPA_H

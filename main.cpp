@@ -19,7 +19,7 @@ int main() {
     tChef.loadFromFile("Imagenes/Chef.png");
     tex.loadFromFile("Imagenes/Mapa.png");
     Mapa map(niv, rot, &tex);
-    Chef chef(&tChef, 640 / 2, 480 / 2);
+    Chef chef(&tChef, 640 / 2 + 300, 480 / 2);
 
     // Button button(100, 200, 150, 50, "No implementado", sf::Color::Red);
     window.setFramerateLimit(60);
@@ -35,19 +35,14 @@ int main() {
         window.clear(sf::Color::Green);
         map.dibujar(&window);
         // button.render(&window);
-        if (Keyboard::isKeyPressed(Keyboard::Left)) {
-            chef.girar('i');
-        }
-        if (Keyboard::isKeyPressed(Keyboard::Right)) {
-            chef.girar('d');
-        }
-        if (Keyboard::isKeyPressed(Keyboard::Up)) {
-            chef.arriba();
-        }
-        if (Keyboard::isKeyPressed(Keyboard::Down)) {
-            chef.abajo();
-        }
-        chef.dibujar(&window);
+        bool izq, der, arriba, abajo;
+        izq = Keyboard::isKeyPressed(Keyboard::Left);
+        der = Keyboard::isKeyPressed(Keyboard::Right);
+        arriba = Keyboard::isKeyPressed(Keyboard::Up);
+        abajo = Keyboard::isKeyPressed(Keyboard::Down);
+        chef.mover(izq, der, arriba, abajo);
+
+        chef.dibujar(&window, &map);
         window.display();
     }
 

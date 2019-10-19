@@ -1,8 +1,10 @@
 #ifndef DEFINICIONES_H
 #define DEFINICIONES_H
 
-#define SCALE_X 3
-#define SCALE_Y 3
+#define SCALE_X 4
+#define SCALE_Y 4
+#define TILEWIDTH 32
+#define TILEHEIGHT 32
 
 /* 
 Enum enumera del 0 para adelante cada elemento.
