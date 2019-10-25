@@ -18,7 +18,7 @@ public:
     void dibujar(sf::RenderWindow *w);
     Espacio *getEspacioAt(int x, int y);
     void setLayout(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot);
-
+    IngredienteType selecIngrediente;
     int getAncho();
     int getAlto();
 };
