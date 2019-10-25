@@ -5,6 +5,7 @@
 #define SCALE_Y 4
 #define TILEWIDTH 32
 #define TILEHEIGHT 32
+#define SEPARACION 4
 
 /* 
 Enum enumera del 0 para adelante cada elemento.
@@ -17,7 +18,8 @@ Por ejemplo aca los elementos valen:
 enum TileType {
     Suelo,
     Mesada,
-    Hornalla
+    Hornalla,
+    Heladera,
 };
 enum IngredienteType {
     Lechuga,

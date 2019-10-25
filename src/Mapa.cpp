@@ -3,13 +3,14 @@
 #include "../includes/Espacio.h"
 #include "../includes/Mesada.h"
 #include "../includes/Suelo.h"
+#include "../includes/Heladera.h"
 #include <iostream>
 #include <vector>
 
 Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa) {
     //se inicializa la posicion de los tiles
     setLayout(niv, rot);
-
+    selecIngrediente=Lechuga;
     fondo.setTexture(*tMapa);
     fondo.setScale(SCALE_X, SCALE_Y);
 
@@ -34,6 +35,9 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 // Espacio *e = (Espacio *)s;
                 // class Mesada *r = (class Mesada *)e;
                 // std::cout << r->test << std::endl;
+            }else if (nivel[x][y] == TileType::Heladera){
+                class Heladera *s = new class Heladera(sf::Vector2i(x, y), rotacion[x][y], texSize,selecIngrediente);
+                espacios[x][y] = (Espacio *)s;
             }
             //TODO: Resto de los objetos
         }
