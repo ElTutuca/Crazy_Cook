@@ -11,7 +11,7 @@ Espacio::Espacio(sf::Vector2i pos, int rot) {
         rotacion = 0;
     offsetX = 0;
     offsetY = 0;
-    spt.setScale(SCALE_X, SCALE_Y);
+    rectShape.setScale(SCALE_X, SCALE_Y);
 }
 Espacio::Espacio() {
 }
@@ -38,43 +38,67 @@ void Espacio::setTipo(TileType t) {
 TileType Espacio::getTipo() {
     return tipo;
 }
-
-bool Espacio::IsColisionando(int x, int y, int ancho, int alto) {
-    // TODO: Hace falta hacer que tome en cuenta el angulo de rotacion del chef
-    if (tipo == TileType::Suelo)
-        return false;
-
-    bool colisiono = true;
-
-    float anchoMitad = ancho / 2;
-    float altoMitad = alto / 2;
-
-    float anchoTileMitad = sizeTile.x / 2;
-    float altoTileMitad = sizeTile.y / 2;
-
-    float posX = getPosicion().x * sizeTile.x + anchoTileMitad + offsetX;
-    float posY = getPosicion().y * sizeTile.y + altoTileMitad + offsetY;
-
-    // Eje x
-    colisiono = colisiono && ((posX + anchoTileMitad) > (x - anchoMitad)) && ((posX - anchoTileMitad) < (x + anchoMitad));
-    // std::cout << "Eje X:" << colisiono << " - ";
-
-    // Eje y
-    colisiono = colisiono && ((posY + altoTileMitad) > (y - altoMitad)) && ((posY - altoTileMitad) < (y + altoMitad));
-    // std::cout << "Eje Y:" << colisiono << std::endl;
-
-    return colisiono;
+bool Espacio::IsColisionando(sf::RectangleShape chef) {
+    return tipo == TileType::Suelo ? false : rectShape.getGlobalBounds().intersects(chef.getGlobalBounds());
 }
 
-void Espacio::setSizeTile(sf::Vector2i texSize) {
+bool Espacio::IsColisionando(sf::RectangleShape chef, sf::Vector2f *correccion, int dir) {
+    bool colision = this->IsColisionando(chef);
+    if (colision) {
+        sf::Transform transformacion = chef.getTransform();
+        sf::Vector2f p1 = transformacion.transformPoint(chef.getPoint(0));
+        sf::Vector2f p2 = transformacion.transformPoint(chef.getPoint(1));
+        sf::Vector2f p3 = transformacion.transformPoint(chef.getPoint(2));
+        sf::Vector2f p4 = transformacion.transformPoint(chef.getPoint(3));
+        sf::Vector2f puntos[4] = {p1, p2, p3, p4};
+
+        float posXEspacio = rectShape.getPosition().x;
+        float posYEspacio = rectShape.getPosition().y;
+        float mitadXEspacio = (rectShape.getSize().x * SCALE_X) / 2 * 1;
+        float mitadYEspacio = (rectShape.getSize().y * SCALE_Y) / 2 * 1;
+
+        for (int i = 0; i < 4; i++) {
+            float corrX = 0, corrY = 0;
+            // if (rectShape.getGlobalBounds().contains(puntos[i])) {
+            if ((puntos[i].x <= (posXEspacio + mitadXEspacio) && puntos[i].x >= (posXEspacio - mitadXEspacio)) && (puntos[i].y <= (posYEspacio + mitadYEspacio) && puntos[i].y >= (posYEspacio - mitadYEspacio))) {
+                if (dir == 1) {
+                    if (posXEspacio > puntos[i].x) {
+                        corrX = (posXEspacio - mitadXEspacio) - puntos[i].x;
+                    } else {
+                        corrX = (posXEspacio + mitadXEspacio) - puntos[i].x;
+                    }
+                } else {
+                    if (posYEspacio > puntos[i].y) {
+                        corrY = (posYEspacio - mitadYEspacio) - puntos[i].y;
+                    } else {
+                        corrY = (posYEspacio + mitadYEspacio) - puntos[i].y;
+                    }
+                }
+                correccion->x = abs(corrX) > abs(correccion->x) ? corrX : correccion->x;
+                correccion->y = abs(corrY) > abs(correccion->y) ? corrY : correccion->y;
+            }
+        }
+    }
+    return colision;
+}
+
+void Espacio::setSizeTile(sf::Vector2f texSize) {
     sizeTile.x = texSize.x * SCALE_X;
     sizeTile.y = texSize.y * SCALE_Y;
+    rectShape.setSize(texSize);
+    rectShape.setOrigin(texSize.x / 2, texSize.y / 2);
 }
-sf::Vector2i Espacio::getSizeTile() {
+sf::Vector2f Espacio::getSizeTile() {
     return sizeTile;
 }
 
 void Espacio::dibujar(sf::RenderWindow *w) {
-    if (dibujable)
-        w->draw(spt);
+    if (dibujable || DEBUGLEVEL == 1)
+        w->draw(rectShape);
 }
+// void **getMatrizTransformacion(float angulo, double *transformacion[2][2]) {
+//     double matr[2][2] = {{cos(degToRad(angulo)), sin(degToRad(angulo))}, {-sin(degToRad(angulo)), cos(degToRad(angulo))}};
+//     *transformacion = matr;
+// }
+// void multiplicacionMatricial(float *transformacion, sf::Vector2f punto) {
+// }

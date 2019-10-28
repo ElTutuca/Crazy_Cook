@@ -6,9 +6,10 @@
 
 class Espacio {
 private:
+    // Posicion en el arreglo de espacios
     sf::Vector2i posicion;
     TileType tipo;
-    sf::Vector2i sizeTile;
+    sf::Vector2f sizeTile;
 
 public:
     Espacio(sf::Vector2i pos, int rot);
@@ -19,21 +20,21 @@ public:
     sf::Vector2f getCoordenadas();
     void setRotacion(int rot);
     int getRotacion();
-    void setSizeTile(sf::Vector2i size);
-    sf::Vector2i getSizeTile();
+    sf::Vector2f getSizeTile();
     TileType getTipo();
-    bool IsColisionando(int x, int y, int ancho, int alto);
     void dibujar(sf::RenderWindow *w);
-
+    bool IsColisionando(sf::RectangleShape chef);
+    bool IsColisionando(sf::RectangleShape chef, sf::Vector2f *correccion, int dir);
     // Solo las clases hijas lo pueden ver
     // https://www.wikiwand.com/es/Herencia_(inform%C3%A1tica)
     // Sin herencia las clases Suelo, mesa, hornalla se iban a complicar DEMASIADO
 protected:
-    sf::Sprite spt;
+    sf::RectangleShape rectShape;
     int offsetX, offsetY;
     int rotacion;
     bool dibujable;
     void setTipo(TileType t);
+    void setSizeTile(sf::Vector2f size);
 };
 
 #endif // ESPACIO_H

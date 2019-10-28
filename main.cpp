@@ -1,10 +1,12 @@
 #include "includes/Button.h"
 #include "includes/Chef.h"
+#include "includes/Definiciones.h"
 #include "includes/Espacio.h"
 #include "includes/Mapa.h"
 #include "includes/Suelo.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <string>
 #include <vector>
 
 int main() {
@@ -20,7 +22,15 @@ int main() {
     tex.loadFromFile("Imagenes/Mapa.png");
     //Se crea el mapa y se mandan tipo de tiles y su rotacion, con  la textura del mapa
     Mapa map(niv, rot, &tex);
-    Chef chef(&tChef, 640 / 2 + 300, 480 / 2);
+    Chef chef(&tChef, 200, 200);
+
+    sf::Text text;
+    sf::Font font;
+    font.loadFromFile("Fuentes/OpenSans-Light.ttf");
+    text.setFont(font);
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::Red);
+    text.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
     // Button button(100, 200, 150, 50, "No implementado", sf::Color::Red);
     window.setFramerateLimit(60);
@@ -33,6 +43,7 @@ int main() {
             //     if (button.isPressed(&window))
             //         std::cout << "Boton presionado" << std::endl;
         }
+
         window.clear(sf::Color::Green);
         map.dibujar(&window);
         // button.render(&window);
@@ -42,8 +53,19 @@ int main() {
         arriba = Keyboard::isKeyPressed(Keyboard::Up);
         abajo = Keyboard::isKeyPressed(Keyboard::Down);
         chef.mover(izq, der, arriba, abajo);
-
         chef.dibujar(&window, &map);
+
+        if (DEBUGLEVEL == 1) {
+            std::string str = "X: ";
+            str.append(std::to_string(sf::Mouse::getPosition(window).x));
+            str.append("\n");
+            str.append("Y: ");
+            str.append(std::to_string(sf::Mouse::getPosition(window).y));
+            str.append("\n");
+            text.setString(str);
+            window.draw(text);
+        }
+
         window.display();
     }
 

@@ -3,184 +3,119 @@
 #include "../includes/Definiciones.h"
 #include <iostream>
 #include <math.h>
-#define degToRad(angleInDegrees) ((angleInDegrees)*M_PI / 180.0)
-#define radToDeg(angleInRadians) ((angleInRadians)*180.0 / M_PI)
 #define entreExcluyente(valor, valorMenor, valorMayor) ((valor > valorMenor && valor < valorMayor))
 #define entreIncluyente(valor, valorMenor, valorMayor) ((valor >= valorMenor && valor <= valorMayor))
 
 Chef::Chef(Texture *tex, int x, int y) {
-    spt.setTexture(*tex);
+    rectShape.setTexture(tex);
+    rectShape.setSize(sf::Vector2f(tex->getSize().x, tex->getSize().y));
+    rectShape.setOrigin(tex->getSize().x / 2, tex->getSize().y / 2);
+    rectShape.setScale(SCALE_X, SCALE_Y);
+    rectShape.setPosition(x, y);
+
+    hitbox.setSize(sf::Vector2f(rectShape.getSize().x / 2, rectShape.getSize().y / 2));
+    hitbox.setOrigin(hitbox.getSize().x / 2, hitbox.getSize().y / 2);
+    hitbox.setScale(SCALE_X, SCALE_Y);
+    hitbox.setPosition(x, y);
+
+    if (DEBUGLEVEL == 1) {
+        rectShape.setOutlineColor(sf::Color::Yellow);
+        rectShape.setOutlineThickness(1);
+        hitbox.setOutlineColor(sf::Color::Red);
+        hitbox.setOutlineThickness(1);
+        hitbox.setFillColor(sf::Color::Transparent);
+    }
+
     tamanioReal.x = tex->getSize().x * SCALE_X;
     tamanioReal.y = tex->getSize().y * SCALE_Y;
-    spt.setOrigin(tex->getSize().x / 2, tex->getSize().y / 2);
-    spt.setScale(SCALE_X, SCALE_Y);
 
-    posicion.x = x;
-    posicion.y = y;
     velocidad.x = 0;
     velocidad.y = 0;
 
     angulo = 0;
     desaceleracion = 0.9;
-    aceleracionMax = 0.82;
+    aceleracionMax = 0.84;
+}
+
+sf::RectangleShape Chef::getRectangleShape() {
+    return rectShape;
 }
 
 void Chef::actualizar(Mapa *map) {
+    actualizarAtributos();
     actualizarColisiones(map);
 }
 
 void Chef::actualizarAtributos() {
-    posicion.x += velocidad.x;
-    posicion.y += velocidad.y;
     velocidad.x *= desaceleracion;
     velocidad.y *= desaceleracion;
+    rectShape.setPosition(rectShape.getPosition().x + velocidad.x, rectShape.getPosition().y + velocidad.y);
+    rectShape.setRotation(angulo);
+    hitbox.setPosition(rectShape.getPosition());
+    hitbox.setRotation(angulo);
 }
 
 void Chef::actualizarColisiones(Mapa *map) {
-    sf::Vector2i posEnArr(posicion.x / (TILEWIDTH * SCALE_X), posicion.y / (TILEHEIGHT * SCALE_Y));
+    sf::Vector2i posEnArr(rectShape.getPosition().x / (TILEWIDTH * SCALE_X), rectShape.getPosition().y / (TILEHEIGHT * SCALE_Y));
+    sf::Vector2f correccion(0, 0);
     bool colisionoArriba, colisionoAbajo, colisionoIzquierda, colisionoDerecha;
 
-    // Posibilidades de colision en el eje x
-    if (posEnArr.x > 0 && posEnArr.x < map->getAncho()) {
-        colisionoIzquierda = map->getEspacioAt(posEnArr.x - 1, posEnArr.y)->IsColisionando(posicion.x, posicion.y, tamanioReal.x, tamanioReal.y);
-        colisionoDerecha = map->getEspacioAt(posEnArr.x + 1, posEnArr.y)->IsColisionando(posicion.x, posicion.y, tamanioReal.x, tamanioReal.y);
-    } else if (posEnArr.x == 0) {
-        colisionoIzquierda = true;
-        colisionoDerecha = map->getEspacioAt(posEnArr.x + 1, posEnArr.y)->IsColisionando(posicion.x, posicion.y, tamanioReal.x, tamanioReal.y);
-    } else {
-        colisionoIzquierda = map->getEspacioAt(posEnArr.x - 1, posEnArr.y)->IsColisionando(posicion.x, posicion.y, tamanioReal.x, tamanioReal.y);
-        colisionoDerecha = true;
-    }
+    // Celdas adyacentes
+    colisionoIzquierda = posEnArr.x > 0 ? map->getEspacioAt(posEnArr.x - 1, posEnArr.y)->IsColisionando(hitbox, &correccion, 1) : false;
+    colisionoDerecha = posEnArr.x < map->getAncho() ? map->getEspacioAt(posEnArr.x + 1, posEnArr.y)->IsColisionando(hitbox, &correccion, 1) : false;
+    colisionoArriba = posEnArr.y > 0 ? map->getEspacioAt(posEnArr.x, posEnArr.y - 1)->IsColisionando(hitbox, &correccion, 0) : false;
+    colisionoAbajo = posEnArr.y < map->getAlto() ? map->getEspacioAt(posEnArr.x, posEnArr.y + 1)->IsColisionando(hitbox, &correccion, 0) : false;
+    // std::cout << "Adyacentes:\n";
+    // std::cout << "Arriba: " << colisionoArriba << " Abajo: " << colisionoAbajo << " Izq: " << colisionoIzquierda << " Derecha: " << colisionoDerecha << std::endl;
 
-    // Posibilidades de colision en el eje y
-    if (posEnArr.y > 0 && posEnArr.y < map->getAlto()) {
-        colisionoArriba = map->getEspacioAt(posEnArr.x, posEnArr.y - 1)->IsColisionando(posicion.x, posicion.y, tamanioReal.x, tamanioReal.y);
-        colisionoAbajo = map->getEspacioAt(posEnArr.x, posEnArr.y + 1)->IsColisionando(posicion.x, posicion.y, tamanioReal.x, tamanioReal.y);
-    } else if (posEnArr.y == 0) {
-        colisionoArriba = true;
-        colisionoAbajo = map->getEspacioAt(posEnArr.x, posEnArr.y + 1)->IsColisionando(posicion.x, posicion.y, tamanioReal.x, tamanioReal.y);
-    } else {
-        colisionoArriba = map->getEspacioAt(posEnArr.x, posEnArr.y - 1)->IsColisionando(posicion.x, posicion.y, tamanioReal.x, tamanioReal.y);
-        colisionoAbajo = true;
-    }
+    // ! Funcionan muy mal las diagonales!
+    // Celdas diagonales
+    // if (posEnArr.x > 0 && posEnArr.x < map->getAncho() && posEnArr.y > 0 && posEnArr.y < map->getAlto()) {
+    //     // Diagonal inferior izquierda
+    //     if (map->getEspacioAt(posEnArr.x - 1, posEnArr.y + 1)->IsColisionando(hitbox)) {
+    //         colisionoIzquierda = map->getEspacioAt(posEnArr.x - 1, posEnArr.y + 1)->IsColisionando(hitbox, &correccion, 1);
+    //         colisionoAbajo = map->getEspacioAt(posEnArr.x - 1, posEnArr.y + 1)->IsColisionando(hitbox, &correccion, 0);
+    //     }
+    //     // Diagonal inferior derecha
+    //     if (map->getEspacioAt(posEnArr.x + 1, posEnArr.y + 1)->IsColisionando(hitbox)) {
+    //         colisionoDerecha = map->getEspacioAt(posEnArr.x + 1, posEnArr.y + 1)->IsColisionando(hitbox, &correccion, 1);
+    //         colisionoAbajo = map->getEspacioAt(posEnArr.x + 1, posEnArr.y + 1)->IsColisionando(hitbox, &correccion, 0);
+    //     }
+    //     // Diagonal superior izquierda
+    //     if (map->getEspacioAt(posEnArr.x - 1, posEnArr.y - 1)->IsColisionando(hitbox)) {
+    //         colisionoIzquierda = map->getEspacioAt(posEnArr.x - 1, posEnArr.y - 1)->IsColisionando(hitbox, &correccion, 1);
+    //         colisionoArriba = map->getEspacioAt(posEnArr.x - 1, posEnArr.y - 1)->IsColisionando(hitbox, &correccion, 0);
+    //     }
+    //     // Diagonal superior derecha
+    //     if (map->getEspacioAt(posEnArr.x + 1, posEnArr.y - 1)->IsColisionando(hitbox)) {
+    //         colisionoDerecha = map->getEspacioAt(posEnArr.x + 1, posEnArr.y - 1)->IsColisionando(hitbox, &correccion, 1);
+    //         colisionoArriba = map->getEspacioAt(posEnArr.x + 1, posEnArr.y - 1)->IsColisionando(hitbox, &correccion, 0);
+    //     }
+    // }
+    // std::cout << "Diagonales:\n";
+    // std::cout << "Arriba: " << colisionoArriba << " Abajo: " << colisionoAbajo << " Izq: " << colisionoIzquierda << " Derecha: " << colisionoDerecha << std::endl;
+    // std::cout << std::endl;
 
-    // Todo salio bien!
-    if ((!colisionoAbajo && !colisionoArriba && !colisionoIzquierda && !colisionoDerecha)) {
-        actualizarAtributos();
-    } else {
-        // Colisiono!
-        // Anular velocidad al momento del choque y cuando quiere avanzar hacia el lugar al que esta chocando
-        if ((colisionoIzquierda && angulo == 270) || (colisionoDerecha && angulo == 90) || (colisionoArriba && angulo == 0) || (colisionoAbajo && angulo == 180)) {
+    // Resolucion ante colision
+    if (correccion.x != 0 || correccion.y != 0) {
+        float x = rectShape.getPosition().x + correccion.x;
+        float y = rectShape.getPosition().y + correccion.y;
+        rectShape.setPosition(x, y);
+        hitbox.setPosition(x, y);
+        if (correccion.x != 0) {
             velocidad.x = 0;
+        } else if (correccion.y != 0) {
             velocidad.y = 0;
-        } else if (colisionoIzquierda) {
-            // Ahora se chequea todos los tipos de colisiones posibles
-            if (colisionoArriba) {
-                // ? if (!entreExcluyente(angulo, 0, 270)) {
-                if (!entreExcluyente(angulo, 270, 360)) {
-                    if (entreIncluyente(angulo, 45, 90)) {
-                        posicion.x += velocidad.x;
-                        velocidad.x *= desaceleracion;
-                        velocidad.y = 0;
-                    } else if (entreIncluyente(angulo, 180, 225)) {
-                        posicion.y += velocidad.y;
-                        velocidad.y *= desaceleracion;
-                        velocidad.x = 0;
-                    } else {
-                        actualizarAtributos();
-                    }
-                }
-            } else if (colisionoAbajo) {
-                if (!entreExcluyente(angulo, 180, 270)) {
-                    if (entreIncluyente(angulo, 315, 0)) {
-                        posicion.x += velocidad.x;
-                        velocidad.x *= desaceleracion;
-                        velocidad.y = 0;
-                    } else if (entreIncluyente(angulo, 90, 135)) {
-                        posicion.y += velocidad.y;
-                        velocidad.y *= desaceleracion;
-                        velocidad.x = 0;
-                    } else {
-                        actualizarAtributos();
-                    }
-                }
-            } else {
-                if (entreIncluyente(angulo, 315, 360) || entreIncluyente(angulo, 180, 225)) {
-                    posicion.y += velocidad.y;
-                    velocidad.y *= desaceleracion;
-                    velocidad.x = 0;
-                } else {
-                    actualizarAtributos();
-                }
-            }
-        } else if (colisionoDerecha) {
-            // Ahora se chequea todos los tipos de colisiones posibles
-            if (colisionoArriba) {
-                if (!entreExcluyente(angulo, 0, 90)) {
-                    if (entreIncluyente(angulo, 270, 315)) {
-                        posicion.x += velocidad.x;
-                        velocidad.x *= desaceleracion;
-                        velocidad.y = 0;
-                    } else if (entreIncluyente(angulo, 135, 180)) {
-                        posicion.y += velocidad.y;
-                        velocidad.y *= desaceleracion;
-                        velocidad.x = 0;
-                    } else {
-                        actualizarAtributos();
-                    }
-                }
-            } else if (colisionoAbajo) {
-                if (!entreExcluyente(angulo, 90, 180)) {
-                    if (entreIncluyente(angulo, 225, 270)) {
-                        posicion.x += velocidad.x;
-                        velocidad.x *= desaceleracion;
-                        velocidad.y = 0;
-                    } else if (entreIncluyente(angulo, 0, 45)) {
-                        posicion.y += velocidad.y;
-                        velocidad.y *= desaceleracion;
-                        velocidad.x = 0;
-                    } else {
-                        actualizarAtributos();
-                    }
-                }
-            } else {
-                // ! Son las mismas condiciones que arriba (en donde se cancela la comp x)
-                if (entreIncluyente(angulo, 0, 45) || entreIncluyente(angulo, 135, 180)) {
-                    posicion.y += velocidad.y;
-                    velocidad.y *= desaceleracion;
-                    velocidad.x = 0;
-                } else {
-                    actualizarAtributos();
-                }
-            }
-        } else if (colisionoArriba) {
-            // Ahora se chequea todos los tipos de colisiones posibles
-            if (entreIncluyente(angulo, 45, 90) || entreIncluyente(angulo, 270, 315)) {
-                posicion.x += velocidad.x;
-                velocidad.x *= desaceleracion;
-                velocidad.y = 0;
-            } else {
-                actualizarAtributos();
-            }
-        } else if (colisionoAbajo) {
-            // Ahora se chequea todos los tipos de colisiones posibles
-            if (entreIncluyente(angulo, 90, 135) || entreIncluyente(angulo, 225, 270)) {
-                posicion.x += velocidad.x;
-                velocidad.x *= desaceleracion;
-                velocidad.y = 0;
-            } else {
-                actualizarAtributos();
-            }
         }
     }
 }
 
 void Chef::dibujar(RenderWindow *w, Mapa *map) {
     actualizar(map);
-
-    spt.setRotation(angulo);
-    spt.setPosition(posicion);
-    w->draw(spt);
+    w->draw(rectShape);
+    if (DEBUGLEVEL == 1) {
+        w->draw(hitbox);
+    }
 }
 
 void Chef::mover(bool izq, bool der, bool arriba, bool abajo) {

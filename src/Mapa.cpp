@@ -17,16 +17,13 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
     espacios.assign(nivel.size(), std::vector<Espacio *>(nivel[0].size(), new Espacio()));
 
     // Le asigna un espacio a cada elemento
-    sf::Vector2i texSize(32, 32);
+    sf::Vector2f texSize(32, 32);
     for (int x = 0; x < nivel.size(); x++) {
         for (int y = 0; y < nivel[x].size(); y++) {
             if (nivel[x][y] == TileType::Suelo) {
-                // ? Deberia ser un casteo dinamico??
                 //se crea un espacio de tipo suelo
-                class Suelo *s = new class Suelo(sf::Vector2i(x, y), rotacion[x][y], texSize);
-                espacios[x][y] = (Espacio *)s;
+                espacios[x][y] = (Espacio *)new class Suelo(sf::Vector2i(x, y), rotacion[x][y], texSize);
             } else if (nivel[x][y] == TileType::Mesada) {
-                // ? Deberia ser un casteo dinamico??
                 //se crea un espacio de tipo mesada
                 class Mesada *s = new class Mesada(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
