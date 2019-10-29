@@ -9,10 +9,10 @@
 DEBUGLEVEL = 0 => Sin debug
 DEBUGLEVEL = 1 => Con debug
 */
-#define DEBUGLEVEL 0
-
+#define DEBUGLEVEL 1
 #define degToRad(angleInDegrees) ((angleInDegrees)*M_PI / 180.0)
 #define radToDeg(angleInRadians) ((angleInRadians)*180.0 / M_PI)
+#define SEPARACION 4
 
 /* 
 Enum enumera del 0 para adelante cada elemento.
@@ -25,7 +25,8 @@ Por ejemplo aca los elementos valen:
 enum TileType {
     Suelo,
     Mesada,
-    Hornalla
+    Hornalla,
+    Heladera
 };
 enum IngredienteType {
     Lechuga,

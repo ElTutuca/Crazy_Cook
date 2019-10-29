@@ -1,6 +1,7 @@
 #include "../includes/Mapa.h"
 #include "../includes/Definiciones.h"
 #include "../includes/Espacio.h"
+#include "../includes/Heladera.h"
 #include "../includes/Mesada.h"
 #include "../includes/Suelo.h"
 #include <iostream>
@@ -9,7 +10,7 @@
 Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa) {
     //se inicializa la posicion de los tiles
     setLayout(niv, rot);
-
+    selecIngrediente = Lechuga;
     fondo.setTexture(*tMapa);
     fondo.setScale(SCALE_X, SCALE_Y);
 
@@ -31,6 +32,11 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 // Espacio *e = (Espacio *)s;
                 // class Mesada *r = (class Mesada *)e;
                 // std::cout << r->test << std::endl;
+            } else if (nivel[x][y] == TileType::Heladera) {
+                // TODO: Hacer que eliga random
+                IngredienteType tipo = IngredienteType::Lechuga;
+                class Heladera *s = new class Heladera(sf::Vector2i(x, y), rotacion[x][y], texSize, selecIngrediente);
+                espacios[x][y] = (Espacio *)s;
             }
             //TODO: Resto de los objetos
         }

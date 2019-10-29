@@ -12,11 +12,15 @@ private:
 	sf::RectangleShape shape;
 	sf::Text text;
 	sf::Color buttonColor;
+	sf::Font font;
 	
 public:
-	Button(float Pos_x, float Pos_y, float Ancho, float Largo, std::string Text, sf::Color buttonColor);
+	Button(float Pos_x, float Pos_y, float Ancho, float Largo, std::string Text, sf::Color buttonColor, sf::Font font);
 	
 	~Button();
+	
+	float getCenterX();
+	float getCenterY();
 	
 	bool isPressed(sf::RenderWindow *w);
 	
