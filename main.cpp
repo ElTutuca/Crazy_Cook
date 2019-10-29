@@ -22,29 +22,32 @@ int main() {
     // rot es la rotacion de cada tile
     std::vector<std::vector<int>> rot = {{0, 3, 3, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
 
-    Button buttonIniciar(100, 325, 150, 75, "Iniciar Juego", sf::Color::Red, font);
-    Button buttonSalir(100, 450, 150, 75, "Salir", sf::Color::Red, font);
+    Button buttonIniciar(20, 350, 200, 75, sf::Color::Cyan);
+    Button buttonSalir(20, 500, 200, 75, sf::Color::Cyan);
 
-    // ? Para que esta esto si el boton ya tiene texto??
     sf::Text textoIniciar;
     textoIniciar.setString("Iniciar");
     textoIniciar.setFont(font);
     textoIniciar.setCharacterSize(40);
     textoIniciar.setOrigin(sf::Vector2f((textoIniciar.getGlobalBounds().width) / 2, (textoIniciar.getGlobalBounds().height) / 2));
-    textoIniciar.setPosition(sf::Vector2f(buttonIniciar.getCenterX(), buttonIniciar.getCenterY()));
-    textoIniciar.setFillColor(sf::Color::Black);
+    textoIniciar.setPosition(sf::Vector2f(buttonIniciar.getCenterX(), buttonIniciar.getCenterY() - 11));
+    textoIniciar.setFillColor(sf::Color::White);
 
     sf::Text textoSalir;
     textoSalir.setString("Salir");
     textoSalir.setFont(font);
     textoSalir.setCharacterSize(40);
     textoSalir.setOrigin(sf::Vector2f((textoSalir.getGlobalBounds().width) / 2, (textoSalir.getGlobalBounds().height) / 2));
-    textoSalir.setPosition(sf::Vector2f(buttonSalir.getCenterX(), buttonSalir.getCenterY()));
-    textoSalir.setFillColor(sf::Color::Black);
+    textoSalir.setPosition(sf::Vector2f(buttonSalir.getCenterX(), buttonSalir.getCenterY() - 11));
+    textoSalir.setFillColor(sf::Color::White);
 
-    sf::Texture tex, tChef;
+    sf::Texture tex, tChef, menu;
     tChef.loadFromFile("Imagenes/Chef.png");
     tex.loadFromFile("Imagenes/Mapa.png");
+    menu.loadFromFile("Imagenes/Menu.jpg");
+
+    sf::Sprite imagenMenu;
+    imagenMenu.setTexture(menu);
 
     //Se crea el mapa y se mandan tipo de tiles y su rotacion, con  la textura del mapa
     Mapa map(niv, rot, &tex);
@@ -60,7 +63,6 @@ int main() {
         debugText.setStyle(sf::Text::Bold | sf::Text::Underlined);
     }
 
-    // Button button(100, 200, 150, 50, "No implementado", sf::Color::Red);
     window.setFramerateLimit(60);
     sf::Clock dtInteraccion;
     sf::Clock dtCorrer;
@@ -80,6 +82,7 @@ int main() {
             }
         }
         window.clear(sf::Color::Green);
+        window.draw(imagenMenu);
         buttonIniciar.render(&window);
         buttonSalir.render(&window);
         window.draw(textoIniciar);
