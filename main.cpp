@@ -30,7 +30,7 @@ int main() {
     textoIniciar.setFont(font);
     textoIniciar.setCharacterSize(40);
     textoIniciar.setOrigin(sf::Vector2f((textoIniciar.getGlobalBounds().width) / 2, (textoIniciar.getGlobalBounds().height) / 2));
-    textoIniciar.setPosition(sf::Vector2f(buttonIniciar.getCenterX(), buttonIniciar.getCenterY()));
+    textoIniciar.setPosition(sf::Vector2f(buttonIniciar.getCenterX(), buttonIniciar.getCenterY()-11));
     textoIniciar.setFillColor(sf::Color::White);
 
     sf::Text textoSalir;
@@ -38,7 +38,7 @@ int main() {
     textoSalir.setFont(font);
     textoSalir.setCharacterSize(40);
     textoSalir.setOrigin(sf::Vector2f((textoSalir.getGlobalBounds().width) / 2, (textoSalir.getGlobalBounds().height) / 2));
-    textoSalir.setPosition(sf::Vector2f(buttonSalir.getCenterX(), buttonSalir.getCenterY()));
+    textoSalir.setPosition(sf::Vector2f(buttonSalir.getCenterX(), buttonSalir.getCenterY()-11));
     textoSalir.setFillColor(sf::Color::White);
 
     sf::Texture tex, tChef, menu;
