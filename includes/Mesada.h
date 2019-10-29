@@ -3,12 +3,16 @@
 #include "Espacio.h"
 
 class Mesada : public Espacio {
-private:
-    // TODO: Plato sobre mesada
 public:
     Mesada(sf::Vector2i pos, int rot, sf::Vector2f size);
     ~Mesada();
-    bool ponerOSacarPlato();
+    bool putAgarrable(Agarrable *ag);
+    Agarrable *popAgarrable();
+    Agarrable *getAgarrable();
+    void dibujar(sf::RenderWindow *w) override;
+
+protected:
+    Agarrable *item;
 };
 
 #endif // MESADA_H

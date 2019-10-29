@@ -1,12 +1,14 @@
 
 #include "../includes/Chef.h"
 #include "../includes/Definiciones.h"
+#include "../includes/Heladera.h"
+#include "../includes/Mesada.h"
 #include <iostream>
 #include <math.h>
 #define entreExcluyente(valor, valorMenor, valorMayor) ((valor > valorMenor && valor < valorMayor))
 #define entreIncluyente(valor, valorMenor, valorMayor) ((valor >= valorMenor && valor <= valorMayor))
 
-Chef::Chef(Texture *tex, int x, int y) {
+Chef::Chef(sf::Texture *tex, int x, int y) {
     rectShape.setTexture(tex);
     rectShape.setSize(sf::Vector2f(tex->getSize().x, tex->getSize().y));
     rectShape.setOrigin(tex->getSize().x / 2, tex->getSize().y / 2);
@@ -17,6 +19,8 @@ Chef::Chef(Texture *tex, int x, int y) {
     hitbox.setOrigin(hitbox.getSize().x / 2, hitbox.getSize().y / 2);
     hitbox.setScale(SCALE_X, SCALE_Y);
     hitbox.setPosition(x, y);
+
+    enMano = nullptr;
 
     if (DEBUGLEVEL == 1) {
         rectShape.setOutlineColor(sf::Color::Yellow);
@@ -35,6 +39,9 @@ Chef::Chef(Texture *tex, int x, int y) {
     angulo = 0;
     desaceleracion = 0.9;
     aceleracionMax = 0.84;
+
+    desaceleracionCorrer = 0.5;
+    aceleracionCorrer = 1.2;
 }
 
 sf::RectangleShape Chef::getRectangleShape() {
@@ -53,6 +60,9 @@ void Chef::actualizarAtributos() {
     rectShape.setRotation(angulo);
     hitbox.setPosition(rectShape.getPosition());
     hitbox.setRotation(angulo);
+    if (enMano != nullptr) {
+        enMano->agarrado(getRectangleShape().getPosition().x, getRectangleShape().getPosition().y, angulo, rectShape.getSize().y * SCALE_Y);
+    }
 }
 
 void Chef::actualizarColisiones(Mapa *map) {
@@ -110,15 +120,19 @@ void Chef::actualizarColisiones(Mapa *map) {
     }
 }
 
-void Chef::dibujar(RenderWindow *w, Mapa *map) {
+void Chef::dibujar(sf::RenderWindow *w, Mapa *map) {
     actualizar(map);
     w->draw(rectShape);
+    if (enMano != nullptr)
+        enMano->dibujar(w);
+
     if (DEBUGLEVEL == 1) {
         w->draw(hitbox);
     }
 }
 
-void Chef::mover(bool izq, bool der, bool arriba, bool abajo) {
+void Chef::mover(bool izq, bool der, bool arriba, bool abajo, bool correr, sf::Time tiempoTranscurrido) {
+    int dt = 1000;
     if (izq && !der) {
         if (arriba) {
             angulo = 315;
@@ -152,5 +166,41 @@ void Chef::mover(bool izq, bool der, bool arriba, bool abajo) {
     } else if (abajo && !arriba) {
         angulo = 180;
         velocidad.y += aceleracionMax;
+    }
+}
+
+void Chef::interactuar(bool interactuar, Mapa *map, sf::Time tiempoTranscurrido) {
+    sf::Vector2i posEnArr(rectShape.getPosition().x / (TILEWIDTH * SCALE_X), rectShape.getPosition().y / (TILEHEIGHT * SCALE_Y));
+    if (interactuar && tiempoTranscurrido.asMilliseconds() > 80) {
+        // Mira hacia arriba
+        Espacio *es = nullptr;
+        if (angulo == 0) {
+            es = map->getEspacioAt(posEnArr.x, posEnArr.y - 1);
+        } else if (angulo == 180) {
+            es = map->getEspacioAt(posEnArr.x, posEnArr.y + 1);
+        } else if (angulo == 270) {
+            es = map->getEspacioAt(posEnArr.x - 1, posEnArr.y);
+        } else if (angulo == 90) {
+            es = map->getEspacioAt(posEnArr.x + 1, posEnArr.y);
+        }
+        if (es != nullptr) {
+            if (es->getTipo() == TileType::Heladera) {
+                class Heladera *h = (class Heladera *)es;
+                if (enMano == nullptr) {
+                    enMano = h->getIngrediente();
+                }
+            } else if (es->getTipo() == TileType::Mesada) {
+                class Mesada *m = (class Mesada *)es;
+                if (enMano == nullptr) {
+                    Agarrable *r = m->popAgarrable();
+                    if (r != nullptr) {
+                        enMano = r;
+                    }
+                } else {
+                    bool r = m->putAgarrable(enMano);
+                    enMano = r ? nullptr : enMano;
+                }
+            }
+        }
     }
 }

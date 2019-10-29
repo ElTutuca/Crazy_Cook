@@ -1,6 +1,7 @@
 #ifndef ESPACIO_H
 #define ESPACIO_H
 
+#include "Agarrable.h"
 #include "Definiciones.h"
 #include <SFML/Graphics.hpp>
 
@@ -22,7 +23,7 @@ public:
     int getRotacion();
     sf::Vector2f getSizeTile();
     TileType getTipo();
-    void dibujar(sf::RenderWindow *w);
+    virtual void dibujar(sf::RenderWindow *w);
     bool IsColisionando(sf::RectangleShape chef);
     bool IsColisionando(sf::RectangleShape chef, sf::Vector2f *correccion, int dir);
     // Solo las clases hijas lo pueden ver
@@ -30,6 +31,7 @@ public:
     // Sin herencia las clases Suelo, mesa, hornalla se iban a complicar DEMASIADO
 protected:
     sf::RectangleShape rectShape;
+    // Para los agarrables
     int offsetX, offsetY;
     int rotacion;
     bool dibujable;

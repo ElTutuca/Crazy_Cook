@@ -96,9 +96,3 @@ void Espacio::dibujar(sf::RenderWindow *w) {
     if (dibujable || DEBUGLEVEL == 1)
         w->draw(rectShape);
 }
-// void **getMatrizTransformacion(float angulo, double *transformacion[2][2]) {
-//     double matr[2][2] = {{cos(degToRad(angulo)), sin(degToRad(angulo))}, {-sin(degToRad(angulo)), cos(degToRad(angulo))}};
-//     *transformacion = matr;
-// }
-// void multiplicacionMatricial(float *transformacion, sf::Vector2f punto) {
-// }

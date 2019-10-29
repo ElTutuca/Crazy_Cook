@@ -20,12 +20,12 @@ int main() {
     // niv es el tipo de tiles ordenado en columnas
     std::vector<std::vector<int>> niv = {{1, 3, 3, 1, 1, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1}};
     // rot es la rotacion de cada tile
-    std::vector<std::vector<int>> rot = {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
+    std::vector<std::vector<int>> rot = {{0, 3, 3, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
 
     Button buttonIniciar(100, 325, 150, 75, "Iniciar Juego", sf::Color::Red, font);
     Button buttonSalir(100, 450, 150, 75, "Salir", sf::Color::Red, font);
 
-    // Para que esta esto si el boton ya tiene texto??
+    // ? Para que esta esto si el boton ya tiene texto??
     sf::Text textoIniciar;
     textoIniciar.setString("Iniciar");
     textoIniciar.setFont(font);
@@ -62,6 +62,8 @@ int main() {
 
     // Button button(100, 200, 150, 50, "No implementado", sf::Color::Red);
     window.setFramerateLimit(60);
+    sf::Clock dtInteraccion;
+    sf::Clock dtCorrer;
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -83,13 +85,22 @@ int main() {
         window.draw(textoIniciar);
         window.draw(textoSalir);
 
-        bool izq, der, arriba, abajo;
+        bool izq, der, arriba, abajo, interaccion, correr;
         if (jugar) {
-            izq = Keyboard::isKeyPressed(Keyboard::Left);
-            der = Keyboard::isKeyPressed(Keyboard::Right);
-            arriba = Keyboard::isKeyPressed(Keyboard::Up);
-            abajo = Keyboard::isKeyPressed(Keyboard::Down);
-            chef.mover(izq, der, arriba, abajo);
+            izq = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+            der = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+            arriba = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+            abajo = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+            interaccion = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
+            correr = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+            chef.mover(izq, der, arriba, abajo, correr, dtCorrer.getElapsedTime());
+            chef.interactuar(interaccion, &map, dtInteraccion.getElapsedTime());
+
+            if (interaccion)
+                dtInteraccion.restart();
+            if (correr)
+                dtCorrer.restart();
+
             map.dibujar(&window);
             chef.dibujar(&window, &map);
         }

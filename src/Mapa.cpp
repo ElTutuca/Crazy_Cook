@@ -5,6 +5,9 @@
 #include "../includes/Mesada.h"
 #include "../includes/Suelo.h"
 #include <iostream>
+#include <list>
+#include <stdlib.h>
+#include <time.h>
 #include <vector>
 
 Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa) {
@@ -18,6 +21,13 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
     espacios.assign(nivel.size(), std::vector<Espacio *>(nivel[0].size(), new Espacio()));
 
     // Le asigna un espacio a cada elemento
+    std::list<IngredienteType> listaIngrediente = {
+        IngredienteType::Lechuga,
+        IngredienteType::Tomate,
+        IngredienteType::PanAbajo,
+        IngredienteType::PanArriba,
+        IngredienteType::HamburgesaCruda};
+    srand(time(NULL));
     sf::Vector2f texSize(32, 32);
     for (int x = 0; x < nivel.size(); x++) {
         for (int y = 0; y < nivel[x].size(); y++) {
@@ -28,14 +38,24 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 //se crea un espacio de tipo mesada
                 class Mesada *s = new class Mesada(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
-                // Asi se castea
-                // Espacio *e = (Espacio *)s;
-                // class Mesada *r = (class Mesada *)e;
-                // std::cout << r->test << std::endl;
             } else if (nivel[x][y] == TileType::Heladera) {
                 // TODO: Hacer que eliga random
-                IngredienteType tipo = IngredienteType::Lechuga;
-                class Heladera *s = new class Heladera(sf::Vector2i(x, y), rotacion[x][y], texSize, selecIngrediente);
+                IngredienteType tipo = *std::next(listaIngrediente.begin(), std::rand() % listaIngrediente.size());
+                listaIngrediente.remove(tipo);
+                sf::Texture *tex = new sf::Texture();
+                if (tipo == IngredienteType::Lechuga) {
+                    tex->loadFromFile("Imagenes/Lechuga_Hoja.png");
+                } else if (tipo == IngredienteType::Tomate) {
+                    tex->loadFromFile("Imagenes/Tomate_Rodaja.png");
+                } else if (tipo == IngredienteType::PanAbajo) {
+                    tex->loadFromFile("Imagenes/Pan_Abajo.png");
+                } else if (tipo == IngredienteType::PanArriba) {
+                    tex->loadFromFile("Imagenes/Pan_Arriba.png");
+                } else if (tipo == IngredienteType::HamburgesaCruda) {
+                    tex->loadFromFile("Imagenes/Hamburguesa_Cruda.png");
+                }
+                Ingrediente *ingr = new Ingrediente(sf::Vector2f(x, y), 90 * rotacion[x][y], tex, tipo);
+                class Heladera *s = new class Heladera(sf::Vector2i(x, y), rotacion[x][y], texSize, ingr);
                 espacios[x][y] = (Espacio *)s;
             }
             //TODO: Resto de los objetos

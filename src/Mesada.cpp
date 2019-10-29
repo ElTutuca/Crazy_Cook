@@ -6,6 +6,7 @@ Mesada::Mesada(sf::Vector2i pos, int rot, sf::Vector2f size) : Espacio(pos, rot)
     setTipo(TileType::Mesada);
     setSizeTile(size);
     rectShape.setPosition(getPosicion().x * getSizeTile().x + getSizeTile().x / 2 + offsetX, getPosicion().y * getSizeTile().y + getSizeTile().y / 2 + offsetY);
+    item = nullptr;
 
     if (DEBUGLEVEL == 1) {
         rectShape.setOutlineColor(sf::Color::Magenta);
@@ -16,7 +17,29 @@ Mesada::Mesada(sf::Vector2i pos, int rot, sf::Vector2f size) : Espacio(pos, rot)
 Mesada::~Mesada() {
 }
 
-bool Mesada::ponerOSacarPlato() {
-    // TODO: Hacer logica luego de tener el plato
+bool Mesada::putAgarrable(Agarrable *ag) {
+    if (item == nullptr) {
+        item = ag;
+        item->setPosicion(sf::Vector2f(getPosicion().x * getSizeTile().x + getSizeTile().x / 2, getPosicion().y * getSizeTile().y + getSizeTile().y / 2));
+        return true;
+    }
     return false;
+}
+Agarrable *Mesada::popAgarrable() {
+    Agarrable *r = item;
+    if (item != nullptr) {
+        item = nullptr;
+    }
+    return r;
+}
+
+void Mesada::dibujar(sf::RenderWindow *w) {
+    if (dibujable || DEBUGLEVEL == 1) {
+        w->draw(rectShape);
+    }
+    if (item != nullptr)
+        item->dibujar(w);
+}
+Agarrable *Mesada::getAgarrable() {
+    return item;
 }

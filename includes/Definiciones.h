@@ -9,10 +9,9 @@
 DEBUGLEVEL = 0 => Sin debug
 DEBUGLEVEL = 1 => Con debug
 */
-#define DEBUGLEVEL 1
+#define DEBUGLEVEL 0
 #define degToRad(angleInDegrees) ((angleInDegrees)*M_PI / 180.0)
 #define radToDeg(angleInRadians) ((angleInRadians)*180.0 / M_PI)
-#define SEPARACION 4
 
 /* 
 Enum enumera del 0 para adelante cada elemento.
@@ -32,7 +31,9 @@ enum IngredienteType {
     Lechuga,
     Tomate,
     PanArriba,
-    PanAbajo
+    PanAbajo,
+    HamburgesaCocinada,
+    HamburgesaCruda,
 };
 
 #endif // DEFINICIONES_H

@@ -1,29 +1,29 @@
 #ifndef CHEF_H
 #define CHEF_H
+#include "../includes/Agarrable.h"
 #include "../includes/Definiciones.h"
 #include "../includes/Mapa.h"
 #include <SFML/Graphics.hpp>
 
-using namespace sf;
-
 class Chef {
 private:
-    float desaceleracion, aceleracionMax, angulo;
+    float desaceleracion, aceleracionMax, desaceleracionCorrer, aceleracionCorrer, angulo;
     sf::RectangleShape rectShape;
     sf::RectangleShape hitbox;
     sf::Vector2f velocidad;
     sf::Vector2u tamanioReal;
-
+    Agarrable *enMano;
     void actualizar(Mapa *map);
     void actualizarAtributos();
     void actualizarColisiones(Mapa *map);
 
 public:
-    Chef(Texture *tex, int x, int y);
-    void dibujar(RenderWindow *w, Mapa *map);
-    void mover(bool izq, bool der, bool arriba, bool abajo);
+    Chef(sf::Texture *tex, int x, int y);
+    void dibujar(sf::RenderWindow *w, Mapa *map);
+    void mover(bool izq, bool der, bool arriba, bool abajo, bool correr, sf::Time tiempoTranscurrido);
     sf::RectangleShape getRectangleShape();
     sf::RectangleShape getHitbox();
+    void interactuar(bool interactuar, Mapa *map, sf::Time tiempoTranscurrido);
 };
 
 #endif // CHEF_H
