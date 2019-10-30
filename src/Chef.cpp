@@ -3,6 +3,7 @@
 #include "../includes/Definiciones.h"
 #include "../includes/Heladera.h"
 #include "../includes/Mesada.h"
+#include "../includes/Tacho.h"
 #include <iostream>
 #include <math.h>
 #define entreExcluyente(valor, valorMenor, valorMayor) ((valor > valorMenor && valor < valorMayor))
@@ -200,7 +201,16 @@ void Chef::interactuar(bool interactuar, Mapa *map, sf::Time tiempoTranscurrido)
                     bool r = m->putAgarrable(enMano);
                     enMano = r ? nullptr : enMano;
                 }
+            }else if (es->getTipo() == TileType::Tacho) {
+                class Tacho *m = (class Tacho *)es;
+                if (enMano != nullptr){
+                    bool r = m->Tirar(enMano);
+                    enMano = r ? nullptr : enMano;
+                }
+
+
             }
+
         }
     }
 }

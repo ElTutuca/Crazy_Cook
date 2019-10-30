@@ -25,7 +25,8 @@ enum TileType {
     Suelo,
     Mesada,
     Hornalla,
-    Heladera
+    Heladera,
+    Tacho,
 };
 enum IngredienteType {
     Lechuga,

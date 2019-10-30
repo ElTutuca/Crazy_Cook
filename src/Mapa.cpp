@@ -4,6 +4,7 @@
 #include "../includes/Heladera.h"
 #include "../includes/Mesada.h"
 #include "../includes/Suelo.h"
+#include "../includes/Tacho.h"
 #include <iostream>
 #include <list>
 #include <stdlib.h>
@@ -56,6 +57,9 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 }
                 Ingrediente *ingr = new Ingrediente(sf::Vector2f(x, y), 90 * rotacion[x][y], tex, tipo);
                 class Heladera *s = new class Heladera(sf::Vector2i(x, y), rotacion[x][y], texSize, ingr);
+                espacios[x][y] = (Espacio *)s;
+            }else if (nivel[x][y] == TileType::Tacho) {
+                class Tacho *s = new class Tacho(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
             }
             //TODO: Resto de los objetos
