@@ -28,10 +28,10 @@ int main() {
     SCREENWIDTH = sf::VideoMode::getDesktopMode().width;
     SCREENHEIGHT = sf::VideoMode::getDesktopMode().height;
 
-    sf::RenderWindow window(sf::VideoMode(1800, 940), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(1300, 750), "SFML works!");
     // Vector de vectores
     // niv es el tipo de tiles ordenado en columnas
-    std::vector<std::vector<int>> niv = {{1, 3, 3, 1, 1, 1}, {1, 0, 0, 0, 0, 1}, {4, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1}};
+    std::vector<std::vector<int>> niv = {{1, 3, 3, 1, 1, 1}, {1, 0, 0, 0, 0, 1}, {4, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {2, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1}};
     // rot es la rotacion de cada tile
     std::vector<std::vector<int>> rot = {{0, 3, 3, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
 
@@ -73,7 +73,7 @@ int main() {
     sf::Text debugText;
     sf::Font debugFont;
     if (DEBUGLEVEL == 1) {
-        debugFont.loadFromFile("Fuentes/OpenSans-Light.ttf");
+        debugFont.loadFromFile("resources/Fuentes/OpenSans-Light.ttf");
         debugText.setFont(font);
         debugText.setCharacterSize(24);
         debugText.setFillColor(sf::Color::Red);

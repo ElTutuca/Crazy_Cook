@@ -2,6 +2,7 @@
 #include "../includes/Definiciones.h"
 #include "../includes/Espacio.h"
 #include "../includes/Heladera.h"
+#include "../includes/Hornalla.h"
 #include "../includes/Mesada.h"
 #include "../includes/Suelo.h"
 #include "../includes/Tacho.h"
@@ -62,6 +63,9 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 espacios[x][y] = (Espacio *)s;
             } else if (nivel[x][y] == TileType::Tacho) {
                 class Tacho *s = new class Tacho(sf::Vector2i(x, y), rotacion[x][y], texSize);
+                espacios[x][y] = (Espacio *)s;
+            } else if (nivel[x][y] == TileType::Hornalla) {
+                class Hornalla *s = new class Hornalla(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
             }
             //TODO: Resto de los objetos

@@ -2,6 +2,7 @@
 #include "../includes/Chef.h"
 #include "../includes/Definiciones.h"
 #include "../includes/Heladera.h"
+#include "../includes/Hornalla.h"
 #include "../includes/Mesada.h"
 #include "../includes/Tacho.h"
 #include <iostream>
@@ -173,7 +174,7 @@ void Chef::mover(bool izq, bool der, bool arriba, bool abajo, bool correr) {
 }
 
 void Chef::interactuar(bool interactuar, Mapa *map) {
-    sf::Vector2i posEnArr(rectShape.getPosition().x / (TILEWIDTH), rectShape.getPosition().y / (TILEHEIGHT));
+    sf::Vector2i posEnArr(rectShape.getPosition().x / TILEWIDTH, rectShape.getPosition().y / TILEHEIGHT);
     if (interactuar && dtInteraccion.getElapsedTime().asMilliseconds() > 80) {
         // Mira hacia arriba
         Espacio *es = nullptr;
@@ -207,6 +208,17 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                 class Tacho *m = (class Tacho *)es;
                 if (enMano != nullptr) {
                     bool r = m->tirar(enMano);
+                    enMano = r ? nullptr : enMano;
+                }
+            } else if (es->getTipo() == TileType::Hornalla) {
+                class Hornalla *m = (class Hornalla *)es;
+                if (enMano == nullptr) {
+                    Agarrable *r = m->popCocinado();
+                    if (r != nullptr) {
+                        enMano = r;
+                    }
+                } else if (enMano->getIsIngrediente()) {
+                    bool r = m->cocinar((Ingrediente *)enMano);
                     enMano = r ? nullptr : enMano;
                 }
             }
