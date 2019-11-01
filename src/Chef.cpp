@@ -209,7 +209,7 @@ void Chef::mover(bool izq, bool der, bool arriba, bool abajo, bool correr) {
 
 void Chef::interactuar(bool interactuar, Mapa *map) {
     sf::Vector2i posEnArr(rectShape.getPosition().x / (TILEWIDTH * SCALE_X), rectShape.getPosition().y / (TILEHEIGHT * SCALE_Y));
-    std::cout << interactuar << " - " << dtInteraccion.getElapsedTime().asMilliseconds() << std::endl;
+    //std::cout << interactuar << " - " << dtInteraccion.getElapsedTime().asMilliseconds() << std::endl;
     if (interactuar && dtInteraccion.getElapsedTime().asMilliseconds() > 80) {
         // Mira hacia arriba
         Espacio *es = nullptr;
