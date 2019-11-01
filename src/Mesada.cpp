@@ -10,7 +10,7 @@ Mesada::Mesada(sf::Vector2i pos, int rot, sf::Vector2f size) : Espacio(pos, rot)
 
     if (DEBUGLEVEL == 1) {
         rectShape.setOutlineColor(sf::Color::Magenta);
-        rectShape.setOutlineThickness(1);
+        rectShape.setOutlineThickness(0.7);
         rectShape.setFillColor(sf::Color::Transparent);
     }
 }

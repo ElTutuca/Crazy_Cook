@@ -64,8 +64,6 @@ int main() {
     }
 
     window.setFramerateLimit(60);
-    sf::Clock dtInteraccion;
-    sf::Clock dtCorrer;
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -96,13 +94,8 @@ int main() {
             abajo = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
             interaccion = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
             correr = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
-            chef.mover(izq, der, arriba, abajo, correr, dtCorrer.getElapsedTime());
-            chef.interactuar(interaccion, &map, dtInteraccion.getElapsedTime());
-
-            if (interaccion)
-                dtInteraccion.restart();
-            if (correr)
-                dtCorrer.restart();
+            chef.mover(izq, der, arriba, abajo, correr);
+            chef.interactuar(interaccion, &map);
 
             map.dibujar(&window);
             chef.dibujar(&window, &map);

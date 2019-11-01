@@ -40,25 +40,24 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 class Mesada *s = new class Mesada(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
             } else if (nivel[x][y] == TileType::Heladera) {
-                // TODO: Hacer que eliga random
                 IngredienteType tipo = *std::next(listaIngrediente.begin(), std::rand() % listaIngrediente.size());
                 listaIngrediente.remove(tipo);
                 sf::Texture *tex = new sf::Texture();
-                if (tipo == IngredienteType::Lechuga) {
+                if (tipo == IngredienteType::Lechuga)
                     tex->loadFromFile("Imagenes/Lechuga_Hoja.png");
-                } else if (tipo == IngredienteType::Tomate) {
+                else if (tipo == IngredienteType::Tomate)
                     tex->loadFromFile("Imagenes/Tomate_Rodaja.png");
-                } else if (tipo == IngredienteType::PanAbajo) {
+                else if (tipo == IngredienteType::PanAbajo)
                     tex->loadFromFile("Imagenes/Pan_Abajo.png");
-                } else if (tipo == IngredienteType::PanArriba) {
+                else if (tipo == IngredienteType::PanArriba)
                     tex->loadFromFile("Imagenes/Pan_Arriba.png");
-                } else if (tipo == IngredienteType::HamburgesaCruda) {
+                else if (tipo == IngredienteType::HamburgesaCruda)
                     tex->loadFromFile("Imagenes/Hamburguesa_Cruda.png");
-                }
+
                 Ingrediente *ingr = new Ingrediente(sf::Vector2f(x, y), 90 * rotacion[x][y], tex, tipo);
                 class Heladera *s = new class Heladera(sf::Vector2i(x, y), rotacion[x][y], texSize, ingr);
                 espacios[x][y] = (Espacio *)s;
-            }else if (nivel[x][y] == TileType::Tacho) {
+            } else if (nivel[x][y] == TileType::Tacho) {
                 class Tacho *s = new class Tacho(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
             }

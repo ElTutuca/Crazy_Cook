@@ -7,12 +7,16 @@
 
 class Chef {
 private:
-    float desaceleracion, aceleracionMax, desaceleracionCorrer, aceleracionCorrer, angulo;
+    float desaceleracionCaminar, aceleracionCaminar, desaceleracionCorrer, aceleracionCorrer, angulo;
     sf::RectangleShape rectShape;
     sf::RectangleShape hitbox;
     sf::Vector2f velocidad;
+    sf::Vector2f velocidadCorrer;
+    sf::Vector2f velocidadCaminar;
     sf::Vector2u tamanioReal;
     Agarrable *enMano;
+    sf::Clock dtInteraccion;
+    sf::Clock dtCorrer;
     void actualizar(Mapa *map);
     void actualizarAtributos();
     void actualizarColisiones(Mapa *map);
@@ -20,10 +24,10 @@ private:
 public:
     Chef(sf::Texture *tex, int x, int y);
     void dibujar(sf::RenderWindow *w, Mapa *map);
-    void mover(bool izq, bool der, bool arriba, bool abajo, bool correr, sf::Time tiempoTranscurrido);
+    void mover(bool izq, bool der, bool arriba, bool abajo, bool correr);
     sf::RectangleShape getRectangleShape();
     sf::RectangleShape getHitbox();
-    void interactuar(bool interactuar, Mapa *map, sf::Time tiempoTranscurrido);
+    void interactuar(bool interactuar, Mapa *map);
 };
 
 #endif // CHEF_H

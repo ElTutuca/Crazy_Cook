@@ -23,6 +23,9 @@ Chef::Chef(sf::Texture *tex, int x, int y) {
 
     enMano = nullptr;
 
+    dtInteraccion.restart();
+    dtCorrer.restart();
+
     if (DEBUGLEVEL == 1) {
         rectShape.setOutlineColor(sf::Color::Yellow);
         rectShape.setOutlineThickness(1);
@@ -36,13 +39,17 @@ Chef::Chef(sf::Texture *tex, int x, int y) {
 
     velocidad.x = 0;
     velocidad.y = 0;
+    velocidadCorrer.x = 0;
+    velocidadCorrer.y = 0;
+    velocidadCaminar.x = 0;
+    velocidadCaminar.y = 0;
 
     angulo = 0;
-    desaceleracion = 0.9;
-    aceleracionMax = 0.84;
+    desaceleracionCaminar = 0.9;
+    aceleracionCaminar = 0.84;
 
-    desaceleracionCorrer = 0.5;
-    aceleracionCorrer = 1.2;
+    desaceleracionCorrer = 0.95;
+    aceleracionCorrer = 5;
 }
 
 sf::RectangleShape Chef::getRectangleShape() {
@@ -55,8 +62,12 @@ void Chef::actualizar(Mapa *map) {
 }
 
 void Chef::actualizarAtributos() {
-    velocidad.x *= desaceleracion;
-    velocidad.y *= desaceleracion;
+    velocidadCorrer.x *= desaceleracionCorrer;
+    velocidadCorrer.y *= desaceleracionCorrer;
+    velocidadCaminar.x *= desaceleracionCaminar;
+    velocidadCaminar.y *= desaceleracionCaminar;
+    velocidad.x = velocidadCaminar.x + velocidadCorrer.x;
+    velocidad.y = velocidadCaminar.y + velocidadCorrer.y;
     rectShape.setPosition(rectShape.getPosition().x + velocidad.x, rectShape.getPosition().y + velocidad.y);
     rectShape.setRotation(angulo);
     hitbox.setPosition(rectShape.getPosition());
@@ -132,47 +143,74 @@ void Chef::dibujar(sf::RenderWindow *w, Mapa *map) {
     }
 }
 
-void Chef::mover(bool izq, bool der, bool arriba, bool abajo, bool correr, sf::Time tiempoTranscurrido) {
-    int dt = 1000;
+void Chef::mover(bool izq, bool der, bool arriba, bool abajo, bool correr) {
+    bool hacerCorrer = correr && dtCorrer.getElapsedTime().asMilliseconds() > 500;
     if (izq && !der) {
         if (arriba) {
             angulo = 315;
             // sqrt(2) / 2 = cos(45)
-            velocidad.x -= (sqrt(2) / 2) * aceleracionMax;
-            velocidad.y -= (sqrt(2) / 2) * aceleracionMax;
+            if (hacerCorrer) {
+                velocidadCorrer.x -= (sqrt(2) / 2) * aceleracionCorrer;
+                velocidadCorrer.y -= (sqrt(2) / 2) * aceleracionCorrer;
+            }
+            velocidadCaminar.x -= (sqrt(2) / 2) * aceleracionCaminar;
+            velocidadCaminar.y -= (sqrt(2) / 2) * aceleracionCaminar;
         } else if (abajo) {
             angulo = 225;
-            velocidad.x -= (sqrt(2) / 2) * aceleracionMax;
-            velocidad.y += (sqrt(2) / 2) * aceleracionMax;
+            if (hacerCorrer) {
+                velocidadCorrer.x -= (sqrt(2) / 2) * aceleracionCorrer;
+                velocidadCorrer.y += (sqrt(2) / 2) * aceleracionCorrer;
+            }
+            velocidadCaminar.x -= (sqrt(2) / 2) * aceleracionCaminar;
+            velocidadCaminar.y += (sqrt(2) / 2) * aceleracionCaminar;
         } else {
             angulo = 270;
-            velocidad.x -= aceleracionMax;
+            if (hacerCorrer)
+                velocidadCorrer.x -= aceleracionCorrer;
+            velocidadCaminar.x -= aceleracionCaminar;
         }
     } else if (der && !izq) {
         if (arriba) {
             angulo = 45;
-            velocidad.x += (sqrt(2) / 2) * aceleracionMax;
-            velocidad.y -= (sqrt(2) / 2) * aceleracionMax;
+            if (hacerCorrer) {
+                velocidadCorrer.x += (sqrt(2) / 2) * aceleracionCorrer;
+                velocidadCorrer.y -= (sqrt(2) / 2) * aceleracionCorrer;
+            }
+            velocidadCaminar.x += (sqrt(2) / 2) * aceleracionCaminar;
+            velocidadCaminar.y -= (sqrt(2) / 2) * aceleracionCaminar;
         } else if (abajo) {
             angulo = 135;
-            velocidad.x += (sqrt(2) / 2) * aceleracionMax;
-            velocidad.y += (sqrt(2) / 2) * aceleracionMax;
+            if (hacerCorrer) {
+                velocidadCorrer.x += (sqrt(2) / 2) * aceleracionCorrer;
+                velocidadCorrer.y += (sqrt(2) / 2) * aceleracionCorrer;
+            }
+            velocidadCaminar.x += (sqrt(2) / 2) * aceleracionCaminar;
+            velocidadCaminar.y += (sqrt(2) / 2) * aceleracionCaminar;
         } else {
             angulo = 90;
-            velocidad.x += aceleracionMax;
+            if (hacerCorrer)
+                velocidadCorrer.x += aceleracionCorrer;
+            velocidadCaminar.x += aceleracionCaminar;
         }
     } else if (arriba && !abajo) {
         angulo = 0;
-        velocidad.y -= aceleracionMax;
+        if (hacerCorrer)
+            velocidadCorrer.y -= aceleracionCorrer;
+        velocidadCaminar.y -= aceleracionCaminar;
     } else if (abajo && !arriba) {
         angulo = 180;
-        velocidad.y += aceleracionMax;
+        if (hacerCorrer)
+            velocidadCorrer.y += aceleracionCorrer;
+        velocidadCaminar.y += aceleracionCaminar;
     }
+    if (hacerCorrer)
+        dtCorrer.restart();
 }
 
-void Chef::interactuar(bool interactuar, Mapa *map, sf::Time tiempoTranscurrido) {
+void Chef::interactuar(bool interactuar, Mapa *map) {
     sf::Vector2i posEnArr(rectShape.getPosition().x / (TILEWIDTH * SCALE_X), rectShape.getPosition().y / (TILEHEIGHT * SCALE_Y));
-    if (interactuar && tiempoTranscurrido.asMilliseconds() > 80) {
+    std::cout << interactuar << " - " << dtInteraccion.getElapsedTime().asMilliseconds() << std::endl;
+    if (interactuar && dtInteraccion.getElapsedTime().asMilliseconds() > 80) {
         // Mira hacia arriba
         Espacio *es = nullptr;
         if (angulo == 0) {
@@ -201,16 +239,15 @@ void Chef::interactuar(bool interactuar, Mapa *map, sf::Time tiempoTranscurrido)
                     bool r = m->putAgarrable(enMano);
                     enMano = r ? nullptr : enMano;
                 }
-            }else if (es->getTipo() == TileType::Tacho) {
+            } else if (es->getTipo() == TileType::Tacho) {
                 class Tacho *m = (class Tacho *)es;
-                if (enMano != nullptr){
-                    bool r = m->Tirar(enMano);
+                if (enMano != nullptr) {
+                    bool r = m->tirar(enMano);
                     enMano = r ? nullptr : enMano;
                 }
-
-
             }
-
         }
     }
+    if (interactuar)
+        dtInteraccion.restart();
 }
