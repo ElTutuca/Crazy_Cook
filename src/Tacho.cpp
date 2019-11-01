@@ -1,7 +1,7 @@
 #include "Tacho.h"
 #include "../includes/Definiciones.h"
 
-Tacho::Tacho(sf::Vector2i pos, int rot, sf::Vector2f size) {
+Tacho::Tacho(sf::Vector2i pos, int rot, sf::Vector2f size): Espacio(pos, rot) {
 
     dibujable = false;
     setTipo(TileType::Tacho);
