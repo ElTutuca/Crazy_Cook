@@ -15,7 +15,7 @@ int main() {
     sf::Font font;
     font.loadFromFile("Fuentes/OpenSans-Light.ttf");
 
-    sf::RenderWindow window(sf::VideoMode(2050, 1080), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(1800, 940), "SFML works!");
     // Vector de vectores
     // niv es el tipo de tiles ordenado en columnas
     std::vector<std::vector<int>> niv = {{1, 3, 3, 1, 1, 1}, {1, 0, 0, 0, 0, 1}, {4, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1}};
@@ -79,7 +79,7 @@ int main() {
                 }
             }
         }
-        window.clear(sf::Color::Green);
+        window.clear(sf::Color::Black);
         window.draw(imagenMenu);
         buttonIniciar.render(&window);
         buttonSalir.render(&window);
