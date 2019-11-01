@@ -4,6 +4,7 @@
 #include "../includes/Heladera.h"
 #include "../includes/Mesada.h"
 #include "../includes/Tacho.h"
+#include "../includes/Hornalla.h"
 #include <iostream>
 #include <math.h>
 #define entreExcluyente(valor, valorMenor, valorMayor) ((valor > valorMenor && valor < valorMayor))
@@ -209,7 +210,6 @@ void Chef::mover(bool izq, bool der, bool arriba, bool abajo, bool correr) {
 
 void Chef::interactuar(bool interactuar, Mapa *map) {
     sf::Vector2i posEnArr(rectShape.getPosition().x / (TILEWIDTH * SCALE_X), rectShape.getPosition().y / (TILEHEIGHT * SCALE_Y));
-    std::cout << interactuar << " - " << dtInteraccion.getElapsedTime().asMilliseconds() << std::endl;
     if (interactuar && dtInteraccion.getElapsedTime().asMilliseconds() > 80) {
         // Mira hacia arriba
         Espacio *es = nullptr;
@@ -246,6 +246,18 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                     enMano = r ? nullptr : enMano;
                 }
             }
+			else if (es->getTipo() == TileType::Hornalla) {
+				class Hornalla *m = (class Hornalla*)es;
+				if (enMano == nullptr) {
+					Agarrable *r = m->popCocinado();
+					if (r != nullptr) {
+						enMano = r;
+					}
+				} else if (enMano->getIsIngrediente()){
+					bool r = m->cocinar((Ingrediente*)enMano);
+					enMano = r ? nullptr : enMano;
+				}
+			}
         }
     }
     if (interactuar)

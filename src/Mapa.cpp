@@ -5,6 +5,7 @@
 #include "../includes/Mesada.h"
 #include "../includes/Suelo.h"
 #include "../includes/Tacho.h"
+#include "../includes/Hornalla.h"
 #include <iostream>
 #include <list>
 #include <stdlib.h>
@@ -61,6 +62,10 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 class Tacho *s = new class Tacho(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
             }
+			else if (nivel[x][y] == TileType::Hornalla) {
+				class Hornalla *s = new class Hornalla(sf::Vector2i(x, y), rotacion[x][y], texSize);
+				espacios[x][y] = (Espacio *)s;
+			}
             //TODO: Resto de los objetos
         }
     }
