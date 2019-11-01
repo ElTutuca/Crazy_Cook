@@ -15,7 +15,7 @@ public:
     float getRotacion();
     bool getIsIngrediente();
     void dibujar(sf::RenderWindow *w);
-    void agarrado(int x, int y, float angulo, float anchoChef);
+    void agarrado(float x, float y, float angulo, float anchoChef);
 
 protected:
     float angulo;
@@ -23,8 +23,6 @@ protected:
     sf::Vector2f posicion;
     // Tamanio sin escala
     sf::Vector2f tamanio;
-    // Tamanio con escala
-    sf::Vector2u tamanioReal;
     sf::Sprite spt;
     int offsetX, offsetY;
     void setIsIngrediente(bool t);

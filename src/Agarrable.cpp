@@ -14,9 +14,6 @@ Agarrable::Agarrable(sf::Vector2f pos, float ang, sf::Texture *tex, bool ingredi
     spt.setTexture(*tex);
     tamanio.x = tex->getSize().x;
     tamanio.y = tex->getSize().y;
-    tamanioReal.x = tamanio.x * SCALE_X;
-    tamanioReal.y = tamanio.y * SCALE_Y;
-    spt.setScale(SCALE_X, SCALE_Y);
     spt.setOrigin(tamanio.x / 2, tamanio.y / 2);
 }
 void Agarrable::setPosicion(sf::Vector2f pos) {
@@ -35,7 +32,7 @@ void Agarrable::actualizar() {
     spt.setPosition(posicion);
     spt.setRotation(angulo);
 }
-void Agarrable::agarrado(int x, int y, float angulo, float anchoChef) {
+void Agarrable::agarrado(float x, float y, float angulo, float anchoChef) {
     this->angulo = angulo;
     posicion.x = x + anchoChef * sin(degToRad(angulo));
     posicion.y = y - anchoChef * cos(degToRad(angulo));

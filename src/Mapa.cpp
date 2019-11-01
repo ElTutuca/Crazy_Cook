@@ -2,6 +2,7 @@
 #include "../includes/Definiciones.h"
 #include "../includes/Espacio.h"
 #include "../includes/Heladera.h"
+#include "../includes/Hornalla.h"
 #include "../includes/Mesada.h"
 #include "../includes/Suelo.h"
 #include "../includes/Tacho.h"
@@ -16,7 +17,6 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
     setLayout(niv, rot);
     selecIngrediente = Lechuga;
     fondo.setTexture(*tMapa);
-    fondo.setScale(SCALE_X, SCALE_Y);
 
     // assign le da el tamaño al vector
     espacios.assign(nivel.size(), std::vector<Espacio *>(nivel[0].size(), new Espacio()));
@@ -30,8 +30,12 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
         IngredienteType::HamburgesaCruda};
     srand(time(NULL));
     sf::Vector2f texSize(32, 32);
+    sf::Vector2i tamanioMapa(0, 0);
     for (int x = 0; x < nivel.size(); x++) {
+        tamanioMapa.x += texSize.x;
         for (int y = 0; y < nivel[x].size(); y++) {
+            if (x == 0)
+                tamanioMapa.y += texSize.y;
             if (nivel[x][y] == TileType::Suelo) {
                 //se crea un espacio de tipo suelo
                 espacios[x][y] = (Espacio *)new class Suelo(sf::Vector2i(x, y), rotacion[x][y], texSize);
@@ -44,15 +48,15 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 listaIngrediente.remove(tipo);
                 sf::Texture *tex = new sf::Texture();
                 if (tipo == IngredienteType::Lechuga)
-                    tex->loadFromFile("resources/Imagenes/Lechuga_Hoja.png");
+                    tex->loadFromFile("Imagenes/Lechuga_Hoja.png");
                 else if (tipo == IngredienteType::Tomate)
-                    tex->loadFromFile("resources/Imagenes/Tomate_Rodaja.png");
+                    tex->loadFromFile("Imagenes/Tomate_Rodaja.png");
                 else if (tipo == IngredienteType::PanAbajo)
-                    tex->loadFromFile("resources/Imagenes/Pan_Abajo.png");
+                    tex->loadFromFile("Imagenes/Pan_Abajo.png");
                 else if (tipo == IngredienteType::PanArriba)
-                    tex->loadFromFile("resources/Imagenes/Pan_Arriba.png");
+                    tex->loadFromFile("Imagenes/Pan_Arriba.png");
                 else if (tipo == IngredienteType::HamburgesaCruda)
-                    tex->loadFromFile("resources/Imagenes/Hamburguesa_Cruda.png");
+                    tex->loadFromFile("Imagenes/Hamburguesa_Cruda.png");
 
                 Ingrediente *ingr = new Ingrediente(sf::Vector2f(x, y), 90 * rotacion[x][y], tex, tipo);
                 class Heladera *s = new class Heladera(sf::Vector2i(x, y), rotacion[x][y], texSize, ingr);
@@ -60,10 +64,15 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
             } else if (nivel[x][y] == TileType::Tacho) {
                 class Tacho *s = new class Tacho(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
+            } else if (nivel[x][y] == TileType::Hornalla) {
+                class Hornalla *s = new class Hornalla(sf::Vector2i(x, y), rotacion[x][y], texSize);
+                espacios[x][y] = (Espacio *)s;
             }
             //TODO: Resto de los objetos
         }
     }
+    MAPWIDTH = tamanioMapa.x;
+    MAPHEIGHT = tamanioMapa.y;
 }
 
 Mapa::~Mapa() {

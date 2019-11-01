@@ -1,10 +1,14 @@
 #ifndef DEFINICIONES_H
 #define DEFINICIONES_H
 
-#define SCALE_X 4
-#define SCALE_Y 4
-#define TILEWIDTH 32
-#define TILEHEIGHT 32
+extern float SCALE;
+extern int SCREENWIDTH;
+extern int SCREENHEIGHT;
+extern int MAPWIDTH;
+extern int MAPHEIGHT;
+extern int PANEWIDTH;
+extern const int TILEWIDTH;
+extern const int TILEHEIGHT;
 /*
 DEBUGLEVEL = 0 => Sin debug
 DEBUGLEVEL = 1 => Con debug

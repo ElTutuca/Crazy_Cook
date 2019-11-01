@@ -13,7 +13,6 @@ private:
     sf::Vector2f velocidad;
     sf::Vector2f velocidadCorrer;
     sf::Vector2f velocidadCaminar;
-    sf::Vector2u tamanioReal;
     Agarrable *enMano;
     sf::Clock dtInteraccion;
     sf::Clock dtCorrer;

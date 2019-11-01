@@ -9,16 +9,29 @@
 #include <string>
 #include <vector>
 
+float SCALE = 0;
+int SCREENWIDTH = 0;
+int SCREENHEIGHT = 0;
+int MENUWIDTH = 0;
+int MENUHEIGHT = 0;
+int MAPWIDTH = 0;
+int MAPHEIGHT = 0;
+int PANEWIDTH = 60;
+const int TILEWIDTH = 32;
+const int TILEHEIGHT = 32;
 int main() {
+
     bool jugar = false;
 
     sf::Font font;
-    font.loadFromFile("resources/Fuentes/OpenSans-Light.ttf");
+    font.loadFromFile("Fuentes/OpenSans-Light.ttf");
+    SCREENWIDTH = sf::VideoMode::getDesktopMode().width;
+    SCREENHEIGHT = sf::VideoMode::getDesktopMode().height;
 
     sf::RenderWindow window(sf::VideoMode(1300, 750), "SFML works!");
     // Vector de vectores
     // niv es el tipo de tiles ordenado en columnas
-    std::vector<std::vector<int>> niv = {{1, 3, 3, 1, 1, 1}, {1, 0, 0, 0, 0, 1}, {4, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1}};
+    std::vector<std::vector<int>> niv = {{1, 3, 3, 1, 1, 1}, {1, 0, 0, 0, 0, 1}, {4, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {2, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1}};
     // rot es la rotacion de cada tile
     std::vector<std::vector<int>> rot = {{0, 3, 3, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
 
@@ -42,16 +55,20 @@ int main() {
     textoSalir.setFillColor(sf::Color::White);
 
     sf::Texture tex, tChef, menu;
-    tChef.loadFromFile("resources/Imagenes/Chef.png");
-    tex.loadFromFile("resources/Imagenes/Mapa.png");
-    menu.loadFromFile("resources/Imagenes/Menu.jpg");
+    tChef.loadFromFile("Imagenes/Chef.png");
+    tex.loadFromFile("Imagenes/Mapa.png");
+    menu.loadFromFile("Imagenes/Menu.jpg");
+    MENUWIDTH = menu.getSize().x;
+    MENUHEIGHT = menu.getSize().y;
 
     sf::Sprite imagenMenu;
     imagenMenu.setTexture(menu);
 
     //Se crea el mapa y se mandan tipo de tiles y su rotacion, con  la textura del mapa
     Mapa map(niv, rot, &tex);
-    Chef chef(&tChef, 200, 200);
+    Chef chef(&tChef, 48, 48);
+
+    sf::View vista(sf::Vector2f(MAPWIDTH / 2 + PANEWIDTH / 2, MAPHEIGHT / 2), sf::Vector2f(MAPWIDTH + PANEWIDTH, MAPHEIGHT));
 
     sf::Text debugText;
     sf::Font debugFont;
@@ -64,6 +81,7 @@ int main() {
     }
 
     window.setFramerateLimit(60);
+    bool isVistaJuego = false;
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -80,14 +98,20 @@ int main() {
             }
         }
         window.clear(sf::Color::Black);
-        window.draw(imagenMenu);
-        buttonIniciar.render(&window);
-        buttonSalir.render(&window);
-        window.draw(textoIniciar);
-        window.draw(textoSalir);
+        if (!jugar) {
+            window.draw(imagenMenu);
+            buttonIniciar.render(&window);
+            buttonSalir.render(&window);
+            window.draw(textoIniciar);
+            window.draw(textoSalir);
+        }
 
         bool izq, der, arriba, abajo, interaccion, correr;
         if (jugar) {
+            if (!isVistaJuego) {
+                window.setView(vista);
+                isVistaJuego = true;
+            }
             izq = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
             der = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
             arriba = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
