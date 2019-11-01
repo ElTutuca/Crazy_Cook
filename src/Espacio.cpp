@@ -11,7 +11,6 @@ Espacio::Espacio(sf::Vector2i pos, int rot) {
         rotacion = 0;
     offsetX = 0;
     offsetY = 0;
-    rectShape.setScale(SCALE_X, SCALE_Y);
 }
 Espacio::Espacio() {
 }
@@ -54,12 +53,11 @@ bool Espacio::IsColisionando(sf::RectangleShape chef, sf::Vector2f *correccion, 
 
         float posXEspacio = rectShape.getPosition().x;
         float posYEspacio = rectShape.getPosition().y;
-        float mitadXEspacio = (rectShape.getSize().x * SCALE_X) / 2 * 1;
-        float mitadYEspacio = (rectShape.getSize().y * SCALE_Y) / 2 * 1;
+        float mitadXEspacio = rectShape.getSize().x / 2;
+        float mitadYEspacio = rectShape.getSize().y / 2;
 
         for (int i = 0; i < 4; i++) {
             float corrX = 0, corrY = 0;
-            // if (rectShape.getGlobalBounds().contains(puntos[i])) {
             if ((puntos[i].x <= (posXEspacio + mitadXEspacio) && puntos[i].x >= (posXEspacio - mitadXEspacio)) && (puntos[i].y <= (posYEspacio + mitadYEspacio) && puntos[i].y >= (posYEspacio - mitadYEspacio))) {
                 if (dir == 1) {
                     if (posXEspacio > puntos[i].x) {
@@ -83,10 +81,10 @@ bool Espacio::IsColisionando(sf::RectangleShape chef, sf::Vector2f *correccion, 
 }
 
 void Espacio::setSizeTile(sf::Vector2f texSize) {
-    sizeTile.x = texSize.x * SCALE_X;
-    sizeTile.y = texSize.y * SCALE_Y;
+    sizeTile.x = texSize.x;
+    sizeTile.y = texSize.y;
     rectShape.setSize(texSize);
-    rectShape.setOrigin(texSize.x / 2, texSize.y / 2);
+    rectShape.setOrigin(sizeTile.x / 2, sizeTile.y / 2);
 }
 sf::Vector2f Espacio::getSizeTile() {
     return sizeTile;

@@ -13,12 +13,10 @@ Chef::Chef(sf::Texture *tex, int x, int y) {
     rectShape.setTexture(tex);
     rectShape.setSize(sf::Vector2f(tex->getSize().x, tex->getSize().y));
     rectShape.setOrigin(tex->getSize().x / 2, tex->getSize().y / 2);
-    rectShape.setScale(SCALE_X, SCALE_Y);
     rectShape.setPosition(x, y);
 
     hitbox.setSize(sf::Vector2f(rectShape.getSize().x / 2, rectShape.getSize().y / 2));
     hitbox.setOrigin(hitbox.getSize().x / 2, hitbox.getSize().y / 2);
-    hitbox.setScale(SCALE_X, SCALE_Y);
     hitbox.setPosition(x, y);
 
     enMano = nullptr;
@@ -34,9 +32,6 @@ Chef::Chef(sf::Texture *tex, int x, int y) {
         hitbox.setFillColor(sf::Color::Transparent);
     }
 
-    tamanioReal.x = tex->getSize().x * SCALE_X;
-    tamanioReal.y = tex->getSize().y * SCALE_Y;
-
     velocidad.x = 0;
     velocidad.y = 0;
     velocidadCorrer.x = 0;
@@ -46,10 +41,10 @@ Chef::Chef(sf::Texture *tex, int x, int y) {
 
     angulo = 0;
     desaceleracionCaminar = 0.9;
-    aceleracionCaminar = 0.84;
+    aceleracionCaminar = 0.25;
 
     desaceleracionCorrer = 0.95;
-    aceleracionCorrer = 5;
+    aceleracionCorrer = 1;
 }
 
 sf::RectangleShape Chef::getRectangleShape() {
@@ -73,12 +68,12 @@ void Chef::actualizarAtributos() {
     hitbox.setPosition(rectShape.getPosition());
     hitbox.setRotation(angulo);
     if (enMano != nullptr) {
-        enMano->agarrado(getRectangleShape().getPosition().x, getRectangleShape().getPosition().y, angulo, rectShape.getSize().y * SCALE_Y);
+        enMano->agarrado(getRectangleShape().getPosition().x, getRectangleShape().getPosition().y, angulo, rectShape.getSize().y);
     }
 }
 
 void Chef::actualizarColisiones(Mapa *map) {
-    sf::Vector2i posEnArr(rectShape.getPosition().x / (TILEWIDTH * SCALE_X), rectShape.getPosition().y / (TILEHEIGHT * SCALE_Y));
+    sf::Vector2i posEnArr(rectShape.getPosition().x / (TILEWIDTH), rectShape.getPosition().y / (TILEHEIGHT));
     sf::Vector2f correccion(0, 0);
     bool colisionoArriba, colisionoAbajo, colisionoIzquierda, colisionoDerecha;
 
@@ -87,36 +82,6 @@ void Chef::actualizarColisiones(Mapa *map) {
     colisionoDerecha = posEnArr.x < map->getAncho() ? map->getEspacioAt(posEnArr.x + 1, posEnArr.y)->IsColisionando(hitbox, &correccion, 1) : false;
     colisionoArriba = posEnArr.y > 0 ? map->getEspacioAt(posEnArr.x, posEnArr.y - 1)->IsColisionando(hitbox, &correccion, 0) : false;
     colisionoAbajo = posEnArr.y < map->getAlto() ? map->getEspacioAt(posEnArr.x, posEnArr.y + 1)->IsColisionando(hitbox, &correccion, 0) : false;
-    // std::cout << "Adyacentes:\n";
-    // std::cout << "Arriba: " << colisionoArriba << " Abajo: " << colisionoAbajo << " Izq: " << colisionoIzquierda << " Derecha: " << colisionoDerecha << std::endl;
-
-    // ! Funcionan muy mal las diagonales!
-    // Celdas diagonales
-    // if (posEnArr.x > 0 && posEnArr.x < map->getAncho() && posEnArr.y > 0 && posEnArr.y < map->getAlto()) {
-    //     // Diagonal inferior izquierda
-    //     if (map->getEspacioAt(posEnArr.x - 1, posEnArr.y + 1)->IsColisionando(hitbox)) {
-    //         colisionoIzquierda = map->getEspacioAt(posEnArr.x - 1, posEnArr.y + 1)->IsColisionando(hitbox, &correccion, 1);
-    //         colisionoAbajo = map->getEspacioAt(posEnArr.x - 1, posEnArr.y + 1)->IsColisionando(hitbox, &correccion, 0);
-    //     }
-    //     // Diagonal inferior derecha
-    //     if (map->getEspacioAt(posEnArr.x + 1, posEnArr.y + 1)->IsColisionando(hitbox)) {
-    //         colisionoDerecha = map->getEspacioAt(posEnArr.x + 1, posEnArr.y + 1)->IsColisionando(hitbox, &correccion, 1);
-    //         colisionoAbajo = map->getEspacioAt(posEnArr.x + 1, posEnArr.y + 1)->IsColisionando(hitbox, &correccion, 0);
-    //     }
-    //     // Diagonal superior izquierda
-    //     if (map->getEspacioAt(posEnArr.x - 1, posEnArr.y - 1)->IsColisionando(hitbox)) {
-    //         colisionoIzquierda = map->getEspacioAt(posEnArr.x - 1, posEnArr.y - 1)->IsColisionando(hitbox, &correccion, 1);
-    //         colisionoArriba = map->getEspacioAt(posEnArr.x - 1, posEnArr.y - 1)->IsColisionando(hitbox, &correccion, 0);
-    //     }
-    //     // Diagonal superior derecha
-    //     if (map->getEspacioAt(posEnArr.x + 1, posEnArr.y - 1)->IsColisionando(hitbox)) {
-    //         colisionoDerecha = map->getEspacioAt(posEnArr.x + 1, posEnArr.y - 1)->IsColisionando(hitbox, &correccion, 1);
-    //         colisionoArriba = map->getEspacioAt(posEnArr.x + 1, posEnArr.y - 1)->IsColisionando(hitbox, &correccion, 0);
-    //     }
-    // }
-    // std::cout << "Diagonales:\n";
-    // std::cout << "Arriba: " << colisionoArriba << " Abajo: " << colisionoAbajo << " Izq: " << colisionoIzquierda << " Derecha: " << colisionoDerecha << std::endl;
-    // std::cout << std::endl;
 
     // Resolucion ante colision
     if (correccion.x != 0 || correccion.y != 0) {
@@ -208,8 +173,7 @@ void Chef::mover(bool izq, bool der, bool arriba, bool abajo, bool correr) {
 }
 
 void Chef::interactuar(bool interactuar, Mapa *map) {
-    sf::Vector2i posEnArr(rectShape.getPosition().x / (TILEWIDTH * SCALE_X), rectShape.getPosition().y / (TILEHEIGHT * SCALE_Y));
-    std::cout << interactuar << " - " << dtInteraccion.getElapsedTime().asMilliseconds() << std::endl;
+    sf::Vector2i posEnArr(rectShape.getPosition().x / (TILEWIDTH), rectShape.getPosition().y / (TILEHEIGHT));
     if (interactuar && dtInteraccion.getElapsedTime().asMilliseconds() > 80) {
         // Mira hacia arriba
         Espacio *es = nullptr;

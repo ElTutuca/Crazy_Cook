@@ -16,7 +16,6 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
     setLayout(niv, rot);
     selecIngrediente = Lechuga;
     fondo.setTexture(*tMapa);
-    fondo.setScale(SCALE_X, SCALE_Y);
 
     // assign le da el tamaño al vector
     espacios.assign(nivel.size(), std::vector<Espacio *>(nivel[0].size(), new Espacio()));
@@ -30,8 +29,12 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
         IngredienteType::HamburgesaCruda};
     srand(time(NULL));
     sf::Vector2f texSize(32, 32);
+    sf::Vector2i tamanioMapa(0, 0);
     for (int x = 0; x < nivel.size(); x++) {
+        tamanioMapa.x += texSize.x;
         for (int y = 0; y < nivel[x].size(); y++) {
+            if (x == 0)
+                tamanioMapa.y += texSize.y;
             if (nivel[x][y] == TileType::Suelo) {
                 //se crea un espacio de tipo suelo
                 espacios[x][y] = (Espacio *)new class Suelo(sf::Vector2i(x, y), rotacion[x][y], texSize);
@@ -64,6 +67,8 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
             //TODO: Resto de los objetos
         }
     }
+    MAPWIDTH = tamanioMapa.x;
+    MAPHEIGHT = tamanioMapa.y;
 }
 
 Mapa::~Mapa() {
