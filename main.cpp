@@ -2,6 +2,7 @@
 #include "includes/Chef.h"
 #include "includes/Definiciones.h"
 #include "includes/Espacio.h"
+#include "includes/ManejadorPuntajes.h"
 #include "includes/Mapa.h"
 #include "includes/Suelo.h"
 #include <SFML/Graphics.hpp>

@@ -1,0 +1,3 @@
+Prueba3 10000
+Prueba8 6000
+Prueba9 3000
