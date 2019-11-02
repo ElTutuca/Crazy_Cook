@@ -1,5 +1,7 @@
 #include "../includes/Mesada.h"
 #include "../includes/Definiciones.h"
+#include "../includes/Ingrediente.h"
+#include "../includes/Plato.h"
 
 Mesada::Mesada(sf::Vector2i pos, int rot, sf::Vector2f size) : Espacio(pos, rot) {
     dibujable = false;
@@ -18,9 +20,16 @@ Mesada::~Mesada() {
 }
 
 bool Mesada::putAgarrable(Agarrable *ag) {
+    // TODO PERMITIR QUE SE PUEDA PONER UN INGREDIENTE AL PLATO
     if (item == nullptr) {
         item = ag;
         item->setPosicion(sf::Vector2f(getPosicion().x * getSizeTile().x + getSizeTile().x / 2, getPosicion().y * getSizeTile().y + getSizeTile().y / 2));
+        return true;
+    } else if (!item->getIsIngrediente() && ag->getIsIngrediente()) {
+        Plato *p = (Plato *)item;
+        Ingrediente *ing = (Ingrediente *)ag;
+        ing->setPosicion(sf::Vector2f(getPosicion().x * getSizeTile().x + getSizeTile().x / 2, getPosicion().y * getSizeTile().y + getSizeTile().y / 2));
+        p->pushIngrediente(*ing);
         return true;
     }
     return false;

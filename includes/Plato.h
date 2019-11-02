@@ -1,16 +1,27 @@
 #ifndef PLATO_H
 #define PLATO_H
+// #include "../includes/Agarrable.h"
 #include "Ingrediente.h"
-#include <stack>
+#include "Nodo.h"
 
-class Plato {
+class Plato : public Agarrable {
 private:
-    std::stack<Ingrediente> plato;
+    Nodo<Ingrediente> *cima;
+    unsigned int tamanio;
+    void dibujarIngredientes(sf::RenderWindow *w);
 
 public:
-    void addIngrediente(Ingrediente ing);
+    Plato(sf::Vector2f pos, float ang, sf::Texture *tex);
+    ~Plato();
+    void pushIngrediente(Ingrediente ing);
     Ingrediente popIngrediente();
-    void dibujar(sf::RenderWindow *w);
+    bool empty();
+    int size();
+    Ingrediente top();
+    bool operator==(Plato p2);
+    void setPosicion(sf::Vector2f pos) override;
+    void dibujar(sf::RenderWindow *w) override;
+    void agarrado(float x, float y, float angulo, float anchoChef) override;
 };
 
 #endif //PLATO_H

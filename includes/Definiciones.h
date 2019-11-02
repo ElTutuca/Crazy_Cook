@@ -31,6 +31,7 @@ enum TileType {
     Hornalla,
     Heladera,
     Tacho,
+    Rejilla
 };
 enum IngredienteType {
     Lechuga,
@@ -38,7 +39,7 @@ enum IngredienteType {
     PanArriba,
     PanAbajo,
     HamburgesaCocinada,
-    HamburgesaCruda,
+    HamburgesaCruda
 };
 
 #endif // DEFINICIONES_H

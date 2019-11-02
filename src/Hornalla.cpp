@@ -8,7 +8,7 @@ Hornalla::Hornalla(sf::Vector2i pos, int rot, sf::Vector2f size) : Espacio(pos, 
     item = nullptr;
 
     if (DEBUGLEVEL == 1) {
-        rectShape.setOutlineColor(sf::Color::Magenta);
+        rectShape.setOutlineColor(sf::Color::White);
         rectShape.setOutlineThickness(0.7);
         rectShape.setFillColor(sf::Color::Transparent);
     }

@@ -6,12 +6,12 @@
 
 class Heladera : public Espacio {
 private:
-    Ingrediente *ingrediente;
+  Ingrediente *ingrediente;
 
 public:
-    Heladera(sf::Vector2i pos, int rot, sf::Vector2f size, Ingrediente *ingred);
-    ~Heladera();
-    Ingrediente *getIngrediente();
-    void dibujar(sf::RenderWindow *w) override;
+  Heladera(sf::Vector2i pos, int rot, sf::Vector2f size, Ingrediente *ingred);
+  ~Heladera();
+  Ingrediente *getIngrediente();
+  void dibujar(sf::RenderWindow *w) override;
 };
-#endif //HELADERA_H
+#endif // HELADERA_H

@@ -4,6 +4,7 @@
 #include "../includes/Heladera.h"
 #include "../includes/Hornalla.h"
 #include "../includes/Mesada.h"
+#include "../includes/Rejilla.h"
 #include "../includes/Tacho.h"
 #include <iostream>
 #include <math.h>
@@ -220,6 +221,11 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                 } else if (enMano->getIsIngrediente()) {
                     bool r = m->cocinar((Ingrediente *)enMano);
                     enMano = r ? nullptr : enMano;
+                }
+            } else if (es->getTipo() == TileType::Rejilla) {
+                class Rejilla *m = (class Rejilla *)es;
+                if (enMano == nullptr) {
+                    enMano = (Agarrable *)m->getPlato();
                 }
             }
         }

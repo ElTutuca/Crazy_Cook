@@ -10,12 +10,12 @@ public:
     Agarrable(sf::Vector2f pos, float ang, sf::Texture *tex, bool ingrediente);
     Agarrable();
     ~Agarrable();
-    void setPosicion(sf::Vector2f pos);
+    virtual void setPosicion(sf::Vector2f pos);
     sf::Vector2f getPosicion();
     float getRotacion();
     bool getIsIngrediente();
-    void dibujar(sf::RenderWindow *w);
-    void agarrado(float x, float y, float angulo, float anchoChef);
+    virtual void dibujar(sf::RenderWindow *w);
+    virtual void agarrado(float x, float y, float angulo, float anchoChef);
 
 protected:
     float angulo;
