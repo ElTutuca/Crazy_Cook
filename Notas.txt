@@ -1,0 +1,14 @@
+Para las recetas (estos tienen que ser los mismos indices que en el Definiciones.h):
+ - 0: Pan de abajo
+ - 1: Pan de arriba
+ - 2: Hamburguesa (cocinada, duh)
+ - 3: Lechuga
+ - 4: Tomate
+
+
+Para el puntaje va a ser asi el formato:
+
+NOMBRE puntos
+
+Si ya hay alguien con el nombre introducido debera comparar si el puntaje acutal
+supera al puntaje guardado, en ese caso deberia sobreescribir el puntaje guardado.

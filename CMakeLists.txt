@@ -18,6 +18,9 @@ file(COPY ${TEXTURAS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Imagenes)
 file(GLOB FUENTES "resources/Fuentes/*")
 file(COPY ${FUENTES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Fuentes) 
 
+file(GLOB TXT "*G.txt")
+file(COPY ${TXT} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Texto) 
+
 # Headers
 include_directories(includes)
 

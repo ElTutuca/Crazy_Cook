@@ -34,11 +34,11 @@ enum TileType {
     Rejilla
 };
 enum IngredienteType {
+    PanAbajo,
+    PanArriba,
+    HamburgesaCocinada,
     Lechuga,
     Tomate,
-    PanArriba,
-    PanAbajo,
-    HamburgesaCocinada,
     HamburgesaCruda
 };
 
