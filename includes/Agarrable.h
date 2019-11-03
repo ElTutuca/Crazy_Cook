@@ -16,6 +16,7 @@ public:
     bool getIsIngrediente();
     virtual void dibujar(sf::RenderWindow *w);
     virtual void agarrado(float x, float y, float angulo, float anchoChef);
+    void  setTexture(sf::Texture* t);
 
 protected:
     float angulo;

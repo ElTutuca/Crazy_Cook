@@ -20,6 +20,10 @@ bool Hornalla::cocinar(Ingrediente *ing) {
         if (item == nullptr) {
             item = ing;
             item->setPosicion(sf::Vector2f(getPosicion().x * getSizeTile().x + getSizeTile().x / 2, getPosicion().y * getSizeTile().y + getSizeTile().y / 2));
+            sf::Texture *tex = new sf::Texture();
+            tex->loadFromFile("Imagenes/Hamburguesa_Cocinada.png");
+            ing->setTexture(tex);
+
             return true;
         }
         return false;

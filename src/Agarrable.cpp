@@ -45,3 +45,6 @@ void Agarrable::dibujar(sf::RenderWindow *w) {
 void Agarrable::setIsIngrediente(bool t) {
     isIngrediente = t;
 }
+void Agarrable::setTexture(sf::Texture* t) {
+    spt.setTexture(*t);
+}
