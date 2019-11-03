@@ -6,6 +6,7 @@
 #include "../includes/Mesada.h"
 #include "../includes/Rejilla.h"
 #include "../includes/Tacho.h"
+#include "../includes/Mostrador.h"
 #include <iostream>
 #include <math.h>
 #define entreExcluyente(valor, valorMenor, valorMayor) ((valor > valorMenor && valor < valorMayor))
@@ -227,7 +228,18 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                 if (enMano == nullptr) {
                     enMano = (Agarrable *)m->getPlato();
                 }
-            }
+            } else if (es->getTipo() == TileType::Mostrador) {
+				class Mostrador *m = (class Mostrador *)es;
+				if (enMano == nullptr) {
+					Agarrable *r = m->popAgarrable();
+					if (r != nullptr) {
+						enMano = r;
+					}
+				} else {
+					bool r = m->putAgarrable(enMano);
+					enMano = r ? nullptr : enMano;
+				}
+			} 
         }
     }
     if (interactuar)

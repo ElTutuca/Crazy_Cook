@@ -31,7 +31,8 @@ enum TileType {
     Hornalla,
     Heladera,
     Tacho,
-    Rejilla
+    Rejilla,
+	Mostrador
 };
 enum IngredienteType {
     PanAbajo,

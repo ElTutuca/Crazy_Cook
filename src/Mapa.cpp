@@ -7,6 +7,7 @@
 #include "../includes/Rejilla.h"
 #include "../includes/Suelo.h"
 #include "../includes/Tacho.h"
+#include "../includes/Mostrador.h"
 #include <iostream>
 #include <list>
 #include <stdlib.h>
@@ -71,7 +72,10 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
             } else if (nivel[x][y] == TileType::Rejilla) {
                 class Rejilla *s = new class Rejilla(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
-            }
+            } else if (nivel[x][y] == TileType::Mostrador) {
+				class Mostrador *s = new class Mostrador(sf::Vector2i(x, y), rotacion[x][y], texSize);
+				espacios[x][y] = (Espacio *)s;
+			}
             //TODO: Resto de los objetos
         }
     }

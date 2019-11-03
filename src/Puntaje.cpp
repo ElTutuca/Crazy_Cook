@@ -4,8 +4,10 @@ Puntaje::Puntaje(std::string nombre, int puntos) {
     this->nombre = nombre;
     this->puntos = puntos;
 }
+
 Puntaje::~Puntaje() {
 }
+
 int Puntaje::getPuntos() {
     return puntos;
 }

@@ -2,23 +2,23 @@
 #define CLIENTE_H
 
 #include <SFML/Graphics.hpp>
+#include "../includes/Plato.h"
 
 class Cliente {
 private:
 	sf::Clock dtTranscurrido;
 	/*variable, depende del pedido*/
 	int tiempoEspera;
-	short int humor;
+	Plato orden;
 	sf::Sprite sCliente;
+	sf::Text humor;
 	
 public:
-	/*Se va a enviar el pedido y tiempoEspera por el constructor?*/
-	Cliente(sf::Vector2f pos, sf::Texture *tCliente);
+	Cliente(sf::Vector2f pos, sf::Texture *tCliente, Plato pedido, int tiempoEspera);
 	~Cliente();
 	void actualizarHumor();
 	void dibujar(sf::RenderWindow *w);
-	/*comprobar si se le fue entregado al cliente su pedido*/
-	bool RecibioPedido();
+	bool RecibioPedido(Plato *entregado);
 };
 
 #endif
