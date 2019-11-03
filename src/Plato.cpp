@@ -2,6 +2,10 @@
 #include "../includes/Ingrediente.h"
 #include <math.h>
 
+Plato::Plato() {
+    cima = nullptr;
+    tamanio = 0;
+}
 Plato::Plato(sf::Vector2f pos, float ang, sf::Texture *tex) : Agarrable(pos, ang, tex, false) {
     cima = nullptr;
     tamanio = 0;
@@ -31,7 +35,6 @@ Ingrediente Plato::popIngrediente() {
 }
 
 void Plato::dibujar(sf::RenderWindow *w) {
-    // TODO
     spt.setPosition(posicion);
     spt.setRotation(angulo);
     w->draw(spt);

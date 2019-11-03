@@ -11,6 +11,7 @@ private:
     void dibujarIngredientes(sf::RenderWindow *w);
 
 public:
+    Plato();
     Plato(sf::Vector2f pos, float ang, sf::Texture *tex);
     ~Plato();
     void pushIngrediente(Ingrediente ing);

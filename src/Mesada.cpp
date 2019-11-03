@@ -20,7 +20,6 @@ Mesada::~Mesada() {
 }
 
 bool Mesada::putAgarrable(Agarrable *ag) {
-    // TODO PERMITIR QUE SE PUEDA PONER UN INGREDIENTE AL PLATO
     if (item == nullptr) {
         item = ag;
         item->setPosicion(sf::Vector2f(getPosicion().x * getSizeTile().x + getSizeTile().x / 2, getPosicion().y * getSizeTile().y + getSizeTile().y / 2));

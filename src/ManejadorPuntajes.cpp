@@ -16,7 +16,7 @@ void ManejadorPuntajes::escribirPuntaje(Puntaje pun) {
             encontrado = true;
             if (pun.getPuntos() > itPuntaje->getPuntos())
                 itPuntaje->setPuntos(pun.getPuntos());
-            // ? break;
+            // ? Deberia poner un break? O se rompe??;
         }
     }
     if (!encontrado)
@@ -40,9 +40,9 @@ std::list<Puntaje> ManejadorPuntajes::listarPuntajes() {
     std::list<Puntaje> listaPuntajes;
     std::ifstream inArchivo(pathArchivo);
     std::string lineaLeer;
-    // Lee el inArchivo
+    // Lee el archivo
     if (inArchivo.is_open()) {
-        // Loopea por todo el inArchivo
+        // Loopea por todo el archivo
         while (!inArchivo.eof()) {
             getline(inArchivo, lineaLeer);
             if (lineaLeer != "") {
@@ -53,7 +53,7 @@ std::list<Puntaje> ManejadorPuntajes::listarPuntajes() {
         }
         inArchivo.close();
     } else {
-        throw "Error al abrir el inArchivo";
+        throw "Error al abrir el archivo";
     }
     return listaPuntajes;
 }

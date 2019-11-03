@@ -2,7 +2,7 @@
 #include "includes/Chef.h"
 #include "includes/Definiciones.h"
 #include "includes/Espacio.h"
-#include "includes/ManejadorPuntajes.h"
+#include "includes/ManejadorRecetas.h"
 #include "includes/Mapa.h"
 #include "includes/Suelo.h"
 #include <SFML/Graphics.hpp>
@@ -61,6 +61,10 @@ int main() {
     menu.loadFromFile("Imagenes/Menu.jpg");
     MENUWIDTH = menu.getSize().x;
     MENUHEIGHT = menu.getSize().y;
+
+    // ManejadorRecetas manejadorRecetas("Texto/RecetasG.txt");
+    // std::list<Plato> listaPlatos = manejadorRecetas.listarPlatos();
+    // Plato p = manejadorRecetas.getPlato(0);
 
     sf::Sprite imagenMenu;
     imagenMenu.setTexture(menu);

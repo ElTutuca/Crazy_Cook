@@ -13,9 +13,11 @@ private:
 
 public:
     Ingrediente();
+    Ingrediente(IngredienteType tipo);
     ~Ingrediente();
     Ingrediente(sf::Vector2f pos, float ang, sf::Texture *tex, IngredienteType tipo);
     IngredienteType getIngredienteType();
+    bool operator==(const Ingrediente ing1);
 };
 
 #endif // INGREDIENTE_H
