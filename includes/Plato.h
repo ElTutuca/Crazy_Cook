@@ -2,11 +2,11 @@
 #define PLATO_H
 // #include "../includes/Agarrable.h"
 #include "Ingrediente.h"
-#include "Nodo.h"
+#include <stack>
 
 class Plato : public Agarrable {
 private:
-    Nodo<Ingrediente> *cima;
+    std::stack<Ingrediente> pilaIngredientes;
     unsigned int tamanio;
     void dibujarIngredientes(sf::RenderWindow *w);
 

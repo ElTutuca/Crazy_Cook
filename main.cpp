@@ -2,6 +2,7 @@
 #include "includes/Chef.h"
 #include "includes/Definiciones.h"
 #include "includes/Espacio.h"
+#include "includes/ListaIngredientes.h"
 #include "includes/ManejadorRecetas.h"
 #include "includes/Mapa.h"
 #include "includes/Suelo.h"
@@ -63,8 +64,11 @@ int main() {
     MENUHEIGHT = menu.getSize().y;
 
     // ManejadorRecetas manejadorRecetas("Texto/RecetasG.txt");
-    // std::list<Plato> listaPlatos = manejadorRecetas.listarPlatos();
     // Plato p = manejadorRecetas.getPlato(0);
+    // ListaIngredientes listaIngredientes(p);
+    // std::list<std::string> listaStr = listaIngredientes.getStrings();
+    // listaIngredientes.tickIngrediente(p.top());
+    // listaStr = listaIngredientes.getStrings();
 
     sf::Sprite imagenMenu;
     imagenMenu.setTexture(menu);

@@ -30,7 +30,6 @@ std::list<Plato> ManejadorRecetas::listarPlatos() {
                     index += 2;
                 }
                 listaPlatos.push_back(*p);
-                delete p;
             }
         }
         inArchivo.close();
