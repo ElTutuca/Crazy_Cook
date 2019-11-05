@@ -27,15 +27,15 @@ Cliente::Cliente(sf::Vector2f pos, sf::Texture *tCliente, Plato pedido, int tiem
 	//this->humor.setPosition(sf::Vector2f(,));
 	this->humor.setFillColor(sf::Color::Green);
 	
-	this->shape.setPosition(sf::Vector2f(MAPHEIGHT/8,MAPWIDTH-PANEWIDTH));
-	this->shape.setSize(sf::Vector2f(PANEWIDTH,MAPHEIGHT/8));
+	this->shape.setPosition(sf::Vector2f(MAPWIDTH,MAPHEIGHT/6));
+	this->shape.setSize(sf::Vector2f(PANEWIDTH,MAPHEIGHT/6));
 	this->shape.setFillColor(sf::Color::Yellow);
 	this->shape.setOutlineColor(sf::Color::Black);
 }
 
 Cliente::Cliente(){	
-	this->shape.setPosition(sf::Vector2f(MAPWIDTH,MAPHEIGHT/8));
-	this->shape.setSize(sf::Vector2f(PANEWIDTH,MAPHEIGHT/8));
+	this->shape.setPosition(sf::Vector2f(MAPWIDTH,MAPHEIGHT/6));
+	this->shape.setSize(sf::Vector2f(PANEWIDTH,MAPHEIGHT/6));
 	this->shape.setFillColor(sf::Color::Yellow);
 	this->shape.setOutlineColor(sf::Color::Black);
 }

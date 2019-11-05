@@ -56,14 +56,13 @@ int main() {
     textoSalir.setPosition(sf::Vector2f(buttonSalir.getCenterX(), buttonSalir.getCenterY() - 11));
     textoSalir.setFillColor(sf::Color::White);
 
-    sf::Texture tex, tChef, menu, tC1, tC2, tC3, tC4;
+    sf::Texture tex, tChef, menu, tC1, tC2, tC3;
     tChef.loadFromFile("resources/Imagenes/Chef.png");
     tex.loadFromFile("resources/Imagenes/Mapa.png");
     menu.loadFromFile("resources/Imagenes/Menu.jpg");
 	//tC1.loadFromFile("resources/Imagenes/Cliente1.jpg");
 	//tC2.loadFromFile("resources/Imagenes/Cliente2.jpg");
 	//tC3.loadFromFile("resources/Imagenes/Cliente3.jpg");
-	//tC4.loadFromFile("resources/Imagenes/Cliente4.jpg");
     MENUWIDTH = menu.getSize().x;
     MENUHEIGHT = menu.getSize().y;
 
@@ -82,7 +81,6 @@ int main() {
 	//Cliente c1(/*posicion*/,tC1,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
 	//Cliente c2(/*posicion*/,tC2,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
 	//Cliente c3(/*posicion*/,tC3,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
-	//Cliente c4(/*posicion*/,tC4,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
 	Cliente c1;
 	
     sf::View vista(sf::Vector2f(MAPWIDTH / 2 + PANEWIDTH / 2, MAPHEIGHT / 2), sf::Vector2f(MAPWIDTH + PANEWIDTH, MAPHEIGHT));
