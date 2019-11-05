@@ -26,7 +26,7 @@ int main() {
     bool jugar = false;
 
     sf::Font font;
-    font.loadFromFile("Fuentes/OpenSans-Light.ttf");
+    font.loadFromFile("resources/Fuentes/OpenSans-Light.ttf");
     SCREENWIDTH = sf::VideoMode::getDesktopMode().width;
     SCREENHEIGHT = sf::VideoMode::getDesktopMode().height;
 
@@ -57,9 +57,9 @@ int main() {
     textoSalir.setFillColor(sf::Color::White);
 
     sf::Texture tex, tChef, menu;
-    tChef.loadFromFile("Imagenes/Chef.png");
-    tex.loadFromFile("Imagenes/Mapa.png");
-    menu.loadFromFile("Imagenes/Menu.jpg");
+    tChef.loadFromFile("resources/Imagenes/Chef.png");
+    tex.loadFromFile("resources/Imagenes/Mapa.png");
+    menu.loadFromFile("resources/Imagenes/Menu.jpg");
     MENUWIDTH = menu.getSize().x;
     MENUHEIGHT = menu.getSize().y;
 
@@ -82,7 +82,7 @@ int main() {
     sf::Text debugText;
     sf::Font debugFont;
     if (DEBUGLEVEL == 1) {
-        debugFont.loadFromFile("Fuentes/OpenSans-Light.ttf");
+        debugFont.loadFromFile("resources/Fuentes/OpenSans-Light.ttf");
         debugText.setFont(font);
         debugText.setCharacterSize(24);
         debugText.setFillColor(sf::Color::Red);

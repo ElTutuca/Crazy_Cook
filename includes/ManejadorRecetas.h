@@ -13,6 +13,7 @@ public:
     ~ManejadorRecetas();
     std::list<Plato> listarPlatos();
     Plato getPlato(int indice);
+	int getCantidadPlatos();
 };
 
 #endif

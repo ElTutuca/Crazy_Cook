@@ -38,10 +38,29 @@ std::list<Plato> ManejadorRecetas::listarPlatos() {
     }
     return listaPlatos;
 }
+
 /**
 @param indice El indice de 0 hasta tamanio-1
 @return Plato con ese indice
 */
 Plato ManejadorRecetas::getPlato(int indice) {
     return *std::next(listarPlatos().begin(), indice);
+}
+
+int ManejadorRecetas::getCantidadPlatos(){
+	std::ifstream inArchivo(pathArchivo);
+	int lin=0;
+	if(inArchivo.is_open()) {
+		while(!inArchivo.eof()) {
+			std::string lineaLeer;
+			getline(inArchivo, lineaLeer);
+			if(lineaLeer != "") {
+				lin++;
+			}
+		}
+		inArchivo.close();
+	} else {
+		throw "Error al abrir el archivo";
+	}
+	return lin;
 }
