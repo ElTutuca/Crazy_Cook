@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "../includes/Plato.h"
+#include "../includes/ListaIngredientes.h"
 
 class Cliente {
 private:
@@ -12,6 +13,8 @@ private:
 	Plato orden;
 	sf::Sprite sCliente;
 	sf::Text humor;
+	ListaIngredientes listaIng;
+	
 	
 public:
 	Cliente(sf::Vector2f pos, sf::Texture *tCliente, Plato pedido, int tiempoEspera);
