@@ -14,13 +14,15 @@ private:
 	sf::Sprite sCliente;
 	sf::Text humor;
 	ListaIngredientes listaIng;
+	sf::RectangleShape shape;
 	
 	
 public:
 	Cliente(sf::Vector2f pos, sf::Texture *tCliente, Plato pedido, int tiempoEspera);
+	Cliente();
 	~Cliente();
 	void actualizarHumor();
-	void dibujar(sf::RenderWindow *w);
+	void mostrar(sf::RenderWindow *w);
 	bool RecibioPedido(Plato *entregado);
 };
 

@@ -5,6 +5,7 @@
 #include "includes/ManejadorRecetas.h"
 #include "includes/Mapa.h"
 #include "includes/Suelo.h"
+#include "includes/Cliente.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
@@ -55,10 +56,14 @@ int main() {
     textoSalir.setPosition(sf::Vector2f(buttonSalir.getCenterX(), buttonSalir.getCenterY() - 11));
     textoSalir.setFillColor(sf::Color::White);
 
-    sf::Texture tex, tChef, menu;
+    sf::Texture tex, tChef, menu, tC1, tC2, tC3, tC4;
     tChef.loadFromFile("resources/Imagenes/Chef.png");
     tex.loadFromFile("resources/Imagenes/Mapa.png");
     menu.loadFromFile("resources/Imagenes/Menu.jpg");
+	//tC1.loadFromFile("resources/Imagenes/Cliente1.jpg");
+	//tC2.loadFromFile("resources/Imagenes/Cliente2.jpg");
+	//tC3.loadFromFile("resources/Imagenes/Cliente3.jpg");
+	//tC4.loadFromFile("resources/Imagenes/Cliente4.jpg");
     MENUWIDTH = menu.getSize().x;
     MENUHEIGHT = menu.getSize().y;
 
@@ -74,6 +79,12 @@ int main() {
     Mapa map(niv, rot, &tex);
     Chef chef(&tChef, 48, 48);
 
+	//Cliente c1(/*posicion*/,tC1,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
+	//Cliente c2(/*posicion*/,tC2,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
+	//Cliente c3(/*posicion*/,tC3,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
+	//Cliente c4(/*posicion*/,tC4,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
+	Cliente c1;
+	
     sf::View vista(sf::Vector2f(MAPWIDTH / 2 + PANEWIDTH / 2, MAPHEIGHT / 2), sf::Vector2f(MAPWIDTH + PANEWIDTH, MAPHEIGHT));
 
     sf::Text debugText;
@@ -129,6 +140,7 @@ int main() {
 
             map.dibujar(&window);
             chef.dibujar(&window, &map);
+			c1.mostrar(&window);
         }
         if (DEBUGLEVEL == 1) {
             std::string str = "X: ";
