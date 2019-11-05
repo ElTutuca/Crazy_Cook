@@ -19,17 +19,18 @@ std::list<Plato> ManejadorRecetas::listarPlatos() {
             std::string lineaLeer;
             getline(inArchivo, lineaLeer);
             if (lineaLeer != "") {
-                Plato p;
+                Plato *p = new Plato();
                 int numEspacios = std::count(lineaLeer.begin(), lineaLeer.end(), ' ');
                 int index = 0;
                 for (int i = 0; i < lineaLeer.size() - numEspacios; i++) {
                     IngredienteType tipoIng = (IngredienteType)std::stoi(lineaLeer.substr(index, 1));
                     std::cout << tipoIng << std::endl;
                     Ingrediente ing = Ingrediente(tipoIng);
-                    p.pushIngrediente(ing);
+                    p->pushIngrediente(ing);
                     index += 2;
                 }
-                listaPlatos.push_back(p);
+                listaPlatos.push_back(*p);
+                delete p;
             }
         }
         inArchivo.close();
