@@ -16,6 +16,10 @@ Ingrediente::Ingrediente(sf::Vector2f pos, float ang, sf::Texture *tex, Ingredie
 IngredienteType Ingrediente::getIngredienteType() {
     return tipo;
 }
+void Ingrediente::setIngredienteType(IngredienteType cambio) {
+	this->tipo=cambio;
+	
+}
 bool Ingrediente::operator==(const Ingrediente ing1) {
     return tipo == ing1.tipo;
 }
