@@ -3,10 +3,8 @@
 #include <math.h>
 
 Plato::Plato() {
-    tamanio = 0;
 }
 Plato::Plato(sf::Vector2f pos, float ang, sf::Texture *tex) : Agarrable(pos, ang, tex, false) {
-    tamanio = 0;
 }
 
 Plato::~Plato() {
@@ -43,24 +41,32 @@ void Plato::agarrado(float x, float y, float angulo, float anchoChef) {
     this->angulo = angulo;
     posicion.x = x + anchoChef * sin(degToRad(angulo));
     posicion.y = y - anchoChef * cos(degToRad(angulo));
-    for (int i = 0; i < size(); i++) {
-        // aux->dato.agarrado(x, y, angulo, anchoChef);
-        // aux = aux->next;
-    }
+    if (!pilaIngredientes.empty())
+        acutalizarPosIngredientes(x, y, angulo, anchoChef, pilaIngredientes.top());
+}
+void Plato::acutalizarPosIngredientes(float x, float y, float angulo, float anchoChef, Ingrediente ing) {
+    ing.agarrado(x, y, angulo, anchoChef);
+    popIngrediente();
+    if (!empty())
+        acutalizarPosIngredientes(x, y, angulo, anchoChef, top());
+    pushIngrediente(ing);
+}
+void Plato::acutalizarPosIngredientes(Ingrediente ing) {
+    ing.setPosicion(posicion);
+    popIngrediente();
+    if (!empty())
+        acutalizarPosIngredientes(top());
+    pushIngrediente(ing);
 }
 void Plato::setPosicion(sf::Vector2f pos) {
-    // posicion = pos;
-    // Nodo<Ingrediente> *aux = cima;
-    // for (int i = 0; i < size(); i++) {
-    //     aux->dato.setPosicion(pos);
-    //     aux = aux->next;
-    // }
+    posicion = pos;
+    if (!empty())
+        acutalizarPosIngredientes(top());
 }
 Ingrediente Plato::top() {
-    // if (cima == nullptr)
-    //     throw 404;
-    Ingrediente ing;
-    return ing;
+    if (empty())
+        throw 404;
+    return pilaIngredientes.top();
 }
 
 bool Plato::empty() {
@@ -68,19 +74,21 @@ bool Plato::empty() {
 }
 
 int Plato::size() {
-    return tamanio;
+    return pilaIngredientes.size();
 }
 bool Plato::operator==(Plato p2) {
     bool r = size() == p2.size();
     if (!r)
         return r;
-
-    // Nodo<Ingrediente> *aux1 = cima;
-    // Nodo<Ingrediente> *aux2 = p2.cima;
-    // for (int i = 0; i < size() && r; i++) {
-    //     r = r && aux1->dato.getIngredienteType() == aux2->dato.getIngredienteType();
-    //     aux1 = aux1->next;
-    //     aux2 = aux2->next;
-    // }
+    std::stack<Ingrediente> pila1 = pilaIngredientes;
+    std::stack<Ingrediente> pila2 = p2.pilaIngredientes;
+    for (int i = 0; i < size() && r; i++) {
+        r = r && pila1.top() == pila2.top();
+        pila1.pop();
+        pila2.pop();
+    }
     return r;
+}
+bool Plato::operator!=(Plato p2) {
+    return !(*this == p2);
 }

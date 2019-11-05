@@ -63,12 +63,17 @@ int main() {
     MENUWIDTH = menu.getSize().x;
     MENUHEIGHT = menu.getSize().y;
 
-    // ManejadorRecetas manejadorRecetas("Texto/RecetasG.txt");
+    // ManejadorRecetas manejadorRecetas("RecetasG.txt");
     // Plato p = manejadorRecetas.getPlato(0);
+    // Plato p1 = manejadorRecetas.getPlato(0);
+    // Plato p2 = manejadorRecetas.getPlato(1);
     // ListaIngredientes listaIngredientes(p);
     // std::list<std::string> listaStr = listaIngredientes.getStrings();
     // listaIngredientes.tickIngrediente(p.top());
     // listaStr = listaIngredientes.getStrings();
+
+    // bool iguales = p == p1;
+    // bool desIguales = p2 == p1;
 
     sf::Sprite imagenMenu;
     imagenMenu.setTexture(menu);
