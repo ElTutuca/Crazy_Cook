@@ -1,5 +1,7 @@
 #include "../includes/ListaIngredientes.h"
 
+ListaIngredientes::ListaIngredientes() {
+}
 ListaIngredientes::ListaIngredientes(Plato p) {
     int size = p.size();
     for (int i = 0; i < size; i++) {

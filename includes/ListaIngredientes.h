@@ -14,6 +14,7 @@ private:
     void cambiarEstado(Ingrediente ing, bool estado);
 
 public:
+    ListaIngredientes();
     ListaIngredientes(std::list<Ingrediente> listaIng);
     ListaIngredientes(Plato p);
     ~ListaIngredientes();
