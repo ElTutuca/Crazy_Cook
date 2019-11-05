@@ -9,7 +9,7 @@
 Cliente::Cliente(sf::Vector2f pos, sf::Texture *tCliente, Plato pedido, int tiempo) {
     sCliente.setTexture(*tCliente);
     sCliente.setPosition(pos);
-    // listaIng.ListaIngredientes(pedido);
+    listaIng.setPlato(pedido);
 
     orden = pedido;
 

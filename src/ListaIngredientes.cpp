@@ -60,3 +60,10 @@ std::list<std::string> ListaIngredientes::getStrings() {
     }
     return listaR;
 }
+void ListaIngredientes::setPlato(Plato p) {
+    int size = p.size();
+    for (int i = 0; i < size; i++) {
+        listaIngr.push_back(p.popIngrediente());
+        listaEstados.push_back(false);
+    }
+}

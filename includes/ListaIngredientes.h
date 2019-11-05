@@ -17,6 +17,7 @@ public:
     ListaIngredientes();
     ListaIngredientes(std::list<Ingrediente> listaIng);
     ListaIngredientes(Plato p);
+    void setPlato(Plato p);
     ~ListaIngredientes();
     std::list<std::string> getStrings();
     void tickIngrediente(Ingrediente ing);
