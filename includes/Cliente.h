@@ -19,7 +19,7 @@ private:
 	
 public:
 	Cliente(sf::Vector2f pos, sf::Texture *tCliente, Plato pedido, int tiempoEspera);
-	Cliente();
+	Cliente(sf::Vector2f pos, sf::Texture *tCliente, int desviacionY);
 	~Cliente();
 	void actualizarHumor();
 	void mostrar(sf::RenderWindow *w);

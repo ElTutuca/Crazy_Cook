@@ -34,8 +34,11 @@ Cliente::Cliente(sf::Vector2f pos, sf::Texture *tCliente, Plato pedido, int tiem
 	this->shape.setOutlineColor(sf::Color::Black);
 }
 
-Cliente::Cliente(){	
-	this->shape.setPosition(sf::Vector2f(MAPWIDTH,MAPHEIGHT/6));
+Cliente::Cliente(sf::Vector2f pos, sf::Texture *tCliente, int desviacionY){
+	sCliente.setTexture(*tCliente);
+	sCliente.setPosition(pos);
+	
+	this->shape.setPosition(sf::Vector2f(MAPWIDTH,MAPHEIGHT/6+desviacionY));
 	this->shape.setSize(sf::Vector2f(PANEWIDTH,MAPHEIGHT/6));
 	this->shape.setFillColor(sf::Color::Yellow);
 	this->shape.setOutlineColor(sf::Color::Black);
@@ -66,7 +69,7 @@ void Cliente::actualizarHumor() {
 }
 
 void Cliente::mostrar(sf::RenderWindow *w){
-	//w->draw(this->sCliente);
+	w->draw(this->sCliente);
 	//w->draw(this->humor);
 	float posX = shape.getPosition().x;
 	float posY = shape.getPosition().y;

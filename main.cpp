@@ -61,9 +61,9 @@ int main() {
     tChef.loadFromFile("resources/Imagenes/Chef.png");
     tex.loadFromFile("resources/Imagenes/Mapa.png");
     menu.loadFromFile("resources/Imagenes/Menu.jpg");
-	//tC1.loadFromFile("resources/Imagenes/Cliente1.jpg");
-	//tC2.loadFromFile("resources/Imagenes/Cliente2.jpg");
-	//tC3.loadFromFile("resources/Imagenes/Cliente3.jpg");
+	tC1.loadFromFile("resources/Imagenes/Cliente_1.png");
+	tC2.loadFromFile("resources/Imagenes/Cliente_2.png");
+	tC3.loadFromFile("resources/Imagenes/Cliente_3.png");
     MENUWIDTH = menu.getSize().x;
     MENUHEIGHT = menu.getSize().y;
 
@@ -84,7 +84,11 @@ int main() {
 	//Cliente c1(/*posicion*/,tC1,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
 	//Cliente c2(/*posicion*/,tC2,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
 	//Cliente c3(/*posicion*/,tC3,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
-	Cliente c1;
+	Cliente c1(sf::Vector2f(MAPWIDTH,0),&tC1,0);
+	Cliente c2(sf::Vector2f(MAPWIDTH,(MAPHEIGHT/6)*2),&tC2,(MAPHEIGHT/6)*2);
+	Cliente c3(sf::Vector2f(MAPWIDTH,(MAPHEIGHT/6)*4),&tC3,(MAPHEIGHT/6)*4);
+	
+	std::cout<<SCREENHEIGHT/6<<std::endl;
 	
     sf::View vista(sf::Vector2f(MAPWIDTH / 2 + PANEWIDTH / 2, MAPHEIGHT / 2), sf::Vector2f(MAPWIDTH + PANEWIDTH, MAPHEIGHT));
 
@@ -115,7 +119,7 @@ int main() {
                 }
             }
         }
-        window.clear(sf::Color::Black);
+        window.clear(sf::Color(191,191,191,0));
         if (!jugar) {
             window.draw(imagenMenu);
             buttonIniciar.render(&window);
@@ -142,6 +146,8 @@ int main() {
             map.dibujar(&window);
             chef.dibujar(&window, &map);
 			c1.mostrar(&window);
+			c2.mostrar(&window);
+			c3.mostrar(&window);
         }
         if (DEBUGLEVEL == 1) {
             std::string str = "X: ";
