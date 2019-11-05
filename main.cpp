@@ -2,6 +2,7 @@
 #include "includes/Chef.h"
 #include "includes/Definiciones.h"
 #include "includes/Espacio.h"
+#include "includes/ListaIngredientes.h"
 #include "includes/ManejadorRecetas.h"
 #include "includes/Mapa.h"
 #include "includes/Suelo.h"
@@ -47,7 +48,7 @@ int main() {
     textoIniciar.setOrigin(sf::Vector2f((textoIniciar.getGlobalBounds().width) / 2, (textoIniciar.getGlobalBounds().height) / 2));
     textoIniciar.setPosition(sf::Vector2f(buttonIniciar.getCenterX(), buttonIniciar.getCenterY() - 11));
     textoIniciar.setFillColor(sf::Color::White);
-	
+
     sf::Text textoSalir;
     textoSalir.setString("Salir");
     textoSalir.setFont(font);
@@ -67,9 +68,11 @@ int main() {
     MENUHEIGHT = menu.getSize().y;
 
     // ManejadorRecetas manejadorRecetas("Texto/RecetasG.txt");
-	// std::cout<<manejadorRecetas.getCantidadPlatos()<<std::endl;
-    // std::list<Plato> listaPlatos = manejadorRecetas.listarPlatos();
     // Plato p = manejadorRecetas.getPlato(0);
+    // ListaIngredientes listaIngredientes(p);
+    // std::list<std::string> listaStr = listaIngredientes.getStrings();
+    // listaIngredientes.tickIngrediente(p.top());
+    // listaStr = listaIngredientes.getStrings();
 
     sf::Sprite imagenMenu;
     imagenMenu.setTexture(menu);
