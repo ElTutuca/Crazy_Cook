@@ -5,7 +5,7 @@ Rejilla::Rejilla(sf::Vector2i pos, int rot, sf::Vector2f size) : Espacio(pos, ro
     dibujable = false;
     setTipo(TileType::Rejilla);
     setSizeTile(size);
-    texPlato.loadFromFile("Imagenes/Plato.png");
+    texPlato.loadFromFile("resources/Imagenes/Plato.png");
 
     rectShape.setPosition(getPosicion().x * getSizeTile().x + getSizeTile().x / 2, getPosicion().y * getSizeTile().y + getSizeTile().y / 2);
     if (DEBUGLEVEL == 1) {

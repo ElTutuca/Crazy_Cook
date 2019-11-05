@@ -50,15 +50,15 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 listaIngrediente.remove(tipo);
                 sf::Texture *tex = new sf::Texture();
                 if (tipo == IngredienteType::Lechuga)
-                    tex->loadFromFile("Imagenes/Lechuga_Hoja.png");
+                    tex->loadFromFile("resources/Imagenes/Lechuga_Hoja.png");
                 else if (tipo == IngredienteType::Tomate)
-                    tex->loadFromFile("Imagenes/Tomate_Rodaja.png");
+                    tex->loadFromFile("resources/Imagenes/Tomate_Rodaja.png");
                 else if (tipo == IngredienteType::PanAbajo)
-                    tex->loadFromFile("Imagenes/Pan_Abajo.png");
+                    tex->loadFromFile("resources/Imagenes/Pan_Abajo.png");
                 else if (tipo == IngredienteType::PanArriba)
-                    tex->loadFromFile("Imagenes/Pan_Arriba.png");
+                    tex->loadFromFile("resources/Imagenes/Pan_Arriba.png");
                 else if (tipo == IngredienteType::HamburgesaCruda)
-                    tex->loadFromFile("Imagenes/Hamburguesa_Cruda.png");
+                    tex->loadFromFile("resources/Imagenes/Hamburguesa_Cruda.png");
 
                 Ingrediente *ingr = new Ingrediente(sf::Vector2f(x, y), 90 * rotacion[x][y], tex, tipo);
                 class Heladera *s = new class Heladera(sf::Vector2i(x, y), rotacion[x][y], texSize, ingr);
