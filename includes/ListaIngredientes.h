@@ -20,8 +20,7 @@ public:
     void setPlato(Plato p);
     ~ListaIngredientes();
     std::list<std::string> getStrings();
-    void tickIngrediente(Ingrediente ing);
-    void untickIngrediente(Ingrediente ing);
+    void setEstadoIngredientes(std::list<IngredienteType> lista);
 };
 
 #endif

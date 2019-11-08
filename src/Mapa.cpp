@@ -4,10 +4,10 @@
 #include "../includes/Heladera.h"
 #include "../includes/Hornalla.h"
 #include "../includes/Mesada.h"
+#include "../includes/Mostrador.h"
 #include "../includes/Rejilla.h"
 #include "../includes/Suelo.h"
 #include "../includes/Tacho.h"
-#include "../includes/Mostrador.h"
 #include <iostream>
 #include <list>
 #include <stdlib.h>
@@ -17,7 +17,6 @@
 Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa) {
     //se inicializa la posicion de los tiles
     setLayout(niv, rot);
-    selecIngrediente = Lechuga;
     fondo.setTexture(*tMapa);
 
     // assign le da el tamaño al vector
@@ -67,20 +66,50 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 class Tacho *s = new class Tacho(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
             } else if (nivel[x][y] == TileType::Hornalla) {
-                class Hornalla *s = new class Hornalla(sf::Vector2i(x, y), rotacion[x][y], texSize);
+                class Hornalla *s = new class Hornalla(sf::Vector2i(x, y), rotacion[x][y], texSize, this);
                 espacios[x][y] = (Espacio *)s;
             } else if (nivel[x][y] == TileType::Rejilla) {
                 class Rejilla *s = new class Rejilla(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
             } else if (nivel[x][y] == TileType::Mostrador) {
-				class Mostrador *s = new class Mostrador(sf::Vector2i(x, y), rotacion[x][y], texSize);
-				espacios[x][y] = (Espacio *)s;
-			}
-            //TODO: Resto de los objetos
+                class Mostrador *s = new class Mostrador(sf::Vector2i(x, y), rotacion[x][y], texSize);
+                espacios[x][y] = (Espacio *)s;
+            }
         }
     }
     MAPWIDTH = tamanioMapa.x;
     MAPHEIGHT = tamanioMapa.y;
+}
+void Mapa::actualizarIngPresentes(IngredienteType ing, bool agregado) {
+    bool encontrado = false;
+    std::list<IngredienteType>::iterator itIngrediente;
+    int i = 0;
+    for (itIngrediente = ingPresentes.begin(); itIngrediente != ingPresentes.end() && !encontrado; itIngrediente++) {
+        if (*itIngrediente == ing) {
+            encontrado = true;
+            if (!agregado) {
+                std::list<int>::iterator it = cantIngPresentes.begin();
+                std::advance(it, i);
+                *it -= 1;
+                if (*it == 0) {
+                    ingPresentes.remove(*itIngrediente);
+                    cantIngPresentes.erase(it);
+                }
+            } else {
+                std::list<int>::iterator it = cantIngPresentes.begin();
+                std::advance(it, i);
+                *it += 1;
+            }
+        }
+        i++;
+    }
+    if (!encontrado && agregado) {
+        ingPresentes.push_back(ing);
+        cantIngPresentes.push_back(1);
+    }
+}
+std::list<IngredienteType> Mapa::getIngPresentes() {
+    return ingPresentes;
 }
 
 Mapa::~Mapa() {
@@ -98,6 +127,14 @@ void Mapa::dibujar(sf::RenderWindow *w) {
             getEspacioAt(x, y)->dibujar(w);
         }
     }
+    std::list<IngredienteType>::iterator itIngrediente;
+    std::list<int>::iterator itCant;
+    itCant = cantIngPresentes.begin();
+    for (itIngrediente = ingPresentes.begin(); itIngrediente != ingPresentes.end(); itIngrediente++) {
+        std::cout << "* " << *itIngrediente << " " << *itCant << std::endl;
+        itCant++;
+    }
+    std::cout << "\n";
 }
 
 Espacio *Mapa::getEspacioAt(int x, int y) {

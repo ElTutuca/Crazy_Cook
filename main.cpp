@@ -1,12 +1,12 @@
 #include "includes/Button.h"
 #include "includes/Chef.h"
+#include "includes/Cliente.h"
 #include "includes/Definiciones.h"
 #include "includes/Espacio.h"
 #include "includes/ListaIngredientes.h"
-#include "includes/ManejadorRecetas.h"
+#include "includes/ManejadorClientes.h"
 #include "includes/Mapa.h"
 #include "includes/Suelo.h"
-#include "includes/Cliente.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
@@ -57,27 +57,12 @@ int main() {
     textoSalir.setPosition(sf::Vector2f(buttonSalir.getCenterX(), buttonSalir.getCenterY() - 11));
     textoSalir.setFillColor(sf::Color::White);
 
-    sf::Texture tex, tChef, menu, tC1, tC2, tC3;
+    sf::Texture tex, tChef, menu;
     tChef.loadFromFile("resources/Imagenes/Chef.png");
     tex.loadFromFile("resources/Imagenes/Mapa.png");
     menu.loadFromFile("resources/Imagenes/Menu.jpg");
-	tC1.loadFromFile("resources/Imagenes/Cliente_1.png");
-	tC2.loadFromFile("resources/Imagenes/Cliente_2.png");
-	tC3.loadFromFile("resources/Imagenes/Cliente_3.png");
     MENUWIDTH = menu.getSize().x;
     MENUHEIGHT = menu.getSize().y;
-
-    // ManejadorRecetas manejadorRecetas("RecetasG.txt");
-    // Plato p = manejadorRecetas.getPlato(0);
-    // Plato p1 = manejadorRecetas.getPlato(0);
-    // Plato p2 = manejadorRecetas.getPlato(1);
-    // ListaIngredientes listaIngredientes(p);
-    // std::list<std::string> listaStr = listaIngredientes.getStrings();
-    // listaIngredientes.tickIngrediente(p.top());
-    // listaStr = listaIngredientes.getStrings();
-
-    // bool iguales = p == p1;
-    // bool desIguales = p2 == p1;
 
     sf::Sprite imagenMenu;
     imagenMenu.setTexture(menu);
@@ -85,16 +70,8 @@ int main() {
     //Se crea el mapa y se mandan tipo de tiles y su rotacion, con  la textura del mapa
     Mapa map(niv, rot, &tex);
     Chef chef(&tChef, 48, 48);
+    ManejadorClientes manejadorClientes(&map);
 
-	//Cliente c1(/*posicion*/,tC1,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
-	//Cliente c2(/*posicion*/,tC2,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
-	//Cliente c3(/*posicion*/,tC3,/*Plato*/,/*Tiempo de Espera=NdeIngDelPlato*15 */);
-	Cliente c1(sf::Vector2f(MAPWIDTH,0),&tC1,0);
-	Cliente c2(sf::Vector2f(MAPWIDTH,(MAPHEIGHT/6)*2),&tC2,(MAPHEIGHT/6)*2);
-	Cliente c3(sf::Vector2f(MAPWIDTH,(MAPHEIGHT/6)*4),&tC3,(MAPHEIGHT/6)*4);
-	
-	std::cout<<SCREENHEIGHT/6<<std::endl;
-	
     sf::View vista(sf::Vector2f(MAPWIDTH / 2 + PANEWIDTH / 2, MAPHEIGHT / 2), sf::Vector2f(MAPWIDTH + PANEWIDTH, MAPHEIGHT));
 
     sf::Text debugText;
@@ -102,7 +79,7 @@ int main() {
     if (DEBUGLEVEL == 1) {
         debugFont.loadFromFile("resources/Fuentes/OpenSans-Light.ttf");
         debugText.setFont(font);
-        debugText.setCharacterSize(24);
+        debugText.setCharacterSize(5);
         debugText.setFillColor(sf::Color::Red);
         debugText.setStyle(sf::Text::Bold | sf::Text::Underlined);
     }
@@ -124,7 +101,7 @@ int main() {
                 }
             }
         }
-        window.clear(sf::Color(191,191,191,0));
+        window.clear(sf::Color(191, 191, 191, 0));
         if (!jugar) {
             window.draw(imagenMenu);
             buttonIniciar.render(&window);
@@ -150,9 +127,7 @@ int main() {
 
             map.dibujar(&window);
             chef.dibujar(&window, &map);
-			c1.mostrar(&window);
-			c2.mostrar(&window);
-			c3.mostrar(&window);
+            manejadorClientes.dibujar(&window);
         }
         if (DEBUGLEVEL == 1) {
             std::string str = "X: ";

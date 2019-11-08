@@ -6,3 +6,5 @@ cmake-build-debug/
 resources/Imagenes/Desarrollando/
 Debug_Win32/
 *.zpr
+*.odt
+tags

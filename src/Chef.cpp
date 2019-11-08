@@ -4,9 +4,9 @@
 #include "../includes/Heladera.h"
 #include "../includes/Hornalla.h"
 #include "../includes/Mesada.h"
+#include "../includes/Mostrador.h"
 #include "../includes/Rejilla.h"
 #include "../includes/Tacho.h"
-#include "../includes/Mostrador.h"
 #include <iostream>
 #include <math.h>
 #define entreExcluyente(valor, valorMenor, valorMayor) ((valor > valorMenor && valor < valorMayor))
@@ -191,9 +191,10 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
         }
         if (es != nullptr) {
             if (es->getTipo() == TileType::Heladera) {
-                class Heladera *h = (class Heladera *)es;
                 if (enMano == nullptr) {
+                    class Heladera *h = (class Heladera *)es;
                     enMano = h->getIngrediente();
+                    map->actualizarIngPresentes(((Ingrediente *)enMano)->getIngredienteType(), true);
                 }
             } else if (es->getTipo() == TileType::Mesada) {
                 class Mesada *m = (class Mesada *)es;
@@ -207,8 +208,17 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                     enMano = r ? nullptr : enMano;
                 }
             } else if (es->getTipo() == TileType::Tacho) {
-                class Tacho *m = (class Tacho *)es;
                 if (enMano != nullptr) {
+                    class Tacho *m = (class Tacho *)es;
+                    if (enMano->getIsIngrediente()) {
+                        map->actualizarIngPresentes(((Ingrediente *)enMano)->getIngredienteType(), false);
+                    } else {
+                        Plato p = *((Plato *)enMano);
+                        int tam = p.size();
+                        for (int i = 0; i < tam; i++)
+                            map->actualizarIngPresentes(p.popIngrediente().getIngredienteType(), false);
+                    }
+
                     bool r = m->tirar(enMano);
                     enMano = r ? nullptr : enMano;
                 }
@@ -220,26 +230,23 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                         enMano = r;
                     }
                 } else if (enMano->getIsIngrediente()) {
+                    // TODO pasar map a cocinar
                     bool r = m->cocinar((Ingrediente *)enMano);
                     enMano = r ? nullptr : enMano;
                 }
             } else if (es->getTipo() == TileType::Rejilla) {
-                class Rejilla *m = (class Rejilla *)es;
                 if (enMano == nullptr) {
+                    class Rejilla *m = (class Rejilla *)es;
                     enMano = (Agarrable *)m->getPlato();
                 }
             } else if (es->getTipo() == TileType::Mostrador) {
-				class Mostrador *m = (class Mostrador *)es;
-				if (enMano == nullptr) {
-					Agarrable *r = m->popAgarrable();
-					if (r != nullptr) {
-						enMano = r;
-					}
-				} else {
-					bool r = m->putAgarrable(enMano);
-					enMano = r ? nullptr : enMano;
-				}
-			} 
+                if (enMano != nullptr) {
+                    class Mostrador *m = (class Mostrador *)es;
+                    // TODO Pasar a putAgarrable el manejadorDeClientes
+                    bool r = m->putAgarrable(enMano);
+                    enMano = r ? nullptr : enMano;
+                }
+            }
         }
     }
     if (interactuar)

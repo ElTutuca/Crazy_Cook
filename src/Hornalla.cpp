@@ -1,13 +1,15 @@
 #include "../includes/Hornalla.h"
 
-Hornalla::Hornalla(sf::Vector2i pos, int rot, sf::Vector2f size) : Espacio(pos, rot) {
+Hornalla::Hornalla(sf::Vector2i pos, int rot, sf::Vector2f size, Mapa *map) : Espacio(pos, rot) {
+    this->map = map;
     dibujable = false;
     setTipo(TileType::Hornalla);
     setSizeTile(size);
     rectShape.setPosition(getPosicion().x * getSizeTile().x + getSizeTile().x / 2 + offsetX, getPosicion().y * getSizeTile().y + getSizeTile().y / 2 + offsetY);
     item = nullptr;
-	texPrendida.loadFromFile("resources/Imagenes/Hornalla_Prendida.png");
-	rectShape.setTexture(&texPrendida);
+    texPrendida.loadFromFile("resources/Imagenes/Hornalla_Prendida.png");
+    rectShape.setTexture(&texPrendida);
+    hacerCoccion = true;
 
     if (DEBUGLEVEL == 1) {
         rectShape.setOutlineColor(sf::Color::White);
@@ -16,13 +18,17 @@ Hornalla::Hornalla(sf::Vector2i pos, int rot, sf::Vector2f size) : Espacio(pos, 
     }
 }
 Hornalla::~Hornalla() {
+    hacerCoccion = true;
 }
 void Hornalla::coccion() {
-	sf::Texture *tex = new sf::Texture();
-	tex->loadFromFile("resources/Imagenes/Hamburguesa_Cocinada.png");
-	item->setTexture(tex);
-	Ingrediente* nuevIng=(Ingrediente*)item;
-	nuevIng->setIngredienteType(IngredienteType::HamburgesaCocinada);
+    sf::Texture *tex = new sf::Texture();
+    tex->loadFromFile("resources/Imagenes/Hamburguesa_Cocinada.png");
+    item->setTexture(tex);
+    map->actualizarIngPresentes(IngredienteType::HamburgesaCruda, false);
+    Ingrediente *nuevIng = (Ingrediente *)item;
+    nuevIng->setIngredienteType(IngredienteType::HamburgesaCocinada);
+    map->actualizarIngPresentes(IngredienteType::HamburgesaCocinada, true);
+    hacerCoccion = false;
 }
 
 bool Hornalla::cocinar(Ingrediente *ing) {
@@ -30,8 +36,7 @@ bool Hornalla::cocinar(Ingrediente *ing) {
         if (item == nullptr) {
             item = ing;
             item->setPosicion(sf::Vector2f(getPosicion().x * getSizeTile().x + getSizeTile().x / 2, getPosicion().y * getSizeTile().y + getSizeTile().y / 2));
-            
-			dibujable = true;
+            dibujable = true;
             return true;
         }
         return false;
@@ -42,18 +47,19 @@ Agarrable *Hornalla::popCocinado() {
     Agarrable *r = item;
     if (item != nullptr) {
         item = nullptr;
+        hacerCoccion = true;
     }
-	dibujable = false;
+    dibujable = false;
     return r;
 }
 void Hornalla::dibujar(sf::RenderWindow *w) {
     if (dibujable || DEBUGLEVEL == 1) {
         w->draw(rectShape);
     }
-    if (item != nullptr)
-	{ item->dibujar(w);
-	if(dtCocinar.getElapsedTime().asMilliseconds()>tiempoCoccion)
-	coccion();}
-	else
-		dtCocinar.restart();
+    if (item != nullptr) {
+        item->dibujar(w);
+        if (dtCocinar.getElapsedTime().asMilliseconds() > tiempoCoccion && hacerCoccion)
+            coccion();
+    } else
+        dtCocinar.restart();
 }

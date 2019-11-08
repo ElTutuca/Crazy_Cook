@@ -9,11 +9,13 @@ private:
     std::string pathArchivo;
 
 public:
+    ManejadorRecetas();
     ManejadorRecetas(std::string path);
+    void setPath(std::string path);
     ~ManejadorRecetas();
     std::list<Plato> listarPlatos();
     Plato getPlato(int indice);
-	int getCantidadPlatos();
+    int getCantidadPlatos();
 };
 
 #endif

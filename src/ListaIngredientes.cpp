@@ -14,11 +14,13 @@ ListaIngredientes::ListaIngredientes(std::list<Ingrediente> listaIng) {
 }
 ListaIngredientes::~ListaIngredientes() {
 }
-void ListaIngredientes::tickIngrediente(Ingrediente ing) {
-    cambiarEstado(ing, true);
-}
-void ListaIngredientes::untickIngrediente(Ingrediente ing) {
-    cambiarEstado(ing, false);
+void ListaIngredientes::setEstadoIngredientes(std::list<IngredienteType> lista) {
+    std::list<Ingrediente>::iterator itListaIng;
+    for (itListaIng = listaIngr.begin(); itListaIng != listaIngr.end(); itListaIng++) {
+        // Itero y busco por toda la lista de IngredienteType y busco si esta la que forma parte de esta lista
+        bool found = (std::find(lista.begin(), lista.end(), itListaIng->getIngredienteType()) != lista.end());
+        cambiarEstado(*itListaIng, found);
+    }
 }
 
 void ListaIngredientes::cambiarEstado(Ingrediente ing, bool estado) {

@@ -32,7 +32,7 @@ enum TileType {
     Heladera,
     Tacho,
     Rejilla,
-	Mostrador
+    Mostrador
 };
 enum IngredienteType {
     PanAbajo,
