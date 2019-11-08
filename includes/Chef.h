@@ -19,6 +19,8 @@ private:
     void actualizar(Mapa *map);
     void actualizarAtributos();
     void actualizarColisiones(Mapa *map);
+	sf::Sound sonido;
+	sf::SoundBuffer sonidoMesada;
 
 public:
     Chef(sf::Texture *tex, int x, int y);

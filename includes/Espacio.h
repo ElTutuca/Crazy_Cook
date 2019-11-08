@@ -1,9 +1,10 @@
 #ifndef ESPACIO_H
 #define ESPACIO_H
-
+#include <iostream>
 #include "Agarrable.h"
 #include "Definiciones.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 class Espacio {
 private:

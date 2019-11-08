@@ -12,6 +12,8 @@ public:
     Hornalla(sf::Vector2i pos, int rot, sf::Vector2f size, Mapa *map);
     ~Hornalla();
     sf::Texture texPrendida;
+	sf::Sound sonidoCocinando;
+	sf::SoundBuffer sonido;
     void coccion();
     bool cocinar(Ingrediente *ing);
     Agarrable *popCocinado();
