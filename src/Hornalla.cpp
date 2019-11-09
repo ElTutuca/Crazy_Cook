@@ -10,10 +10,10 @@ Hornalla::Hornalla(sf::Vector2i pos, int rot, sf::Vector2f size, Mapa *map) : Es
     texPrendida.loadFromFile("resources/Imagenes/Hornalla_Prendida.png");
     rectShape.setTexture(&texPrendida);
     hacerCoccion = true;
-	if(!sonido.loadFromFile("resources/Sound/Sonido_Hornalla.wav"))
-		std::cout<<"No anduvo sonido"<<std::endl;
-	sonidoCocinando.setBuffer(sonido);
-	sonidoCocinando.setVolume(40);
+    if (!sonido.loadFromFile("resources/Sound/Sonido_Hornalla.wav"))
+        std::cout << "No anduvo sonido" << std::endl;
+    sonidoCocinando.setBuffer(sonido);
+    sonidoCocinando.setVolume(10);
 
     if (DEBUGLEVEL == 1) {
         rectShape.setOutlineColor(sf::Color::White);
@@ -41,9 +41,8 @@ bool Hornalla::cocinar(Ingrediente *ing) {
             item = ing;
             item->setPosicion(sf::Vector2f(getPosicion().x * getSizeTile().x + getSizeTile().x / 2, getPosicion().y * getSizeTile().y + getSizeTile().y / 2));
             dibujable = true;
-			sonidoCocinando.play();
-			return true;
-			
+            sonidoCocinando.play();
+            return true;
         }
         return false;
     }
@@ -61,14 +60,12 @@ Agarrable *Hornalla::popCocinado() {
 void Hornalla::dibujar(sf::RenderWindow *w) {
     if (dibujable || DEBUGLEVEL == 1) {
         w->draw(rectShape);
-	
-		
     }
     if (item != nullptr) {
         item->dibujar(w);
         if (dtCocinar.getElapsedTime().asMilliseconds() > tiempoCoccion && hacerCoccion)
             coccion();
     } else
-		
+
         dtCocinar.restart();
 }

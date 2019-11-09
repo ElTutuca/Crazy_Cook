@@ -13,15 +13,15 @@ public:
     Hornalla(sf::Vector2i pos, int rot, sf::Vector2f size, Mapa *map);
     ~Hornalla();
     sf::Texture texPrendida;
-	sf::Sound sonidoCocinando;
-	sf::SoundBuffer sonido;
+    sf::Sound sonidoCocinando;
+    sf::SoundBuffer sonido;
     void coccion();
     bool cocinar(Ingrediente *ing);
     Agarrable *popCocinado();
     Agarrable *getAgarrable();
     void dibujar(sf::RenderWindow *w) override;
     sf::Clock dtCocinar;
-    int tiempoCoccion = 5000;
+    int tiempoCoccion = 8000;
 
 protected:
     Agarrable *item;

@@ -117,7 +117,7 @@ void Chef::dibujar(sf::RenderWindow *w, Mapa *map) {
 }
 
 void Chef::mover(bool izq, bool der, bool arriba, bool abajo, bool correr) {
-    bool hacerCorrer = correr && dtCorrer.getElapsedTime().asMilliseconds() > 700;
+    bool hacerCorrer = correr && dtCorrer.getElapsedTime().asMilliseconds() > 600;
     if (izq && !der) {
         if (arriba) {
             angulo = 315;

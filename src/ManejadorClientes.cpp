@@ -67,13 +67,15 @@ void ManejadorClientes::correr() {
 void ManejadorClientes::sendPlato(Plato *p) {
     int tam = size();
     int pos = 0;
+    bool encontrado = false;
     for (int i = 0; i < tam; i++) {
         Cliente aux = colaClientes.front();
         colaClientes.pop();
-        if (!aux.recibioPedido(p)) {
+        if (!aux.recibioPedido(p) || encontrado) {
             pushCliente(aux, pos++);
         } else {
             manPuntajes->addPuntos(p->size() * 10);
+            encontrado = true;
         }
     }
 }
