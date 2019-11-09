@@ -47,12 +47,12 @@ Chef::Chef(sf::Texture *tex, int x, int y) {
     aceleracionCaminar = 0.25;
 
     desaceleracionCorrer = 0.95;
-    aceleracionCorrer = 1;
-	
-	if(!sonidoMesada.loadFromFile("resources/Sound/Tomar.wav"))
-		std::cout<<"No anduvo sonido"<<std::endl;
-	sonido.setBuffer(sonidoMesada);
-	sonido.setVolume(40);
+    aceleracionCorrer = 1.5;
+
+    if (!sonidoMesada.loadFromFile("resources/Sound/Tomar.wav"))
+        std::cout << "No anduvo sonido" << std::endl;
+    sonido.setBuffer(sonidoMesada);
+    sonido.setVolume(40);
 }
 
 sf::RectangleShape Chef::getRectangleShape() {
@@ -117,7 +117,7 @@ void Chef::dibujar(sf::RenderWindow *w, Mapa *map) {
 }
 
 void Chef::mover(bool izq, bool der, bool arriba, bool abajo, bool correr) {
-    bool hacerCorrer = correr && dtCorrer.getElapsedTime().asMilliseconds() > 500;
+    bool hacerCorrer = correr && dtCorrer.getElapsedTime().asMilliseconds() > 700;
     if (izq && !der) {
         if (arriba) {
             angulo = 315;
@@ -205,17 +205,15 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                 class Mesada *m = (class Mesada *)es;
                 if (enMano == nullptr) {
                     Agarrable *r = m->popAgarrable();
-					
-					
+
                     if (r != nullptr) {
                         enMano = r;
-						sonido.play();
+                        sonido.play();
                     }
                 } else {
                     bool r = m->putAgarrable(enMano);
                     enMano = r ? nullptr : enMano;
-					sonido.play();
-					
+                    sonido.play();
                 }
             } else if (es->getTipo() == TileType::Tacho) {
                 if (enMano != nullptr) {

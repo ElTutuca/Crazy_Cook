@@ -1,3 +1,2 @@
-Prueba3 10000
-Prueba8 6000
-Prueba9 3000
+MateoRePro 180
+Mateo_Ndeah 60

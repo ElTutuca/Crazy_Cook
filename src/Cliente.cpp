@@ -96,8 +96,9 @@ void Cliente::actualizarIngredientes() {
     std::list<std::string> listaIngred = listaIng.getStrings();
     std::list<std::string>::iterator itIngrediente;
     strIngredientes = "";
+    int i = 1;
     for (itIngrediente = listaIngred.begin(); itIngrediente != listaIngred.end(); itIngrediente++) {
-        strIngredientes += "* " + *itIngrediente + "\n";
+        strIngredientes += std::to_string(i++) + ") " + *itIngrediente + "\n";
     }
     txtIngredientes.setString(strIngredientes);
 }
