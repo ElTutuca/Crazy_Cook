@@ -26,7 +26,7 @@ int main() {
 
     bool jugar = false, fin = false;
     sf::Clock timeInGame;
-    int tiempoDeJuego = 120;
+    int tiempoDeJuego = 180;
 
     sf::Font font;
     font.loadFromFile("resources/Fuentes/OpenSans-Light.ttf");

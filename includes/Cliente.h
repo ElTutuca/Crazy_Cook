@@ -36,6 +36,7 @@ public:
     sf::Vector2i getSize();
     void mostrar(sf::RenderWindow *w);
     bool recibioPedido(Plato *entregado);
+    bool isIrse();
 };
 
 #endif

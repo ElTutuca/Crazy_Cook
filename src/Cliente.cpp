@@ -150,3 +150,7 @@ void Cliente::mostrar(sf::RenderWindow *w) {
 bool Cliente::recibioPedido(Plato *entregado) {
     return orden == *entregado;
 }
+
+bool Cliente::isIrse() {
+    return humor.getString() == "Enojad@" && dtTranscurrido.getElapsedTime().asSeconds() > (tiempoEspera + 10);
+}

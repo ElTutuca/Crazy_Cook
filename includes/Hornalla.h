@@ -21,7 +21,7 @@ public:
     Agarrable *getAgarrable();
     void dibujar(sf::RenderWindow *w) override;
     sf::Clock dtCocinar;
-    int tiempoCoccion = 8000;
+    int tiempoCoccion = 5000;
 
 protected:
     Agarrable *item;

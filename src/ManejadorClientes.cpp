@@ -50,12 +50,21 @@ void ManejadorClientes::correr() {
         // 15 - 25
         esperaProxCliente = rand() % 15 + 11;
         Plato platoRand = manRecetas.getPlato(rand() % manRecetas.getCantidadPlatos());
-        Cliente c(&tClientes[rand() % 3], platoRand, platoRand.size() * 30);
+        Cliente c(&tClientes[rand() % 3], platoRand, platoRand.size() * 15);
         pushCliente(c);
         dt.restart();
     }
     if (!empty()) {
-        int tam = size();
+        int tam = size(), pos = 0;
+        for (int i = 0; i < tam; i++) {
+            Cliente aux = colaClientes.front();
+            colaClientes.pop();
+            if (!aux.isIrse())
+                pushCliente(aux, pos++);
+            else
+                manPuntajes->addPuntos(-10);
+        }
+        tam = size();
         for (int i = 0; i < tam; i++) {
             Cliente aux = colaClientes.front();
             colaClientes.pop();
