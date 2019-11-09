@@ -1,4 +1,4 @@
-
+//
 #include "../includes/Chef.h"
 #include "../includes/Definiciones.h"
 #include "../includes/Heladera.h"
@@ -48,6 +48,11 @@ Chef::Chef(sf::Texture *tex, int x, int y) {
 
     desaceleracionCorrer = 0.95;
     aceleracionCorrer = 1;
+	
+	if(!sonidoMesada.loadFromFile("resources/Sound/Tomar.wav"))
+		std::cout<<"No anduvo sonido"<<std::endl;
+	sonido.setBuffer(sonidoMesada);
+	sonido.setVolume(40);
 }
 
 sf::RectangleShape Chef::getRectangleShape() {
@@ -200,12 +205,17 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                 class Mesada *m = (class Mesada *)es;
                 if (enMano == nullptr) {
                     Agarrable *r = m->popAgarrable();
+					
+					
                     if (r != nullptr) {
                         enMano = r;
+						sonido.play();
                     }
                 } else {
                     bool r = m->putAgarrable(enMano);
                     enMano = r ? nullptr : enMano;
+					sonido.play();
+					
                 }
             } else if (es->getTipo() == TileType::Tacho) {
                 if (enMano != nullptr) {
