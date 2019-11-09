@@ -34,9 +34,9 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(1300, 750), "SFML works!");
     // Vector de vectores
     // niv es el tipo de tiles ordenado en columnas
-    std::vector<std::vector<int>> niv = {{1, 3, 3, 1, 1, 1}, {1, 0, 0, 0, 0, 1}, {4, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 1}, {5, 0, 0, 0, 0, 1}, {2, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 6, 6, 1, 1}};
+    std::vector<std::vector<int>> niv = {{1, 3, 3, 3, 3, 1}, {3, 0, 0, 0, 0, 1}, {4, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 1}, {5, 0, 0, 0, 0, 1}, {2, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1}, {1, 1, 6, 6, 1, 1}};
     // rot es la rotacion de cada tile
-    std::vector<std::vector<int>> rot = {{0, 3, 3, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
+    std::vector<std::vector<int>> rot = {{0, 3, 3, 3, 3, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
 
     Button buttonIniciar(20, 350, 200, 75, sf::Color::Cyan);
     Button buttonSalir(20, 500, 200, 75, sf::Color::Cyan);
@@ -68,9 +68,12 @@ int main() {
     imagenMenu.setTexture(menu);
 
     //Se crea el mapa y se mandan tipo de tiles y su rotacion, con  la textura del mapa
-    Mapa map(niv, rot, &tex);
+    ManejadorPuntajes manejadorPuntajes("PuntajesG.txt");
+    ManejadorClientes manejadorClientes(&manejadorPuntajes);
+    Mapa map(niv, rot, &tex, &manejadorClientes);
+    manejadorClientes.setIngredientesPresentes(map.getIngPresentes());
     Chef chef(&tChef, 48, 48);
-    ManejadorClientes manejadorClientes(&map);
+    manejadorPuntajes.actualizarPosicion();
 
     sf::View vista(sf::Vector2f(MAPWIDTH / 2 + PANEWIDTH / 2, MAPHEIGHT / 2), sf::Vector2f(MAPWIDTH + PANEWIDTH, MAPHEIGHT));
 
@@ -128,6 +131,7 @@ int main() {
             map.dibujar(&window);
             chef.dibujar(&window, &map);
             manejadorClientes.dibujar(&window);
+            manejadorPuntajes.dibujar(&window);
         }
         if (DEBUGLEVEL == 1) {
             std::string str = "X: ";

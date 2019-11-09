@@ -2,6 +2,7 @@
 #define MAPA_H
 
 #include "Espacio.h"
+#include "ManejadorClientes.h"
 #include <SFML/Graphics.hpp>
 #include <list>
 #include <vector>
@@ -16,13 +17,13 @@ private:
     sf::Sprite fondo;
 
 public:
-    Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa);
+    Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa, ManejadorClientes *manCli);
     ~Mapa();
     void dibujar(sf::RenderWindow *w);
     Espacio *getEspacioAt(int x, int y);
     void setLayout(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot);
     void actualizarIngPresentes(IngredienteType ing, bool agregado);
-    std::list<IngredienteType> getIngPresentes();
+    std::list<IngredienteType> *getIngPresentes();
     int getAncho();
     int getAlto();
 };

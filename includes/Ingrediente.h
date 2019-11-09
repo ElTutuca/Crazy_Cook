@@ -1,9 +1,8 @@
 #ifndef INGREDIENTE_H
 #define INGREDIENTE_H
-#include "../includes/Agarrable.h"
-#include "../includes/Espacio.h"
-#include "../includes/Mapa.h"
+#include "Agarrable.h"
 #include "Definiciones.h"
+#include "Espacio.h"
 #include <SFML/Graphics.hpp>
 
 // Extiende de agarrable
@@ -17,7 +16,7 @@ public:
     ~Ingrediente();
     Ingrediente(sf::Vector2f pos, float ang, sf::Texture *tex, IngredienteType tipo);
     IngredienteType getIngredienteType();
-	void setIngredienteType(IngredienteType cambio);
+    void setIngredienteType(IngredienteType cambio);
     bool operator==(const Ingrediente ing1);
 };
 

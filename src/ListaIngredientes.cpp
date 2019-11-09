@@ -42,24 +42,22 @@ std::list<std::string> ListaIngredientes::getStrings() {
     std::list<Ingrediente>::iterator itIngrediente;
     std::list<bool>::iterator itEstado = listaEstados.begin();
     for (itIngrediente = listaIngr.begin(); itIngrediente != listaIngr.end(); itIngrediente++) {
-        if (*itEstado == true) {
-            listaR.push_back("########");
-        } else {
-            std::string str;
-            if (itIngrediente->getIngredienteType() == IngredienteType::Lechuga)
-                str = "Lechuga";
-            else if (itIngrediente->getIngredienteType() == IngredienteType::Tomate)
-                str = "Tomate";
-            else if (itIngrediente->getIngredienteType() == IngredienteType::PanAbajo)
-                str = "Pan de abajo";
-            else if (itIngrediente->getIngredienteType() == IngredienteType::PanArriba)
-                str = "Pan de arriba";
-            else if (itIngrediente->getIngredienteType() == IngredienteType::HamburgesaCocinada)
-                str = "Hamburguesa";
-            listaR.push_back(str);
-        }
+        std::string str;
+        if (itIngrediente->getIngredienteType() == IngredienteType::Lechuga)
+            str = "Lechuga";
+        else if (itIngrediente->getIngredienteType() == IngredienteType::Tomate)
+            str = "Tomate";
+        else if (itIngrediente->getIngredienteType() == IngredienteType::PanAbajo)
+            str = "Pan de abajo";
+        else if (itIngrediente->getIngredienteType() == IngredienteType::PanArriba)
+            str = "Pan de arriba";
+        else if (itIngrediente->getIngredienteType() == IngredienteType::HamburgesaCocinada)
+            str = "Hamburguesa";
+        str = *itEstado ? str + "  # Listo #" : str;
+        listaR.push_back(str);
         std::advance(itEstado, 1);
     }
+    listaR.reverse();
     return listaR;
 }
 void ListaIngredientes::setPlato(Plato p) {

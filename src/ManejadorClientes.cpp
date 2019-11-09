@@ -2,6 +2,20 @@
 #include <cstdlib>
 #include <ctime>
 
+ManejadorClientes::ManejadorClientes(ManejadorPuntajes *manPunt) {
+    manRecetas.setPath("RecetasG.txt");
+    manPuntajes = manPunt;
+    sf::Texture t1, t2, t3;
+    t1.loadFromFile("resources/Imagenes/Cliente_1.png");
+    t2.loadFromFile("resources/Imagenes/Cliente_2.png");
+    t3.loadFromFile("resources/Imagenes/Cliente_3.png");
+    tClientes[0] = t1;
+    tClientes[1] = t2;
+    tClientes[2] = t3;
+    std::srand(std::time(NULL));
+    esperaProxCliente = rand() % 15 + 11;
+    dt.restart();
+}
 ManejadorClientes::ManejadorClientes() {
     manRecetas.setPath("RecetasG.txt");
     sf::Texture t1, t2, t3;
@@ -15,7 +29,7 @@ ManejadorClientes::ManejadorClientes() {
     esperaProxCliente = rand() % 15 + 11;
     dt.restart();
 }
-ManejadorClientes::ManejadorClientes(Mapa *map) {
+ManejadorClientes::ManejadorClientes(std::list<IngredienteType> *ingPres) {
     manRecetas.setPath("RecetasG.txt");
     sf::Texture t1, t2, t3;
     t1.loadFromFile("resources/Imagenes/Cliente_1.png");
@@ -27,8 +41,7 @@ ManejadorClientes::ManejadorClientes(Mapa *map) {
     std::srand(std::time(NULL));
     esperaProxCliente = rand() % 15 + 11;
     dt.restart();
-    // ManejadorClientes();
-    setMapa(map);
+    setIngredientesPresentes(ingPres);
 }
 ManejadorClientes::~ManejadorClientes() {
 }
@@ -43,12 +56,24 @@ void ManejadorClientes::correr() {
     }
     if (!empty()) {
         int tam = size();
-        std::list<IngredienteType> listaIng = map->getIngPresentes();
         for (int i = 0; i < tam; i++) {
             Cliente aux = colaClientes.front();
             colaClientes.pop();
-            aux.getListaIngredientes()->setEstadoIngredientes(listaIng);
+            aux.getListaIngredientes()->setEstadoIngredientes(*ingPresentes);
             colaClientes.push(aux);
+        }
+    }
+}
+void ManejadorClientes::sendPlato(Plato *p) {
+    int tam = size();
+    int pos = 0;
+    for (int i = 0; i < tam; i++) {
+        Cliente aux = colaClientes.front();
+        colaClientes.pop();
+        if (!aux.recibioPedido(p)) {
+            pushCliente(aux, pos++);
+        } else {
+            manPuntajes->addPuntos(p->size() * 10);
         }
     }
 }
@@ -62,24 +87,16 @@ void ManejadorClientes::dibujar(sf::RenderWindow *w) {
         colaClientes.push(front);
     }
 }
+void ManejadorClientes::pushCliente(Cliente cli, int pos) {
+    if (colaClientes.size() < 3) {
+        cli.setOffset(0, cli.getSize().y * pos);
+        colaClientes.push(cli);
+    }
+}
 void ManejadorClientes::pushCliente(Cliente cli) {
     if (colaClientes.size() < 3) {
         cli.setOffset(0, cli.getSize().y * size());
         colaClientes.push(cli);
-    }
-}
-Cliente ManejadorClientes::popCliente() {
-    if (!empty()) {
-        Cliente r = colaClientes.front();
-        colaClientes.pop();
-        for (int i = 0; i < size(); i++) {
-            Cliente aux = colaClientes.front();
-            colaClientes.pop();
-            pushCliente(aux);
-        }
-        return r;
-    } else {
-        throw 404;
     }
 }
 bool ManejadorClientes::empty() {
@@ -91,6 +108,6 @@ int ManejadorClientes::size() {
 Cliente ManejadorClientes::front() {
     return colaClientes.front();
 }
-void ManejadorClientes::setMapa(Mapa *map) {
-    this->map = map;
+void ManejadorClientes::setIngredientesPresentes(std::list<IngredienteType> *ingPres) {
+    ingPresentes = ingPres;
 }

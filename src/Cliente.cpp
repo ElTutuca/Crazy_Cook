@@ -40,11 +40,13 @@ Cliente::Cliente(sf::Texture *tCliente, Plato pedido, int tiempoEspera) {
     sCliente.setTexture(*tCliente);
     sCliente.setPosition(MAPWIDTH, 0);
 
-    shape.setPosition(sf::Vector2f(MAPWIDTH, MAPHEIGHT / 6));
+    posShape = sf::Vector2f(MAPWIDTH, MAPHEIGHT / 6);
+    shape.setPosition(posShape);
     shape.setSize(sf::Vector2f(PANEWIDTH, MAPHEIGHT / 6));
     shape.setFillColor(sf::Color::Yellow);
     shape.setOutlineColor(sf::Color::Black);
 
+    posHumor = sf::Vector2f(sCliente.getPosition().x + sCliente.getTexture()->getSize().x / 2 + 10, sCliente.getTexture()->getSize().y / 2);
     fontHumor.loadFromFile("resources/Fuentes/OpenSans-Light.ttf");
     humor.setFont(fontHumor);
     humor.setString("Feliz");
@@ -53,18 +55,19 @@ Cliente::Cliente(sf::Texture *tCliente, Plato pedido, int tiempoEspera) {
     humor.setCharacterSize(24);
     humor.setOutlineThickness(1);
     humor.setOrigin(sf::Vector2f(0, (humor.getGlobalBounds().height) / 2));
-    humor.setPosition(sf::Vector2f(sCliente.getPosition().x + sCliente.getTexture()->getSize().x / 2 + 10, sCliente.getTexture()->getSize().y / 2));
+    humor.setPosition(posHumor);
 
     listaIng.setPlato(pedido);
     orden = pedido;
 
+    posLista = sf::Vector2f(shape.getPosition().x + 4, shape.getPosition().y + 2);
     txtIngredientes.setFont(fontHumor);
     actualizarIngredientes();
     txtIngredientes.setFillColor(sf::Color::Black);
     txtIngredientes.setScale(sf::Vector2f(0.16, 0.16));
     txtIngredientes.setCharacterSize(24);
     txtIngredientes.setOutlineThickness(0.2);
-    txtIngredientes.setPosition(shape.getPosition().x + 4, shape.getPosition().y + 2);
+    txtIngredientes.setPosition(posLista);
 
     this->tiempoEspera = tiempoEspera;
     dtTranscurrido.restart();
@@ -101,10 +104,10 @@ void Cliente::actualizarIngredientes() {
 
 void Cliente::setOffset(sf::Vector2f v2) {
     offset = v2;
-    sCliente.setPosition(sCliente.getPosition().x + v2.x, sCliente.getPosition().y + v2.y);
-    shape.setPosition(shape.getPosition().x + offset.x, shape.getPosition().y + offset.y);
-    humor.setPosition(humor.getPosition().x + offset.x, humor.getPosition().y + offset.y);
-    txtIngredientes.setPosition(txtIngredientes.getPosition().x + offset.x, txtIngredientes.getPosition().y + offset.y);
+    sCliente.setPosition(sCliente.getPosition().x + v2.x, v2.y);
+    shape.setPosition(posShape.x + offset.x, posShape.y + offset.y);
+    humor.setPosition(posHumor.x + offset.x, posHumor.y + offset.y);
+    txtIngredientes.setPosition(posLista.x + offset.x, posLista.y + offset.y);
 }
 void Cliente::setOffset(float x, float y) {
     setOffset(sf::Vector2f(x, y));
@@ -122,13 +125,13 @@ void Cliente::actualizarHumor() {
     } else if (dtTranscurrido.getElapsedTime().asSeconds() > this->tiempoEspera / 2 &&
                dtTranscurrido.getElapsedTime().asSeconds() < this->tiempoEspera * (3 / 4)) {
         this->humor.setString("Neutral");
-        this->humor.setColor(sf::Color::Cyan);
+        this->humor.setFillColor(sf::Color::Cyan);
     } else if (dtTranscurrido.getElapsedTime().asSeconds() > this->tiempoEspera * (3 / 4) && dtTranscurrido.getElapsedTime().asSeconds() < this->tiempoEspera) {
         this->humor.setString("Descontent@");
-        this->humor.setColor(sf::Color::Yellow);
+        this->humor.setFillColor(sf::Color::Yellow);
     } else if (dtTranscurrido.getElapsedTime().asSeconds() > this->tiempoEspera) {
         this->humor.setString("Enojad@");
-        this->humor.setColor(sf::Color::Red);
+        this->humor.setFillColor(sf::Color::Red);
     }
 }
 
@@ -144,7 +147,5 @@ void Cliente::mostrar(sf::RenderWindow *w) {
 }
 
 bool Cliente::recibioPedido(Plato *entregado) {
-    if (orden == *entregado)
-        return true;
-    return false;
+    return orden == *entregado;
 }

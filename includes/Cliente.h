@@ -1,13 +1,14 @@
 #ifndef CLIENTE_H
 #define CLIENTE_H
 
-#include "../includes/ListaIngredientes.h"
-#include "../includes/Plato.h"
+#include "ListaIngredientes.h"
+#include "Plato.h"
 #include <SFML/Graphics.hpp>
 
 class Cliente {
 private:
     sf::Clock dtTranscurrido;
+    sf::Vector2f posShape, posLista, posHumor;
     /*variable, depende del pedido*/
     int tiempoEspera;
     sf::Vector2f offset;

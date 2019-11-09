@@ -240,9 +240,12 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                     enMano = (Agarrable *)m->getPlato();
                 }
             } else if (es->getTipo() == TileType::Mostrador) {
-                if (enMano != nullptr) {
+                if (enMano != nullptr && !enMano->getIsIngrediente()) {
                     class Mostrador *m = (class Mostrador *)es;
-                    // TODO Pasar a putAgarrable el manejadorDeClientes
+                    Plato p = *((Plato *)enMano);
+                    int tam = p.size();
+                    for (int i = 0; i < tam; i++)
+                        map->actualizarIngPresentes(p.popIngrediente().getIngredienteType(), false);
                     bool r = m->putAgarrable(enMano);
                     enMano = r ? nullptr : enMano;
                 }

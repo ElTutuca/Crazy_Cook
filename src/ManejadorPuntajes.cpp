@@ -1,26 +1,38 @@
 #include "../includes/ManejadorPuntajes.h"
+#include "../includes/Definiciones.h"
 #include <fstream>
 ManejadorPuntajes::ManejadorPuntajes(std::string path) {
     pathArchivo = path;
+    puntosActual = 0;
+
+    font.loadFromFile("resources/Fuentes/OpenSans-Light.ttf");
+    txtPuntos.setFont(font);
+    txtPuntos.setFillColor(sf::Color::Black);
+    txtPuntos.setCharacterSize(24);
+    txtPuntos.setOutlineThickness(1);
+    txtPuntos.setScale(sf::Vector2f(0.3, 0.3));
 }
 ManejadorPuntajes::~ManejadorPuntajes() {
 }
-void ManejadorPuntajes::escribirPuntaje(Puntaje pun) {
+void ManejadorPuntajes::actualizarPosicion() {
+    txtPuntos.setPosition(sf::Vector2f(MAPWIDTH - 60, MAPHEIGHT - 20));
+}
+void ManejadorPuntajes::escribirPuntaje(std::string nombre) {
     std::list<Puntaje> listaPuntajes = listarPuntajes();
     bool encontrado = false;
     // Un iterator sirve para iterar en un conjunto de elementos
     std::list<Puntaje>::iterator itPuntaje;
     // Itera desde el comienzo (begin), hasta que termina (end)
     for (itPuntaje = listaPuntajes.begin(); itPuntaje != listaPuntajes.end(); itPuntaje++) {
-        if (itPuntaje->getNombre() == pun.getNombre()) {
+        if (itPuntaje->getNombre() == nombre) {
             encontrado = true;
-            if (pun.getPuntos() > itPuntaje->getPuntos())
-                itPuntaje->setPuntos(pun.getPuntos());
-            // ? Deberia poner un break? O se rompe??;
+            if (puntosActual > itPuntaje->getPuntos()) {
+                itPuntaje->setPuntos(puntosActual);
+            }
         }
     }
     if (!encontrado)
-        listaPuntajes.push_back(pun);
+        listaPuntajes.push_back(Puntaje(nombre, puntosActual));
 
     listaPuntajes.sort();
     listaPuntajes.reverse();
@@ -56,4 +68,13 @@ std::list<Puntaje> ManejadorPuntajes::listarPuntajes() {
         throw "Error al abrir el archivo";
     }
     return listaPuntajes;
+}
+void ManejadorPuntajes::addPuntos(int puntos) {
+    puntosActual += puntos;
+}
+
+void ManejadorPuntajes::dibujar(sf::RenderWindow *w) {
+    txtPuntos.setFont(font);
+    txtPuntos.setString("Puntos: " + std::to_string(puntosActual));
+    w->draw(txtPuntos);
 }

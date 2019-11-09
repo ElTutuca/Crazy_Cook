@@ -14,7 +14,7 @@
 #include <time.h>
 #include <vector>
 
-Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa) {
+Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa, ManejadorClientes *manCli) {
     //se inicializa la posicion de los tiles
     setLayout(niv, rot);
     fondo.setTexture(*tMapa);
@@ -72,7 +72,7 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
                 class Rejilla *s = new class Rejilla(sf::Vector2i(x, y), rotacion[x][y], texSize);
                 espacios[x][y] = (Espacio *)s;
             } else if (nivel[x][y] == TileType::Mostrador) {
-                class Mostrador *s = new class Mostrador(sf::Vector2i(x, y), rotacion[x][y], texSize);
+                class Mostrador *s = new class Mostrador(sf::Vector2i(x, y), rotacion[x][y], texSize, manCli);
                 espacios[x][y] = (Espacio *)s;
             }
         }
@@ -108,8 +108,8 @@ void Mapa::actualizarIngPresentes(IngredienteType ing, bool agregado) {
         cantIngPresentes.push_back(1);
     }
 }
-std::list<IngredienteType> Mapa::getIngPresentes() {
-    return ingPresentes;
+std::list<IngredienteType> *Mapa::getIngPresentes() {
+    return &ingPresentes;
 }
 
 Mapa::~Mapa() {
@@ -131,10 +131,8 @@ void Mapa::dibujar(sf::RenderWindow *w) {
     std::list<int>::iterator itCant;
     itCant = cantIngPresentes.begin();
     for (itIngrediente = ingPresentes.begin(); itIngrediente != ingPresentes.end(); itIngrediente++) {
-        std::cout << "* " << *itIngrediente << " " << *itCant << std::endl;
         itCant++;
     }
-    std::cout << "\n";
 }
 
 Espacio *Mapa::getEspacioAt(int x, int y) {

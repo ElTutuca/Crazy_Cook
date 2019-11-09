@@ -1,8 +1,9 @@
 #ifndef HORNALLA_H
 #define HORNALLA_H
-#include "../includes/Definiciones.h"
-#include "../includes/Ingrediente.h"
+#include "Definiciones.h"
 #include "Espacio.h"
+#include "Ingrediente.h"
+#include "Mapa.h"
 class Hornalla : public Espacio {
 private:
     Mapa *map;
