@@ -26,7 +26,7 @@ int main() {
 
     bool jugar = false, fin = false;
     sf::Clock timeInGame;
-    int tiempoDeJuego = 180;
+    int tiempoDeJuego = 360;
 
     sf::Font font;
     font.loadFromFile("resources/Fuentes/OpenSans-Light.ttf");
@@ -48,9 +48,6 @@ int main() {
     menu.loadFromFile("resources/Imagenes/Menu.jpg");
     MENUWIDTH = menu.getSize().x;
     MENUHEIGHT = menu.getSize().y;
-	
-	
-	
 
     sf::Text textoIniciar;
     textoIniciar.setString("Iniciar");
@@ -157,12 +154,12 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
                     if (strTxtBox.size() > 0)
                         strTxtBox = strTxtBox.substr(0, strTxtBox.size() - 1);
-                } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && strTxtBox.size() < 20) {
+                } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && strTxtBox.size() < 20) {
                     strTxtBox += static_cast<char>(event.text.unicode);
                 }
                 txtRectTxtBox.setString(strTxtBox);
                 txtRectTxtBox.setOrigin(sf::Vector2f((txtRectTxtBox.getGlobalBounds().width) / 2, (txtRectTxtBox.getCharacterSize()) / 2 + 10));
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && strTxtBox.size() > 3) {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && strTxtBox.size() > 3) {
                     manejadorPuntajes.escribirPuntaje(strTxtBox);
                     window.close();
                 }
@@ -172,7 +169,7 @@ int main() {
                     if (buttonIniciar.isPressed(&window)) {
                         jugar = true;
                         timeInGame.restart();
-						map.playMusic(true);
+                        map.playMusic(true);
                     }
                     if (buttonSalir.isPressed(&window))
                         window.close();
@@ -195,7 +192,7 @@ int main() {
                 window.setView(vista);
                 isVistaJuego = true;
             }
-			//music.play();
+            //music.play();
             izq = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
             der = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
             arriba = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
@@ -226,7 +223,7 @@ int main() {
                 fin = true;
             }
             window.draw(txtTimer);
-			
+
         } else if (fin) {
             if (isVistaJuego) {
                 isVistaJuego = false;

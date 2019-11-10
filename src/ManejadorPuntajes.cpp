@@ -20,6 +20,7 @@ void ManejadorPuntajes::actualizarPosicion() {
 void ManejadorPuntajes::escribirPuntaje(std::string nombre) {
     std::list<Puntaje> listaPuntajes = listarPuntajes();
     bool encontrado = false;
+    nombre.erase(std::remove(nombre.begin(), nombre.end(), '\n'), nombre.end());
     // Un iterator sirve para iterar en un conjunto de elementos
     std::list<Puntaje>::iterator itPuntaje;
     // Itera desde el comienzo (begin), hasta que termina (end)
