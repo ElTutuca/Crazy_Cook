@@ -24,7 +24,7 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
 	
 	music.openFromFile("resources/Sound/Sonido_Cocina.wav");
 	music.setLoop(true);
-	music.setVolume(60);
+	music.setVolume(40);
     // Le asigna un espacio a cada elemento
     std::list<IngredienteType> listaIngrediente = {
         IngredienteType::Lechuga,

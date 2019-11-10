@@ -66,7 +66,7 @@ Chef::Chef(sf::Texture *tex, int x, int y) {
 	sonidoHeladera.setBuffer(bufferHeladera);
     sonidoMesada.setVolume(40);
 	sonidoMostrador.setVolume(40);
-	sonidoPlato.setVolume(40);
+	sonidoPlato.setVolume(20);
 	sonidoTacho.setVolume(40);
 	sonidoHeladera.setVolume(70);
 }
