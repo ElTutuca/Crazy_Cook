@@ -8,6 +8,9 @@ Button::Button(float Pos_x, float Pos_y, float Ancho, float Largo, sf::Color but
     this->shape.setPosition(sf::Vector2f(Pos_x, Pos_y));
     this->shape.setSize(sf::Vector2f(Ancho, Largo));
     this->shape.setFillColor(buttonColor);
+	if (!bufferBoton.loadFromFile("resources/Sound/Sonido_Boton.wav"))
+		std::cout << "No anduvo sonido" << std::endl;
+	sonidoBoton.setBuffer(bufferBoton);
 }
 
 Button::~Button() {
@@ -23,7 +26,9 @@ float Button::getCenterY() {
 
 bool Button::isPressed(sf::RenderWindow *w) {
     if (this->shape.getPosition().x<sf::Mouse::getPosition(*w).x &(this->shape.getPosition().x + this->shape.getSize().x)> sf::Mouse::getPosition(*w).x & this->shape.getPosition().y<sf::Mouse::getPosition(*w).y &(this->shape.getPosition().y + this->shape.getSize().y)> sf::Mouse::getPosition(*w).y) {
-        return true;
+        sonidoBoton.play();
+		return true;
+		
     }
     return false;
 }

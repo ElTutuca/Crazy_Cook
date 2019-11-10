@@ -4,6 +4,7 @@
 #include "Espacio.h"
 #include "ManejadorClientes.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <list>
 #include <vector>
 
@@ -19,6 +20,7 @@ private:
 public:
     Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot, sf::Texture *tMapa, ManejadorClientes *manCli);
     ~Mapa();
+	sf::Music music;
     void dibujar(sf::RenderWindow *w);
     Espacio *getEspacioAt(int x, int y);
     void setLayout(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot);
@@ -26,6 +28,7 @@ public:
     std::list<IngredienteType> *getIngPresentes();
     int getAncho();
     int getAlto();
+	void playMusic(bool play);
 };
 
 #endif // MAPA_H

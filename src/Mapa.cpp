@@ -21,7 +21,10 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
 
     // assign le da el tamaño al vector
     espacios.assign(nivel.size(), std::vector<Espacio *>(nivel[0].size(), new Espacio()));
-
+	
+	music.openFromFile("resources/Sound/Sonido_Cocina.wav");
+	music.setLoop(true);
+	music.setVolume(60);
     // Le asigna un espacio a cada elemento
     std::list<IngredienteType> listaIngrediente = {
         IngredienteType::Lechuga,
@@ -142,6 +145,11 @@ Espacio *Mapa::getEspacioAt(int x, int y) {
 void Mapa::setLayout(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot) {
     nivel = niv;
     rotacion = rot;
+}
+void Mapa::playMusic(bool play){
+	if(play)
+		music.play();
+	
 }
 
 int Mapa::getAncho() {

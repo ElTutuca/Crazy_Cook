@@ -4,6 +4,7 @@
 #include "../includes/Definiciones.h"
 #include "../includes/Mapa.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 class Chef {
 private:
@@ -19,8 +20,16 @@ private:
     void actualizar(Mapa *map);
     void actualizarAtributos();
     void actualizarColisiones(Mapa *map);
-	sf::Sound sonido;
-	sf::SoundBuffer sonidoMesada;
+	sf::Sound sonidoMesada;
+	sf::Sound sonidoMostrador;
+	sf::Sound sonidoPlato;
+	sf::Sound sonidoTacho;
+	sf::Sound sonidoHeladera;
+	sf::SoundBuffer bufferMesada;
+	sf::SoundBuffer bufferMostrador;
+	sf::SoundBuffer bufferPlato;
+	sf::SoundBuffer bufferTacho;
+	sf::SoundBuffer bufferHeladera;
 
 public:
     Chef(sf::Texture *tex, int x, int y);

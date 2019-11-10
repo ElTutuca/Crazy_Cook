@@ -2,6 +2,7 @@
 #define BOTON_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 class Button{
 private:
@@ -10,6 +11,8 @@ private:
 	*/ 
 	sf::RectangleShape shape;
 	sf::Color buttonColor;
+	sf::Sound sonidoBoton;
+	sf::SoundBuffer bufferBoton;
 	
 public:
 	Button(float Pos_x, float Pos_y, float Ancho, float Largo, sf::Color buttonColor);

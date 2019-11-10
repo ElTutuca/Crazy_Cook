@@ -49,10 +49,26 @@ Chef::Chef(sf::Texture *tex, int x, int y) {
     desaceleracionCorrer = 0.95;
     aceleracionCorrer = 1.5;
 
-    if (!sonidoMesada.loadFromFile("resources/Sound/Tomar.wav"))
+    if (!bufferMesada.loadFromFile("resources/Sound/Sonido_Tomar.wav"))
         std::cout << "No anduvo sonido" << std::endl;
-    sonido.setBuffer(sonidoMesada);
-    sonido.setVolume(40);
+	if (!bufferMostrador.loadFromFile("resources/Sound/Sonido_Mostrador.wav"))
+		std::cout << "No anduvo sonido" << std::endl;
+	if (!bufferPlato.loadFromFile("resources/Sound/Sonido_Plato.wav"))
+		std::cout << "No anduvo sonido" << std::endl;
+	if (!bufferTacho.loadFromFile("resources/Sound/Sonido_Tacho.wav"))
+		std::cout << "No anduvo sonido" << std::endl;
+	if (!bufferHeladera.loadFromFile("resources/Sound/Sonido_Heladera.wav"))
+		std::cout << "No anduvo sonido" << std::endl;
+	sonidoMesada.setBuffer(bufferMesada);
+	sonidoMostrador.setBuffer(bufferMostrador);
+    sonidoTacho.setBuffer(bufferTacho);
+	sonidoPlato.setBuffer(bufferPlato);
+	sonidoHeladera.setBuffer(bufferHeladera);
+    sonidoMesada.setVolume(40);
+	sonidoMostrador.setVolume(40);
+	sonidoPlato.setVolume(40);
+	sonidoTacho.setVolume(40);
+	sonidoHeladera.setVolume(70);
 }
 
 sf::RectangleShape Chef::getRectangleShape() {
@@ -128,6 +144,7 @@ void Chef::mover(bool izq, bool der, bool arriba, bool abajo, bool correr) {
             }
             velocidadCaminar.x -= (sqrt(2) / 2) * aceleracionCaminar;
             velocidadCaminar.y -= (sqrt(2) / 2) * aceleracionCaminar;
+			
         } else if (abajo) {
             angulo = 225;
             if (hacerCorrer) {
@@ -200,6 +217,7 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                     class Heladera *h = (class Heladera *)es;
                     enMano = h->getIngrediente();
                     map->actualizarIngPresentes(((Ingrediente *)enMano)->getIngredienteType(), true);
+					sonidoHeladera.play();
                 }
             } else if (es->getTipo() == TileType::Mesada) {
                 class Mesada *m = (class Mesada *)es;
@@ -208,12 +226,12 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
 
                     if (r != nullptr) {
                         enMano = r;
-                        sonido.play();
+                        sonidoMesada.play();
                     }
                 } else {
                     bool r = m->putAgarrable(enMano);
                     enMano = r ? nullptr : enMano;
-                    sonido.play();
+                    sonidoMesada.play();
                 }
             } else if (es->getTipo() == TileType::Tacho) {
                 if (enMano != nullptr) {
@@ -228,6 +246,7 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                     }
 
                     bool r = m->tirar(enMano);
+					sonidoTacho.play();
                     enMano = r ? nullptr : enMano;
                 }
             } else if (es->getTipo() == TileType::Hornalla) {
@@ -246,6 +265,7 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                 if (enMano == nullptr) {
                     class Rejilla *m = (class Rejilla *)es;
                     enMano = (Agarrable *)m->getPlato();
+					sonidoPlato.play();
                 }
             } else if (es->getTipo() == TileType::Mostrador) {
                 if (enMano != nullptr && !enMano->getIsIngrediente()) {
@@ -256,6 +276,7 @@ void Chef::interactuar(bool interactuar, Mapa *map) {
                         map->actualizarIngPresentes(p.popIngrediente().getIngredienteType(), false);
                     bool r = m->putAgarrable(enMano);
                     enMano = r ? nullptr : enMano;
+					sonidoMostrador.play();
                 }
             }
         }
