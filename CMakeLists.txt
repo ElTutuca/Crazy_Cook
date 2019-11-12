@@ -9,7 +9,7 @@ file(GLOB SOURCES
 )
 
 find_package (SFML REQUIRED system window graphics audio)
-# set(SFML_STATIC_LIBRARIES TRUE)
+set(SFML_STATIC_LIBRARIES TRUE)
 
 # Resources
 file(GLOB TEXTURAS "resources/Imagenes/*")

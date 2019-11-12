@@ -1,10 +1,10 @@
 #ifndef ESPACIO_H
 #define ESPACIO_H
-#include <iostream>
 #include "Agarrable.h"
 #include "Definiciones.h"
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <iostream>
 
 class Espacio {
 private:
@@ -19,9 +19,6 @@ public:
     ~Espacio();
     void setPosicion(sf::Vector2i pos);
     sf::Vector2i getPosicion();
-    sf::Vector2f getCoordenadas();
-    void setRotacion(int rot);
-    int getRotacion();
     sf::Vector2f getSizeTile();
     TileType getTipo();
     virtual void dibujar(sf::RenderWindow *w);

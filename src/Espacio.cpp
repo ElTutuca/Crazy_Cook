@@ -23,14 +23,6 @@ void Espacio::setPosicion(sf::Vector2i pos) {
 sf::Vector2i Espacio::getPosicion() {
     return posicion;
 }
-
-void Espacio::setRotacion(int rot) {
-    rotacion = rot;
-}
-int Espacio::getRotacion() {
-    return rotacion;
-}
-
 void Espacio::setTipo(TileType t) {
     tipo = t;
 }

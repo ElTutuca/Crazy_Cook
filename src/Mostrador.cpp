@@ -9,7 +9,6 @@ Mostrador::Mostrador(sf::Vector2i pos, int rot, sf::Vector2f size, ManejadorClie
     setTipo(TileType::Mostrador);
     setSizeTile(size);
     rectShape.setPosition(getPosicion().x * getSizeTile().x + getSizeTile().x / 2 + offsetX, getPosicion().y * getSizeTile().y + getSizeTile().y / 2 + offsetY);
-    item = nullptr;
     manClientes = manCli;
 
     if (DEBUGLEVEL == 1) {
@@ -23,30 +22,12 @@ Mostrador::~Mostrador() {
 }
 
 bool Mostrador::putAgarrable(Agarrable *ag) {
-    if (item == nullptr) {
-        manClientes->sendPlato((Plato *)ag);
-        delete ag;
-        return true;
-    }
-    return false;
-}
-
-Agarrable *Mostrador::popAgarrable() {
-    Agarrable *r = item;
-    if (item != nullptr) {
-        item = nullptr;
-    }
-    return r;
+    manClientes->sendPlato((Plato *)ag);
+    delete ag;
+    return true;
 }
 
 void Mostrador::dibujar(sf::RenderWindow *w) {
-    if (dibujable || DEBUGLEVEL == 1) {
+    if (dibujable || DEBUGLEVEL == 1)
         w->draw(rectShape);
-    }
-    if (item != nullptr)
-        item->dibujar(w);
-}
-
-Agarrable *Mostrador::getAgarrable() {
-    return item;
 }

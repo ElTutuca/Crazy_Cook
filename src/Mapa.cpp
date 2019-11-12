@@ -8,7 +8,6 @@
 #include "../includes/Rejilla.h"
 #include "../includes/Suelo.h"
 #include "../includes/Tacho.h"
-#include <iostream>
 #include <list>
 #include <stdlib.h>
 #include <time.h>
@@ -21,10 +20,10 @@ Mapa::Mapa(std::vector<std::vector<int>> niv, std::vector<std::vector<int>> rot,
 
     // assign le da el tamaño al vector
     espacios.assign(nivel.size(), std::vector<Espacio *>(nivel[0].size(), new Espacio()));
-	
-	music.openFromFile("resources/Sound/Sonido_Cocina.wav");
-	music.setLoop(true);
-	music.setVolume(40);
+
+    music.openFromFile("resources/Sound/Sonido_Cocina.wav");
+    music.setLoop(true);
+    music.setVolume(40);
     // Le asigna un espacio a cada elemento
     std::list<IngredienteType> listaIngrediente = {
         IngredienteType::Lechuga,
@@ -116,26 +115,16 @@ std::list<IngredienteType> *Mapa::getIngPresentes() {
 }
 
 Mapa::~Mapa() {
-    for (int x = 0; x < nivel.size(); x++) {
-        for (int y = 0; y < nivel[x].size(); y++) {
+    for (int x = 0; x < nivel.size(); x++)
+        for (int y = 0; y < nivel[x].size(); y++)
             delete getEspacioAt(x, y);
-        }
-    }
 }
 
 void Mapa::dibujar(sf::RenderWindow *w) {
     w->draw(fondo);
-    for (int x = 0; x < nivel.size(); x++) {
-        for (int y = 0; y < nivel[x].size(); y++) {
+    for (int x = 0; x < nivel.size(); x++)
+        for (int y = 0; y < nivel[x].size(); y++)
             getEspacioAt(x, y)->dibujar(w);
-        }
-    }
-    std::list<IngredienteType>::iterator itIngrediente;
-    std::list<int>::iterator itCant;
-    itCant = cantIngPresentes.begin();
-    for (itIngrediente = ingPresentes.begin(); itIngrediente != ingPresentes.end(); itIngrediente++) {
-        itCant++;
-    }
 }
 
 Espacio *Mapa::getEspacioAt(int x, int y) {
@@ -146,10 +135,9 @@ void Mapa::setLayout(std::vector<std::vector<int>> niv, std::vector<std::vector<
     nivel = niv;
     rotacion = rot;
 }
-void Mapa::playMusic(bool play){
-	if(play)
-		music.play();
-	
+void Mapa::playMusic(bool play) {
+    if (play)
+        music.play();
 }
 
 int Mapa::getAncho() {
